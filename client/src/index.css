@@ -3,6 +3,7 @@
 @theme {
   --font-fustat-extrabold: "Fustat", sans-serif;
   --font-fustat-bold: "Fustat", sans-serif;
+  --font-fustat-semibold: "Fustat", sans-serif;
 }
 
 @layer utilities {
@@ -19,4 +20,15 @@
     font-weight: 700;
     font-style: normal;
   }
+
+  .font-fustat-semibold {
+    font-family: "Fustat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }
+}
+
+body {
+  background-color: #ebfff2;
 }

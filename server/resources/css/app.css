@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@theme {
+  --font-fustat-extrabold: "Fustat", sans-serif;
+  --font-fustat-bold: "Fustat", sans-serif;
+}
+
+@layer utilities {
+  .font-fustat-extrabold {
+    font-family: "Fustat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  .font-fustat-bold {
+    font-family: "Fustat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
+}
