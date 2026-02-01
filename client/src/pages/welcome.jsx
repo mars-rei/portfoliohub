@@ -31,8 +31,3 @@ const Welcome = () => {
 };
 
 export default Welcome;
-
-<div className="flex flex-col items-center justify-center text-[#1f1f1f]">
-            
-            
-        </div>

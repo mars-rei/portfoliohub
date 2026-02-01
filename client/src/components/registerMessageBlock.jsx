@@ -2,12 +2,7 @@ const RegisterMessageBlock = () => {
   return (
     <div className="w-3/5 flex flex-col justify-center items-center text-center space-y-16 text-[#1f1f1f]">
         <div className="flex flex-row items-center space-x-4">
-            <div>
-                <img 
-                    src="/icon.svg" 
-                    className="w-16 h-16"
-                />
-            </div>
+            <i className="fa fa-4x fa-briefcase text-[#003c66]"></i>
             <div className="text-[#003c66] font-fustat-extrabold text-5xl">
                 PortfolioHub
             </div>

@@ -8,12 +8,7 @@ const LoginMessageBlock = () => {
             <p className="text-[#B5446E]">for the creatives.</p>
         </div>
         <div className="flex flex-row items-center space-x-4">
-            <div>
-                <img 
-                    src="/icon.svg" 
-                    className="w-16 h-16" // i don't know why there's a blue line on top of it
-                />
-            </div>
+            <i className="fa fa-4x fa-briefcase text-[#003c66]"></i>
             <div className="text-[#003c66] font-fustat-extrabold text-5xl">
                 PortfolioHub
             </div>
