@@ -4,3 +4,44 @@
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+
+@theme {
+  --font-fustat-extrabold: "Fustat", sans-serif;
+  --font-fustat-bold: "Fustat", sans-serif;
+  --font-fustat-semibold: "Fustat", sans-serif;
+  --font-fustat-medium: "Fustat", sans-serif;
+}
+
+@layer utilities {
+  .font-fustat-extrabold {
+    font-family: "Fustat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  .font-fustat-bold {
+    font-family: "Fustat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .font-fustat-semibold {
+    font-family: "Fustat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  .font-fustat-medium {
+    font-family: "Fustat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+}
+
+body {
+  background-color: #ebfff2;
+}
