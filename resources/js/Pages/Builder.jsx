@@ -1,3 +1,5 @@
+import { Link } from "@inertiajs/react";
+
 export default function Builder() {
     return (
         <>
@@ -5,11 +7,13 @@ export default function Builder() {
                 <div className="h-screen w-screen flex flex-row">
                     <div className="w-1/6 flex flex-col justify-between">
                         <div className="flex flex-row items-center w-full px-4 h-20 text-lg font-fustat-bold space-x-2 justify-between">
+                            <Link href="/">
+                                <i className="fa fa-xl fa-briefcase text-[#003c66]"></i>
+                            </Link>
                             <div className="flex flex-row items-center space-x-2">
-                            <i className="fa fa-xl fa-briefcase text-[#003c66]"></i>
-                            <p>art</p>
+                                <p>art</p>
+                                <i className="fa fa-circle-user text-[#B5446E] fa-xl"></i>
                             </div>
-                            <i className="fa fa-circle-user text-[#B5446E] fa-xl"></i>
                         </div>
                         <div className="h-full space-y-4 p-4 border-[#111317] border-y-2">
 
