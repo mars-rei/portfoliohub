@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/react";
 
-export default function Layout({children}) {
+export default function Layout({children, auth}) {
     return (
         <>
             <header>
@@ -13,9 +13,16 @@ export default function Layout({children}) {
                         <div className="flex items-center text-[#1f1f1f] space-x-4 font-fustat-bold text-xl">
                             <Link href="/about">About</Link>
                             <Link href="/documentation">Documentation</Link>
-                            <Link href="/settings">
-                                <i className="fa fa-circle-user text-[#B5446E] fa-xl"></i>
-                            </Link>
+
+                            {auth.user ? (
+                                <Link href={route('dashboard')} >
+                                    Dashboard
+                                </Link>
+                            ) : (
+                                <Link href={route('register')} >
+                                    Register
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </nav>
