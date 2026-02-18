@@ -12,39 +12,38 @@ export default function VerifyEmail({ status }) {
     };
 
     return (
-        <GuestLayout>
-            <Head title="Email Verification" />
+        <div className="flex justify-center items-center flex-col h-screen">
+            <div className="bg-[#1F1F1F] flex w-2/5 flex-col p-8 rounded-lg text-[#EBFFF2] text-base">
+                <div>
+                    <p className="py-4 text-3xl font-fustat-bold">Thanks for signing up to PortfolioHub!</p>
+                    <p>Before getting started, could you verify your email address by clicking on the link we just emailed to you?</p>
+                    <p className="mt-2">If you didn't receive the email, we will gladly send you another.</p>
+                </div>
 
-            <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                Thanks for signing up! Before getting started, could you verify
-                your email address by clicking on the link we just emailed to
-                you? If you didn't receive the email, we will gladly send you
-                another.
+                {status === 'verification-link-sent' && (
+                    <div className="text-green-600">
+                        A new verification link has been sent to the email address
+                        you provided during registration.
+                    </div>
+                )}
+
+                <form onSubmit={submit}>
+                    <div className="mt-12 flex justify-between">
+                        <PrimaryButton disabled={processing}>
+                            Resend Verification Email
+                        </PrimaryButton>
+
+                        <Link
+                            href={route('logout')}
+                            method="post"
+                            as="button"
+                            className="text-[#B5446E] text-base font-fustat-semibold mr-4"
+                        >
+                            Log Out
+                        </Link>
+                    </div>
+                </form>
             </div>
-
-            {status === 'verification-link-sent' && (
-                <div className="mb-4 text-sm font-medium text-green-600 dark:text-green-400">
-                    A new verification link has been sent to the email address
-                    you provided during registration.
-                </div>
-            )}
-
-            <form onSubmit={submit}>
-                <div className="mt-4 flex items-center justify-between">
-                    <PrimaryButton disabled={processing}>
-                        Resend Verification Email
-                    </PrimaryButton>
-
-                    <Link
-                        href={route('logout')}
-                        method="post"
-                        as="button"
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-                    >
-                        Log Out
-                    </Link>
-                </div>
-            </form>
-        </GuestLayout>
+        </div>
     );
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+// for email verification
+use Illuminate\Auth\Events\Registered;
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
