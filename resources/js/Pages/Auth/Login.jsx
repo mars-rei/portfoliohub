@@ -146,6 +146,7 @@ export default function Login({ status, canResetPassword, auth }) {
                             {canResetPassword && (
                                 <Link
                                     href={route('password.request')}
+                                    className="text-[#B5446E]"
                                 >
                                     Forgot password?
                                 </Link>

@@ -1,7 +1,7 @@
 <x-mail::message>
 {{-- Greeting --}}
 @component('mail::message')
-# {{ $greeting ?? 'Hi, thanks for signing up to PortfolioHub!' }}
+# {{ $greeting ?? 'Hi, thanks for using PortfolioHub!' }}
 
 {{-- Intro Lines --}}
 @foreach ($introLines as $line)
