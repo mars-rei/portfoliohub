@@ -5,21 +5,21 @@ export default function Layout({children, auth}) {
         <>
             <header>
                 <nav>
-                    <div className="bg-[#ebfff2] flex justify-between items-center px-4 border-b border-[##1f1f1f] h-16">
-                        <Link href="/" className="text-[#003c66] font-fustat-extrabold text-3xl">
+                    <div className="bg-[#ebfff2] flex justify-between items-center px-4 border-b border-[#1f1f1f] h-16">
+                        <Link href="/" className="text-[#003c66] hover:text-[#B5446E] font-fustat-extrabold text-3xl">
                             PortfolioHub
                         </Link>
 
                         <div className="flex items-center text-[#1f1f1f] space-x-4 font-fustat-bold text-xl">
-                            <Link href="/about">About</Link>
-                            <Link href="/documentation">Documentation</Link>
+                            <Link className="hover:text-[#B5446E]" href="/about">About</Link>
+                            <Link className="hover:text-[#B5446E]" href="/documentation">Documentation</Link>
 
                             {auth.user ? (
-                                <Link href={route('dashboard')} >
+                                <Link className="hover:text-[#B5446E]" href={route('dashboard')} >
                                     Dashboard
                                 </Link>
                             ) : (
-                                <Link href={route('register')} >
+                                <Link className="hover:text-[#B5446E]" href={route('register')} >
                                     Register
                                 </Link>
                             )}

@@ -1,4 +1,4 @@
-import { Link} from "@inertiajs/react"; 
+import { Link } from "@inertiajs/react"; 
 import { useState } from "react";
 
 import Checkbox from '@/Components/Checkbox';
