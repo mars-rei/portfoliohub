@@ -11,7 +11,7 @@ class StorePortfolioRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StorePortfolioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:60',
+            'description' => 'required|string|max:500',
+            'industry' => 'required|string|max:60',
+            'publish_status' => 'boolean',
         ];
     }
 }

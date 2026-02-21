@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Portfolio;
+
 // for email verification
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
@@ -47,5 +49,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class);
     }
 }

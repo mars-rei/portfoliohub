@@ -9,6 +9,13 @@ use Inertia\Inertia;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
+// for portfolio
+use App\Http\Controllers\PortfolioController;
+
+// for dashboard
+use App\Models\Portfolio;
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -53,3 +60,100 @@ Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('status', 'verification-link-sent');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
+// portfolio routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/portfolios', [PortfolioController::class, 'index'])->name('portfolios.index');
+    Route::get('/portfolios/create', [PortfolioController::class, 'create'])->name('portfolios.create');
+    Route::post('/portfolios', [PortfolioController::class, 'store'])->name('portfolios.store');
+    Route::get('/portfolios/{portfolio}', [PortfolioController::class, 'show'])->name('portfolios.show');
+    Route::get('/portfolios/{portfolio}/edit', [PortfolioController::class, 'edit'])->name('portfolios.edit');
+    Route::put('/portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
+    Route::delete('/portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
+    
+    // Builder routes
+    Route::get('/portfolios/{portfolio}/build', [PortfolioController::class, 'build'])->name('portfolios.build');
+    Route::post('/portfolios/{portfolio}/save-code', [PortfolioController::class, 'saveCode'])->name('portfolios.save-code');
+    Route::post('/portfolios/{portfolio}/toggle-publish', [PortfolioController::class, 'togglePublish'])->name('portfolios.toggle-publish');
+});
+
+
+// dashboard routes
+Route::get('/dashboard', function () {
+    $portfolios = Auth::user()->portfolios()
+        ->orderBy('updated_at', 'desc')
+        ->get(['id', 'title', 'description', 'industry', 'publish_status', 'created_at', 'updated_at']);
+    
+    $industries = [
+        // visual arts
+        'graphic_design' => 'Graphic Design',
+        'illustration' => 'Illustration',
+        'animation' => 'Animation',
+        // 'comic_art' => 'Comic Art',
+        // 'concept_art' => 'Concept Art',
+
+        // digital design
+        'ui/ux_design' => 'UI/UX Design',
+        // 'web_design' => 'Web Design',
+        //'app_design' => 'App Design',
+        'software_design' => 'Software Design',
+        'game_design' => 'Game Design',
+        // 'motion_graphics' => 'Motion Graphics',
+        '3d_art/animation' => '3D Art/Animation',
+
+        // photography and video
+        'photography' => 'Photography',
+        // 'videography' => 'videography',
+        'film_production' => 'Film Production',
+        // 'cinematography' => 'Cinematography',
+
+        // fashion and beauty
+        'fashion_design' => 'Fashion Design',
+        // 'textile_design' => 'Textile Design',
+        // 'costume_design' => 'Costume Design',
+        // 'makeup_artistry' => 'Makeup Artistry',
+        // 'hair_styling' => 'Hair Styling',
+        // 'jewellery_design' => 'Jewellery Design',
+
+        // architecture
+        'architecture' => 'Architecture',
+        // 'interior_design' => 'Interior Design',
+        // 'landscape_architecture' => 'Landscape Architecture',
+
+        // branding and marketing
+        'product_design' => 'product Design',
+        // 'brand_strategy' => 'Brand Strategy',
+        'content_creation' => 'Content Creation',
+        'marketing' => 'Marketing',
+        'social_media_management' => 'Social Media Management',
+
+        // publishing and creative writing
+        'journalism' => 'Journalism',
+        'screen_writing' => 'Screen Writing',
+        'creative_writing' => 'Creative Writing',
+
+        // crafts and trades
+        // 'ceramics' => 'Ceramics',
+        // 'woodworking' => 'Woodworking',
+        // 'metalworking' => 'Metalworking',
+        // 'glass_art' => 'Glass Art',
+        // 'furniture_making' => 'Furniture Making',
+        // 'tattoo_artistry' => 'Tattoo Artistry',
+
+        // culinary arts
+        // 'culinary_arts' => 'Culinary Arts',
+        // 'pastry_arts' => 'Pastry Arts',
+
+        // performance arts
+        // 'dance' => 'Dance',
+        // 'theatre' => 'Theatre',
+        'music' => 'Music',
+        // 'choreography' => 'Choreography',
+    ];
+    
+    return Inertia::render('Dashboard', [
+        'portfolios' => $portfolios,
+        'industries' => $industries
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
