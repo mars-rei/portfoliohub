@@ -12,8 +12,12 @@ use Illuminate\Http\Request;
 // for portfolio
 use App\Http\Controllers\PortfolioController;
 
+// for project
+use App\Http\Controllers\ProjectController;
+
 // for dashboard
 use App\Models\Portfolio;
+use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -24,10 +28,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/builder', function () {
     return Inertia::render('Builder');
@@ -72,18 +72,37 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
     Route::delete('/portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
     
-    // Builder routes
+    // builder routes
     Route::get('/portfolios/{portfolio}/build', [PortfolioController::class, 'build'])->name('portfolios.build');
     Route::post('/portfolios/{portfolio}/save-code', [PortfolioController::class, 'saveCode'])->name('portfolios.save-code');
     Route::post('/portfolios/{portfolio}/toggle-publish', [PortfolioController::class, 'togglePublish'])->name('portfolios.toggle-publish');
 });
 
 
+// project routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+    Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+    Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
+    Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+});
+
+
 // dashboard routes
+
 Route::get('/dashboard', function () {
-    $portfolios = Auth::user()->portfolios()
+    $user = Auth::user();
+    
+    $portfolios = $user ? $user->portfolios()
         ->orderBy('updated_at', 'desc')
-        ->get(['id', 'title', 'description', 'industry', 'publish_status', 'created_at', 'updated_at']);
+        ->get(['id', 'title', 'description', 'industry', 'publish_status', 'created_at', 'updated_at']) : [];
+
+    $projects = $user ? $user->projects()
+        ->orderBy('updated_at', 'desc')
+        ->get(['id', 'title', 'description', 'started_on', 'ended_on', 'updated_at']) : [];
     
     $industries = [
         // visual arts
@@ -154,6 +173,7 @@ Route::get('/dashboard', function () {
     
     return Inertia::render('Dashboard', [
         'portfolios' => $portfolios,
+        'projects' => $projects,
         'industries' => $industries
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');

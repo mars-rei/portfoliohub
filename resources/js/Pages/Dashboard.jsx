@@ -2,30 +2,44 @@ import { useState } from "react";
 import { router, usePage } from '@inertiajs/react';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+
 import Portfolios from '@/Pages/Portfolios/Index';
-import Projects from '@/Layouts/Projects';
 import CreatePortfolioModal from '@/Components/CreatePortfolioModal';
 import EditPortfolioModal from '@/Components/EditPortfolioModal';
 import ShowPortfolioModal from '@/Components/ShowPortfolioModal';
 import DeletePortfolioModal from '@/Components/DeletePortfolioModal';
 
+import Projects from '@/Pages/Projects/Index';
+import CreateProjectModal from '@/Components/CreateProjectModal';
+import EditProjectModal from '@/Components/EditProjectModal';
+import ShowProjectModal from '@/Components/ShowProjectModal';
+import DeleteProjectModal from '@/Components/DeleteProjectModal';
+
 export default function Dashboard() {
-    const { portfolios: initialPortfolios, industries } = usePage().props;
+    const { portfolios: initialPortfolios, projects: initialProjects, industries } = usePage().props;
     
     // toggling between portfolios and projects
     const [activeView, setActiveView] = useState('portfolios');
     
-    // Modal states
+    // portfolio modal states
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showShowModal, setShowShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedPortfolio, setSelectedPortfolio] = useState(null);
     
+    // project modal states
+    const [showCreateProjectModal, setShowCreateProjectModal] = useState(false);
+    const [showEditProjectModal, setShowEditProjectModal] = useState(false);
+    const [showShowProjectModal, setShowShowProjectModal] = useState(false);
+    const [showDeleteProjectModal, setShowDeleteProjectModal] = useState(false);
+    const [selectedProject, setSelectedProject] = useState(null);
+    
     const handleViewChange = (view) => {
         setActiveView(view);
     };
 
+    // portfolio handlers
     const handlePortfolioClick = (portfolio) => {
         setSelectedPortfolio(portfolio);
         setShowShowModal(true);
@@ -34,25 +48,51 @@ export default function Dashboard() {
     const handleEditClick = (portfolio) => {
         setSelectedPortfolio(portfolio);
         setShowEditModal(true);
-        setShowShowModal(false); // Close show modal
+        setShowShowModal(false);
     };
 
     const handleDeleteClick = (portfolio) => {
         setSelectedPortfolio(portfolio);
         setShowDeleteModal(true);
-        setShowShowModal(false); // Close show modal
+        setShowShowModal(false);
+    };
+
+    // project handlers
+    const handleProjectClick = (project) => {
+        setSelectedProject(project);
+        setShowShowProjectModal(true);
+    };
+
+    const handleEditProjectClick = (project) => {
+        setSelectedProject(project);
+        setShowEditProjectModal(true);
+        setShowShowProjectModal(false);
+    };
+
+    const handleDeleteProjectClick = (project) => {
+        setSelectedProject(project);
+        setShowDeleteProjectModal(true);
+        setShowShowProjectModal(false);
     };
 
     const handleCloseModals = () => {
+        // portfolio modals
         setShowCreateModal(false);
         setShowEditModal(false);
         setShowShowModal(false);
         setShowDeleteModal(false);
         setSelectedPortfolio(null);
+        
+        // project modals
+        setShowCreateProjectModal(false);
+        setShowEditProjectModal(false);
+        setShowShowProjectModal(false);
+        setShowDeleteProjectModal(false);
+        setSelectedProject(null);
     };
 
+    // portfolio handlers for modals
     const handlePortfolioCreated = () => {
-        // Refresh the page to get updated portfolios
         router.reload();
     };
 
@@ -66,17 +106,33 @@ export default function Dashboard() {
         handleCloseModals();
     };
 
+    // project handlers for modals
+    const handleProjectCreated = () => {
+        router.reload();
+    };
+
+    const handleProjectUpdated = () => {
+        router.reload();
+        handleCloseModals();
+    };
+
+    const handleProjectDeleted = () => {
+        router.reload();
+        handleCloseModals();
+    };
+
     return (
         <div>
             <AuthenticatedLayout>
                 <div className="flex h-[calc(100vh-4rem)]">
-                    {/* Sidebar - unchanged */}
                     <div className="w-1/6 flex flex-col justify-between">
                         <div className="space-y-4 p-4">
+                            {/* to add in functionality later
                             <div className="flex flex-row items-center w-full px-4 py-1 border-2 border-[#111317] rounded-md text-lg font-fustat-medium space-x-2">
                                 <i className="fa fa-search fa-sm"></i>
                                 <p>Search</p>
                             </div>
+                            */}
 
                             <div className="space-y-2 text-lg font-fustat-bold">
                                 <p 
@@ -105,7 +161,13 @@ export default function Dashboard() {
 
                     {/* main */}
                     <div className="w-5/6 bg-[#111317] p-12 font-fustat-semibold text-md">
-                        {activeView === 'projects' && <Projects />}
+                        {activeView === 'projects' && (
+                            <Projects 
+                                projects={initialProjects}
+                                onProjectClick={handleProjectClick}
+                                onCreateClick={() => setShowCreateProjectModal(true)}
+                            />
+                        )}
                         {activeView === 'portfolios' && (
                             <Portfolios 
                                 portfolios={initialPortfolios} 
@@ -121,7 +183,8 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                {/* Modals */}
+
+                {/* portfolio modals */}
                 <CreatePortfolioModal
                     isOpen={showCreateModal}
                     onClose={handleCloseModals}
@@ -150,6 +213,36 @@ export default function Dashboard() {
                     onClose={handleCloseModals}
                     portfolio={selectedPortfolio}
                     onSuccess={handlePortfolioDeleted}
+                />
+
+
+                {/* project modals */}
+                <CreateProjectModal
+                    isOpen={showCreateProjectModal}
+                    onClose={handleCloseModals}
+                    onSuccess={handleProjectCreated}
+                />
+
+                <ShowProjectModal
+                    isOpen={showShowProjectModal}
+                    onClose={handleCloseModals}
+                    project={selectedProject}
+                    onEdit={handleEditProjectClick}
+                    onDelete={handleDeleteProjectClick}
+                />
+
+                <EditProjectModal
+                    isOpen={showEditProjectModal}
+                    onClose={handleCloseModals}
+                    project={selectedProject}
+                    onSuccess={handleProjectUpdated}
+                />
+
+                <DeleteProjectModal
+                    isOpen={showDeleteProjectModal}
+                    onClose={handleCloseModals}
+                    project={selectedProject}
+                    onSuccess={handleProjectDeleted}
                 />
             </AuthenticatedLayout>
         </div>

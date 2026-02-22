@@ -42,3 +42,11 @@
 body {
   background-color: #ebfff2;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: #B5446E;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 1;
+}
