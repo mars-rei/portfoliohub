@@ -7,7 +7,7 @@ export default function Builder() {
                 <div className="h-screen w-screen flex flex-row">
                     <div className="w-1/6 flex flex-col justify-between">
                         <div className="flex flex-row items-center w-full px-4 h-20 text-lg font-fustat-bold space-x-2 justify-between">
-                            <Link href="/">
+                            <Link href="/dashboard">
                                 <i className="fa fa-xl fa-briefcase text-[#003c66]"></i>
                             </Link>
                             <div className="flex flex-row items-center space-x-2">

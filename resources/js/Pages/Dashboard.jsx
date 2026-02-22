@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { router, usePage } from '@inertiajs/react';
 
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Layout from '@/Layouts/Layout';
 
 import Portfolios from '@/Pages/Portfolios/Index';
 import CreatePortfolioModal from '@/Components/CreatePortfolioModal';
@@ -123,7 +123,7 @@ export default function Dashboard() {
 
     return (
         <div>
-            <AuthenticatedLayout>
+            <Layout>
                 <div className="flex h-[calc(100vh-4rem)]">
                     <div className="w-1/6 flex flex-col justify-between">
                         <div className="space-y-4 p-4">
@@ -244,7 +244,7 @@ export default function Dashboard() {
                     project={selectedProject}
                     onSuccess={handleProjectDeleted}
                 />
-            </AuthenticatedLayout>
+            </Layout>
         </div>
     );
 }

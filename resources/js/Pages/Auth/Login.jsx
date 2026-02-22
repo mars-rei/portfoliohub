@@ -33,24 +33,15 @@ export default function Login({ status, canResetPassword, auth }) {
         <>
             <header>
                 <nav>
-                    <div className="bg-[#ebfff2] flex justify-between items-center px-4 border-b border-[##1f1f1f] h-16">
-                        <Link href="/" className="text-[#003c66] font-fustat-extrabold text-3xl">
+                    <div className="bg-[#ebfff2] flex justify-between items-center px-4 border-b border-[#c6c6c6] h-16">
+                        <Link href="/" className="text-[#003c66] hover:text-[#B5446E] font-fustat-extrabold text-3xl">
                             PortfolioHub
                         </Link>
 
                         <div className="flex items-center text-[#1f1f1f] space-x-4 font-fustat-bold text-xl">
-                            <Link href="/about">About</Link>
-                            <Link href="/documentation">Documentation</Link>
-
-                            {auth.user ? (
-                                <Link href={route('dashboard')} >
-                                    Dashboard
-                                </Link>
-                            ) : (
-                                <Link href={route('register')} >
-                                    Register
-                                </Link>
-                            )}
+                            <Link className="hover:text-[#B5446E]" href="/about">About</Link>
+                            <Link className="hover:text-[#B5446E]" href="/documentation">Documentation</Link>
+                            <Link className="hover:text-[#B5446E]" href="/register">Register</Link>
                         </div>
                     </div>
                 </nav>

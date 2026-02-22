@@ -1,18 +1,24 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
 
 export default function GuestLayout({ children }) {
     return (
-        <div className="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0">
-            <div>
-                <Link href="/">
-                    <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
-                </Link>
-            </div>
+        <div className="min-h-screen">
+            <nav>
+                <div className="bg-[#ebfff2] flex justify-between items-center px-4 border-b border-[#c6c6c6] h-16">
+                    <Link href="/" className="text-[#003c66] hover:text-[#B5446E] font-fustat-extrabold text-3xl">
+                        PortfolioHub
+                    </Link>
 
-            <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
-                {children}
-            </div>
+                    <div className="flex items-center text-[#1f1f1f] space-x-4 font-fustat-bold text-xl">
+                        <Link className="hover:text-[#B5446E]" href="/about">About</Link>
+                        <Link className="hover:text-[#B5446E]" href="/documentation">Documentation</Link>
+                        <Link className="hover:text-[#B5446E]" href="/login">Log in</Link>
+                        <Link className="hover:text-[#B5446E]" href="/register">Register</Link>
+                    </div>
+                </div>
+            </nav>
+
+            <main>{children}</main>
         </div>
     );
 }
