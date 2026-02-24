@@ -21,7 +21,7 @@ export default function ShowMediaModal({ isOpen, onClose, media, onDelete, onEdi
                         <img 
                             src={media.cloud_url} 
                             alt={media.caption}
-                            className="w-1/2 object-contain border-[#EBFFF2] border-4"
+                            className="w-full object-contain border-[#EBFFF2] border-4"
                         />
                     ) : (
                         <div className="w-full h-64 bg-gray-100 rounded-lg flex items-center justify-center">

@@ -1,10 +1,11 @@
 import { useForm } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
-export default function CreateMediaModal({ isOpen, onClose, onUpload }) {
+export default function CreateMediaModal({ isOpen, onClose, onUpload, selectedProjectId }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         caption: '',
         file: null,
+        project_id: selectedProjectId || null,
     });
 
     const [preview, setPreview] = useState(null);
@@ -15,6 +16,10 @@ export default function CreateMediaModal({ isOpen, onClose, onUpload }) {
             setPreview(null);
         }
     }, [isOpen]);
+
+    useEffect(() => {
+        setData('project_id', selectedProjectId || null);
+    }, [selectedProjectId]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -29,16 +34,8 @@ export default function CreateMediaModal({ isOpen, onClose, onUpload }) {
 
     const submit = (e) => {
         e.preventDefault();
-        
-        const formData = new FormData();
-        formData.append('caption', data.caption);
-        formData.append('file', data.file);
-        
         post('/media', {
-            data: formData,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+            forceFormData: true,
             onSuccess: () => {
                 onUpload();
                 onClose();

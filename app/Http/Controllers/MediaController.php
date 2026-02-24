@@ -51,41 +51,48 @@ class MediaController extends Controller
     }
 
     public function store(StoreMediaRequest $request)
-{
-    $validated = $request->validated();
+    {
+        
+        $validated = $request->validated();
 
-    // get user id to assign media to their own folder in cloudinary
-    $user = Auth::user();
+        // get user id 
+        $user = Auth::user();
 
-    $file = $request->file('file');
+        $file = $request->file('file');
 
-    $file_name = $file->getClientOriginalName();
-    $file_type = $file->getClientOriginalExtension();
+        $file_name = $file->getClientOriginalName();
+        $file_type = $file->getClientOriginalExtension();
 
-    $folder = 'portfolioHub/' . $user->id; 
-    
-    $uploadResult = $this->cloudinary->uploadApi()->upload(
-        $file->getRealPath(),
-        [
-            'resource_type' => 'raw',
-            "filename" => $file_name,
-            'folder' => $folder, 
-        ]
-    );
+        // to assign media to their own folder in cloudinary
+        $folder = 'portfolioHub/' . $user->id; 
+        
+        $uploadResult = $this->cloudinary->uploadApi()->upload(
+            $file->getRealPath(),
+            [
+                'resource_type' => 'raw',
+                "filename" => $file_name,
+                'folder' => $folder, 
+            ]
+        );
 
-    $media = Media::create([
-        'user_id' => Auth::id(),
-        'file_name' => $file_name,
-        'file_type' => $file_type,
-        'caption' => $validated['caption'] ?? null,
-        'cloud_url' => $uploadResult['secure_url'],
-        'cloud_public_id' => $uploadResult['public_id'],
-    ]);
+        $media = Media::create([
+            'user_id' => Auth::id(),
+            'file_name' => $file_name,
+            'file_type' => $file_type,
+            'caption' => $validated['caption'] ?? null,
+            'cloud_url' => $uploadResult['secure_url'],
+            'cloud_public_id' => $uploadResult['public_id'],
+        ]);
 
-    return redirect()->route('dashboard')
-        ->with('success', 'Media uploaded successfully!');
+        // to associate media with project for the bridge table project_media
+        if (!empty($validated['project_id'])) {
+            $media->projects()->attach($validated['project_id']);
+        }
 
-}
+        return redirect()->route('dashboard')
+            ->with('success', 'Media uploaded successfully!');
+
+    }
 
     /**
      * Display the specified resource.

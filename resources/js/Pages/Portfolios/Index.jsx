@@ -109,7 +109,7 @@ const Portfolios = ({ portfolios = [], onPortfolioClick, onCreateClick }) => {
                         <i className="text-[#EBFFF2] fa fa-plus fa-2x"></i>
                     </div>
                     <div className="w-full h-12 px-4 bg-[#EBFFF2] rounded-b-2xl flex items-center">
-                        <p className="font-fustat-medium text-[#111317]">Create new portfolio</p>
+                        <p className="font-fustat-semibold text-[#111317]">Create new portfolio</p>
                     </div>
                 </div>
             </div>
@@ -157,7 +157,7 @@ const Portfolios = ({ portfolios = [], onPortfolioClick, onCreateClick }) => {
                         <i className="text-[#EBFFF2] fa fa-plus fa-2x"></i>
                     </div>
                     <div className="w-full h-12 px-4 bg-[#EBFFF2] rounded-b-2xl flex items-center">
-                        <p className="font-fustat-medium text-[#111317]">Create new portfolio</p>
+                        <p className="text-[#111317] font-fustat-semibold">Create new portfolio</p>
                     </div>
                 </div>
             )}

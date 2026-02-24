@@ -43,10 +43,12 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+
 // normal routes to pages
 Route::inertia('/about', 'About');
 
 Route::inertia('/documentation', 'Documentation');
+
 
 // for email verification
 Route::get('/email/verify', function () {
@@ -118,8 +120,9 @@ Route::get('/dashboard', function () {
         ->get(['id', 'title', 'description', 'started_on', 'ended_on', 'updated_at']) : [];
 
     $media = $user ? $user->media()
-        ->orderBy('created_at', 'desc')
-        ->get(['id', 'file_name', 'file_type', 'caption', 'cloud_url', 'cloud_public_id', 'created_at']) : [];
+    ->with('projects')  // so that media will be shown in their respective project folders
+    ->orderBy('created_at', 'desc')
+    ->get(['id', 'file_name', 'file_type', 'caption', 'cloud_url', 'cloud_public_id', 'created_at']) : [];
     
     $industries = [
         // visual arts
@@ -158,7 +161,7 @@ Route::get('/dashboard', function () {
         // 'landscape_architecture' => 'Landscape Architecture',
 
         // branding and marketing
-        'product_design' => 'product Design',
+        'product_design' => 'Product Design',
         // 'brand_strategy' => 'Brand Strategy',
         'content_creation' => 'Content Creation',
         'marketing' => 'Marketing',

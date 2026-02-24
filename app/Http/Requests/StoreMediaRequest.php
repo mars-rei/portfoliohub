@@ -24,6 +24,7 @@ class StoreMediaRequest extends FormRequest
         return [
             'caption' => 'nullable|string|max:150',
             'file' => 'required|file|max:2048', 
+            'project_id' => 'nullable|exists:projects,id',
         ];
     }
 
