@@ -15,10 +15,12 @@ use App\Http\Controllers\PortfolioController;
 // for project
 use App\Http\Controllers\ProjectController;
 
+// for media
+use App\Http\Controllers\MediaController;
+
 // for dashboard
-use App\Models\Portfolio;
-use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -73,9 +75,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
     
     // builder routes
-    Route::get('/portfolios/{portfolio}/build', [PortfolioController::class, 'build'])->name('portfolios.build');
-    Route::post('/portfolios/{portfolio}/save-code', [PortfolioController::class, 'saveCode'])->name('portfolios.save-code');
-    Route::post('/portfolios/{portfolio}/toggle-publish', [PortfolioController::class, 'togglePublish'])->name('portfolios.toggle-publish');
+    // Route::get('/portfolios/{portfolio}/build', [PortfolioController::class, 'build'])->name('portfolios.build');
+    // Route::post('/portfolios/{portfolio}/save-code', [PortfolioController::class, 'saveCode'])->name('portfolios.save-code');
+    // Route::post('/portfolios/{portfolio}/toggle-publish', [PortfolioController::class, 'togglePublish'])->name('portfolios.toggle-publish');
 });
 
 
@@ -91,8 +93,19 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-// dashboard routes
+// media routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+    Route::get('/media/create', [MediaController::class, 'create'])->name('media.create');
+    Route::post('/media', [MediaController::class, 'store'])->name('media.store');
+    Route::get('/media/{media}', [MediaController::class, 'show'])->name('media.show');
+    Route::get('/media/{media}/edit', [MediaController::class, 'edit'])->name('media.edit');
+    Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');
+    Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
+});
 
+
+// dashboard routes
 Route::get('/dashboard', function () {
     $user = Auth::user();
     
@@ -103,6 +116,10 @@ Route::get('/dashboard', function () {
     $projects = $user ? $user->projects()
         ->orderBy('updated_at', 'desc')
         ->get(['id', 'title', 'description', 'started_on', 'ended_on', 'updated_at']) : [];
+
+    $media = $user ? $user->media()
+        ->orderBy('created_at', 'desc')
+        ->get(['id', 'file_name', 'file_type', 'caption', 'cloud_url', 'cloud_public_id', 'created_at']) : [];
     
     $industries = [
         // visual arts
@@ -174,6 +191,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
         'portfolios' => $portfolios,
         'projects' => $projects,
+        'media' => $media,  
         'industries' => $industries
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');

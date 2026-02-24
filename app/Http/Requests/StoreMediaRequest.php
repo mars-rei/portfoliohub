@@ -11,7 +11,7 @@ class StoreMediaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,20 @@ class StoreMediaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'caption' => 'nullable|string|max:150',
+            'file' => 'required|file|max:2048', 
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'file.required' => 'Please select a file to upload.',
+            'file.max' => 'The file size must not exceed 2MB.',
+            'caption.max' => 'The caption must not exceed 150 characters.',
         ];
     }
 }

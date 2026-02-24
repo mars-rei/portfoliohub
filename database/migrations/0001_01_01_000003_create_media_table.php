@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('file_type', 4);
             $table->string('caption', 150);
             $table->string('cloud_url');
+            $table->string('cloud_public_id');
             
             $table->timestamps();
         });

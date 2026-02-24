@@ -15,11 +15,18 @@ import EditProjectModal from '@/Components/EditProjectModal';
 import ShowProjectModal from '@/Components/ShowProjectModal';
 import DeleteProjectModal from '@/Components/DeleteProjectModal';
 
+import Media from '@/Pages/Media/Index';
+import CreateMediaModal from '@/Components/CreateMediaModal';
+import ShowMediaModal from '@/Components/ShowMediaModal'; 
+import EditMediaModal from '@/Components/EditMediaModal';
+import DeleteMediaModal from '@/Components/DeleteMediaModal'; 
+
 export default function Dashboard() {
-    const { portfolios: initialPortfolios, projects: initialProjects, industries } = usePage().props;
+    const { portfolios: initialPortfolios, projects: initialProjects, media: initialMedia, industries } = usePage().props;
     
-    // toggling between portfolios and projects
+    // default state is portfolios
     const [activeView, setActiveView] = useState('portfolios');
+    
     
     // portfolio modal states
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -28,16 +35,27 @@ export default function Dashboard() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedPortfolio, setSelectedPortfolio] = useState(null);
     
+
     // project modal states
     const [showCreateProjectModal, setShowCreateProjectModal] = useState(false);
     const [showEditProjectModal, setShowEditProjectModal] = useState(false);
     const [showShowProjectModal, setShowShowProjectModal] = useState(false);
     const [showDeleteProjectModal, setShowDeleteProjectModal] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
+
+
+    // media modal states
+    const [showCreateMediaModal, setShowCreateMediaModal] = useState(false);
+    const [showEditMediaModal, setShowEditMediaModal] = useState(false);
+    const [showShowMediaModal, setShowShowMediaModal] = useState(false);
+    const [showDeleteMediaModal, setShowDeleteMediaModal] = useState(false);
+    const [selectedMedia, setSelectedMedia] = useState(null);
     
+
     const handleViewChange = (view) => {
         setActiveView(view);
     };
+
 
     // portfolio handlers
     const handlePortfolioClick = (portfolio) => {
@@ -57,6 +75,7 @@ export default function Dashboard() {
         setShowShowModal(false);
     };
 
+
     // project handlers
     const handleProjectClick = (project) => {
         setSelectedProject(project);
@@ -75,6 +94,26 @@ export default function Dashboard() {
         setShowShowProjectModal(false);
     };
 
+
+    // media handlers
+    const handleMediaClick = (media) => {
+        setSelectedMedia(media);
+        setShowShowMediaModal(true);
+    };
+
+    const handleEditMediaClick = (media) => {
+        setSelectedMedia(media);
+        setShowEditMediaModal(true);
+        setShowShowMediaModal(false);
+    };
+
+    const handleDeleteMediaClick = (media) => {
+        setSelectedMedia(media);
+        setShowDeleteMediaModal(true);
+        setShowShowMediaModal(false);
+    };
+
+
     const handleCloseModals = () => {
         // portfolio modals
         setShowCreateModal(false);
@@ -89,7 +128,15 @@ export default function Dashboard() {
         setShowShowProjectModal(false);
         setShowDeleteProjectModal(false);
         setSelectedProject(null);
+
+        // media modals
+        setShowCreateMediaModal(false);
+        setShowEditMediaModal(false);
+        setShowShowMediaModal(false);
+        setShowDeleteMediaModal(false);
+        setSelectedMedia(null);
     };
+
 
     // portfolio handlers for modals
     const handlePortfolioCreated = () => {
@@ -106,6 +153,7 @@ export default function Dashboard() {
         handleCloseModals();
     };
 
+
     // project handlers for modals
     const handleProjectCreated = () => {
         router.reload();
@@ -119,6 +167,37 @@ export default function Dashboard() {
     const handleProjectDeleted = () => {
         router.reload();
         handleCloseModals();
+    };
+
+
+    // media handlers for modals
+    const handleMediaCreated = () => {
+        router.reload();
+        handleCloseModals();
+    };
+
+    const handleMediaUpdated = () => {
+        router.reload();
+        handleCloseModals();
+    };
+
+    const handleMediaDeleted = () => {
+        router.reload();
+        handleCloseModals();
+    };
+
+
+    // media upload handler
+    const handleMediaUpload = async (formData) => {
+        try {
+            await router.post('/media', formData, {
+                onSuccess: () => {
+                    handleMediaCreated();
+                },
+            });
+        } catch (error) {
+            console.error('Upload failed:', error);
+        }
     };
 
     return (
@@ -147,9 +226,16 @@ export default function Dashboard() {
                                 >
                                     Projects
                                 </p>
+                                <p 
+                                    onClick={() => handleViewChange('media')}
+                                    className={`cursor-pointer hover:text-[#B5446E] ${activeView === 'media' ? 'text-[#003c66]' : ''}`}
+                                >
+                                    Media
+                                </p>
                             </div>
                         </div>
 
+                        {/* to add in functionality later
                         <div 
                             onClick={() => handleViewChange('deleted')}
                             className={`flex flex-row items-center w-full px-4 py-2 border-t border-[#111317] text-lg font-fustat-medium space-x-2 cursor-pointer hover:text-[#B5446E] ${activeView === 'deleted' ? 'text-[#003c66]' : ''}`}
@@ -157,6 +243,7 @@ export default function Dashboard() {
                             <i className="fa fa-trash fa-sm"></i>
                             <p>Recently deleted</p>
                         </div>
+                        */}
                     </div>
 
                     {/* main */}
@@ -173,6 +260,13 @@ export default function Dashboard() {
                                 portfolios={initialPortfolios} 
                                 onPortfolioClick={handlePortfolioClick}
                                 onCreateClick={() => setShowCreateModal(true)}
+                            />
+                        )}
+                        {activeView === 'media' && (
+                            <Media 
+                                media={initialMedia}
+                                onMediaClick={handleMediaClick}
+                                onUploadClick={() => setShowCreateMediaModal(true)}
                             />
                         )}
                         {activeView === 'deleted' && (
@@ -243,6 +337,36 @@ export default function Dashboard() {
                     onClose={handleCloseModals}
                     project={selectedProject}
                     onSuccess={handleProjectDeleted}
+                />
+
+
+                {/* media modals */}
+                <CreateMediaModal
+                    isOpen={showCreateMediaModal}
+                    onClose={handleCloseModals}
+                    onUpload={handleMediaUpload}
+                />
+
+                <ShowMediaModal
+                    isOpen={showShowMediaModal}
+                    onClose={handleCloseModals}
+                    media={selectedMedia}
+                    onEdit={handleEditMediaClick}
+                    onDelete={handleDeleteMediaClick}
+                />
+
+                <EditMediaModal
+                    isOpen={showEditMediaModal}
+                    onClose={handleCloseModals}
+                    media={selectedMedia}
+                    onSuccess={handleMediaUpdated}
+                />
+
+                <DeleteMediaModal
+                    isOpen={showDeleteMediaModal}
+                    onClose={handleCloseModals}
+                    media={selectedMedia}
+                    onSuccess={handleMediaDeleted}
                 />
             </Layout>
         </div>
