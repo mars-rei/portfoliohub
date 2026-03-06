@@ -71,16 +71,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/portfolios', [PortfolioController::class, 'index'])->name('portfolios.index');
     Route::get('/portfolios/create', [PortfolioController::class, 'create'])->name('portfolios.create');
     Route::post('/portfolios', [PortfolioController::class, 'store'])->name('portfolios.store');
-    Route::get('/portfolios/{portfolio}', [PortfolioController::class, 'show'])->name('portfolios.show');
     Route::get('/portfolios/{portfolio}/edit', [PortfolioController::class, 'edit'])->name('portfolios.edit');
+
+    // builder route
+    Route::get('/portfolios/{portfolio}/builder', [PortfolioController::class, 'build'])->name('portfolios.build');
+
     Route::put('/portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
     Route::delete('/portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
-    
-    // builder routes
-    // Route::get('/portfolios/{portfolio}/build', [PortfolioController::class, 'build'])->name('portfolios.build');
-    // Route::post('/portfolios/{portfolio}/save-code', [PortfolioController::class, 'saveCode'])->name('portfolios.save-code');
-    // Route::post('/portfolios/{portfolio}/toggle-publish', [PortfolioController::class, 'togglePublish'])->name('portfolios.toggle-publish');
+    Route::get('/portfolios/{portfolio}', [PortfolioController::class, 'show'])->name('portfolios.show');
 });
+
+// builder routes
+// Route::post('/portfolios/{portfolio}/save-code', [PortfolioController::class, 'saveCode'])->name('portfolios.save-code');
+// Route::post('/portfolios/{portfolio}/toggle-publish', [PortfolioController::class, 'togglePublish'])->name('portfolios.toggle-publish');
 
 
 // project routes

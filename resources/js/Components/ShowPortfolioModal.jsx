@@ -1,3 +1,5 @@
+import { router } from '@inertiajs/react';
+
 export default function ShowPortfolioModal({ isOpen, onClose, portfolio, onEdit, onDelete }) {
     if (!isOpen || !portfolio) return null;
 
@@ -69,7 +71,7 @@ export default function ShowPortfolioModal({ isOpen, onClose, portfolio, onEdit,
                         Delete
                     </button>
                     <button
-                        onClick={() => window.location.href = `/portfolios/${portfolio.id}/build`}
+                        onClick={() => router.visit(`/portfolios/${portfolio.id}/builder`)}
                         className="justify-center flex items-center rounded-full border border-transparent bg-[#B5446E] px-8 py-2 text-md text-[#EBFFF2] disabled:opacity-25"
                     >
                         Open Builder

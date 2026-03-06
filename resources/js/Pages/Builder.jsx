@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { Link } from "@inertiajs/react";
 
 import Page from '../Components/Builder/Page';
 import ColourPicker from '../Components/Builder/ColourPicker';
 
-function Builder() {
+function Builder({ portfolio, projects }) {
 
     // to set the colour of the whole canvas (where the page canvases sit)
     const [canvasColor, setCanvasColor] = useState('#1d2025');
@@ -52,16 +53,17 @@ function Builder() {
 
 
     // project directory
-    const projects = {
-        'fire on marz': ["/images/1.png", "/images/2.png"],
-        'portfolioHub': [],
-        'The Green Room': [],
-    };
+    const projectMedia = Object.fromEntries(
+        projects.map(project => [
+            project.title,
+            project.media.map(m => m.cloud_url)
+        ])
+    );
 
-    // general components
+    // general components - need to get from database ('General' industry?)
     const general = ['slides', 'carousel', 'text'];
 
-    // industry library components directory
+    // industry library components directory - need to get from database
     const components = {
         'Graphic Design': ['fa-bezier-curve', { 'h': 'h' }],
         'Illustration': ['fa-paint-brush', { 'h': 'h' }],
@@ -101,9 +103,11 @@ function Builder() {
                         <div className={`flex flex-row items-center w-full px-4 h-20 text-lg font-fustat-bold space-x-2 justify-between shrink-0
                             ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}
                         >
-                            <i className="fa fa-xl fa-briefcase text-[#003c66]"></i>
+                            <Link href="/dashboard">
+                                <i className="fa fa-xl fa-briefcase text-[#003c66]"></i>
+                            </Link>
                             <div className="flex flex-row items-center space-x-2">
-                                <p>art</p>
+                                <p>{portfolio.title}</p>
                                 <i className="fa fa-circle-user text-[#B5446E] fa-xl"></i>
                             </div>
                         </div>
@@ -149,7 +153,7 @@ function Builder() {
                             </div>
                             {openPanel === 'media' && (
                                 <div className={`scrollbar-hide overflow-y-auto max-h-full space-y-2 p-4 text-sm font-fustat-medium border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
-                                    {openFolder.panel === 'media' && projects[openFolder.name] ? (
+                                    {openFolder.panel === 'media' && projectMedia[openFolder.name] ? (
                                         // inner level - project media
                                         <div className="space-y-2">
                                             <div
@@ -159,12 +163,12 @@ function Builder() {
                                                 <i className="fa fa-chevron-left fa-xs"></i>
                                                 <span>{openFolder.name}</span>
                                             </div>
-                                            {projects[openFolder.name].length === 0 ? (
+                                            {projectMedia[openFolder.name].length === 0 ? (
                                                 <p className="text-xs text-gray-500 text-center">No media yet</p>
                                             ) : (
-                                                projects[openFolder.name].map((item) => (
-                                                    <div key={item} onClick={() => addToCanvas('image', item)} className="flex flex-row items-center space-x-2 px-2 py-1 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                                        <img src={item} className="w-full h-full object-cover" />
+                                                projectMedia[openFolder.name].map((url) => (
+                                                    <div key={url} onClick={() => addToCanvas('image', url)} className="flex flex-row items-center space-x-2 px-2 py-1 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                                                        <img src={url} className="w-full h-full object-cover" />
                                                     </div>
                                                 ))
                                             )}
@@ -172,7 +176,7 @@ function Builder() {
                                     ) : (
                                         // outer level - project folders
                                         <div className="grid grid-cols-2">
-                                            {Object.entries(projects).map(([project, media]) => (
+                                            {Object.entries(projectMedia).map(([project, media]) => (
                                                 <div key={project} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer" onClick={() => toggleFolder('media', project)}>
                                                     <i className="fa fa-folder fa-3x text-[#B5446E]"></i>
                                                     <span className="truncate">{project}</span>

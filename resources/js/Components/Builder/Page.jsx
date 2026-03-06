@@ -39,7 +39,7 @@ function Page({ items, selectedId, onSelect, onRemove, activeCursor }) {
     };
 
     return (
-        <>
+        <div> {/* need to add on hover / on click without interfering with components on the page */}
             <div className="w-full flex flex-row justify-between">
                 {/* page name */}
                 <textarea 
@@ -57,7 +57,7 @@ function Page({ items, selectedId, onSelect, onRemove, activeCursor }) {
                     {items.map(showItem)}
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

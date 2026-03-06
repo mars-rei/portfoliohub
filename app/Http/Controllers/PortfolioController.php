@@ -265,12 +265,18 @@ class PortfolioController extends Controller
             abort(403);
         }
 
-        return Inertia::render('Portfolios/Builder', [
-            'portfolio' => $portfolio
+        // get user's projects and project media to place in builder
+        $projects = Auth::user()->projects()
+            ->with('media')
+            ->get(['id', 'title']);
+
+        return Inertia::render('Builder', [
+            'portfolio' => $portfolio,
+            'projects' => $projects,
         ]);
     }
 
-    // to save portfolio code from builder
+    /* to save portfolio code from builder
     public function saveCode(Request $request, Portfolio $portfolio)
     {
         if ($portfolio->user_id !== Auth::id()) {
@@ -288,6 +294,7 @@ class PortfolioController extends Controller
 
         return response()->json(['message' => 'Portfolio saved successfully']);
     }
+        */
 
     // update publish status of portfolio
     public function togglePublish(Portfolio $portfolio)
