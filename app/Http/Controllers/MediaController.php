@@ -144,21 +144,18 @@ class MediaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy(Media $media)
     {
         if ($media->user_id !== Auth::id()) {
             abort(403);
         }
-        
-        $isImage = in_array($media->file_type, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
-        
+
         $this->cloudinary->uploadApi()->destroy(
             $media->cloud_public_id,
-            [
-                "resource_type" => $isImage ? "image" : "raw"
-            ]
+            ['resource_type' => 'raw']
         );
-        
+
         $media->delete();
 
         return redirect()->route('dashboard')
