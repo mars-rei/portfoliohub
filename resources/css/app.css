@@ -44,9 +44,35 @@ body {
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-    background-color: #B5446E;
-    padding: 5px;
-    border-radius: 4px;
-    cursor: pointer;
-    opacity: 1;
+  background-color: #B5446E;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 1;
+}
+
+
+
+.sketch-picker-dark .sketch-picker {
+  background-color: #111317 !important;
+}
+
+.sketch-picker-dark .sketch-picker input {
+  color: #EBFFF2 !important;
+  background: #1d2025 !important;
+}
+
+.sketch-picker-dark .sketch-picker label {
+  color: #EBFFF2 !important;
+}
+
+
+
+.scrollbar-hide::-webkit-scrollbar { 
+  display: none;
+}
+
+.scrollbar-hide { 
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
 }
