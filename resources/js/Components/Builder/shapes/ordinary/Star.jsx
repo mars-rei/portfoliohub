@@ -1,6 +1,10 @@
+// just need to manage colouring
+
 import { Rnd } from "react-rnd";
 
-function Image({ src, isSelected, onSelect, activeCursor }) {
+function Star({ isSelected, onSelect, activeCursor, itemStyle = {} }) {
+
+    const fill   = itemStyle.fill ?? 'rgb(84, 84, 84)';
 
     const locked = activeCursor === 'hand';
 
@@ -21,10 +25,16 @@ function Image({ src, isSelected, onSelect, activeCursor }) {
             onResizeStart={(e) => e.stopPropagation()}
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}
             className={`group ${isSelected ? "outline-2 outline-[#003c66]" : "hover:outline-2 hover:outline-[#003c66]"}`}
+            onClick={(e) => e.stopPropagation()} 
         >
-            <img src={src} className="w-full h-full" draggable={false} />
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <polygon
+                    points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35"
+                    fill={fill}
+                />
+            </svg>
         </Rnd>
     );
 }
 
-export default Image;
+export default Star;

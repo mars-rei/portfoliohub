@@ -26,11 +26,13 @@ function Carousel({ isSelected, onSelect, activeCursor }) {
         <Rnd
             style={style}
             default={{ x: 0, y: 0, width: 600, height: 400 }}
-            bounds=".bounds"
+            bounds="parent" 
             disableDragging={locked}
             enableResizing={!locked}
+            onDragStart={(e) => e.stopPropagation()}
+            onResizeStart={(e) => e.stopPropagation()}
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}
-            className={`group ${isSelected ? "outline outline-2 outline-[#003c66]" : "hover:outline hover:outline-2 hover:outline-[#003c66]"}`}
+            className={`group ${isSelected ? "outline-2 outline-[#003c66]" : "hover:outline-2 hover:outline-[#003c66]"}`}
         >
             <div className="w-full h-full overflow-hidden">
                 <div className="overflow-x-auto scrollbar-hide h-full">

@@ -32,11 +32,13 @@ function Slides({ isSelected, onSelect, activeCursor }) {
         <Rnd
             style={style}
             default={{ x: 0, y: 0, width: 200, height: 200 }}
-            bounds=".bounds"
+            bounds="parent" 
             disableDragging={locked}
             enableResizing={!locked}
+            onDragStart={(e) => e.stopPropagation()}
+            onResizeStart={(e) => e.stopPropagation()}
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}
-            className={`group ${isSelected ? "outline outline-2 outline-[#003c66]" : "hover:outline hover:outline-2 hover:outline-[#003c66]"}`}
+            className={`group ${isSelected ? "outline-2 outline-[#003c66]" : "hover:outline-2 hover:outline-[#003c66]"}`}
         >
             <div className="relative h-full overflow-hidden flex flex-col">
                 <img
