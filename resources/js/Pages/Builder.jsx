@@ -6,8 +6,6 @@ import LeftBar from "@/Layouts/Builder/LeftBar";
 import Canvas from "@/Layouts/Builder/Canvas";
 import Page from "@/Layouts/Builder/Page";
 
-
-
 function Builder({ portfolio, projects }) {
 
     // to set the colour of the whole canvas (where the page canvases sit)
@@ -64,7 +62,7 @@ function Builder({ portfolio, projects }) {
         
         setPages(prev => prev.filter(p => p.id !== pageId));
         
-        // If removing current page, switch to another page
+        // if removing current page, switch to another page
         if (currentPageId === pageId) {
             const remainingPages = pages.filter(p => p.id !== pageId);
             if (remainingPages.length > 0) {
@@ -91,11 +89,41 @@ function Builder({ portfolio, projects }) {
     /* ---------- canvas ---------- */
     // add elements to current page on canvas
     const addToCanvas = (type, src = null) => {
+        // id for new components
+        const newId = Date.now(); 
+
+        // default dimensions for most components
+        const defaultDimensions = { 
+            width: 100,
+            height: 100
+        };
+
+
+        /* to set defaults for different components later on
+        if (type === 'text') {
+            defaultDimensions.width = 200;
+            defaultDimensions.height = 50;
+        } else if (type === 'carousel' || type === 'slides') {
+            defaultDimensions.width = 300;
+            defaultDimensions.height = 200;
+        }*/
+
         setPages(prev => prev.map(page => {
             if (page.id === currentPageId) {
                 return {
                     ...page,
-                    items: [...page.items, { id: Date.now(), type, src }]
+                    items: [...page.items, { id: newId, type, src }],
+                    itemStyles: {
+                        ...page.itemStyles,
+                        [newId]: {
+                            ...page.itemStyles[newId],
+                            width: defaultDimensions.width,
+                            height: defaultDimensions.height,
+                            fill: defaultColour[type],
+                            x: 0,  // x position on page
+                            y: 0 // y position on page
+                        }
+                    }
                 };
             }
             return page;
@@ -118,8 +146,6 @@ function Builder({ portfolio, projects }) {
 
     // update styles of elements of current page on canvas
     const onStyleChange = (id, key, value) => {
-        console.log('onStyleChange called with:', { id, key, value });
-        console.log('Current pages before update:', pages);
         setPages(prev => prev.map(page => {
             if (page.id === currentPageId) {
                 const currentStyles = page.itemStyles || {};
@@ -131,7 +157,6 @@ function Builder({ portfolio, projects }) {
                     }
                 };
             }
-            console.log('New styles for page:', newStyles);
             return page;
         }));
     };
@@ -226,6 +251,7 @@ function Builder({ portfolio, projects }) {
                             activeCursor={activeCursor}
                             pageColour={currentPageColour}
                             dimensions={currentPage.dimensions}
+                            onStyleChange={onStyleChange}
                         />
                     </Canvas>
 

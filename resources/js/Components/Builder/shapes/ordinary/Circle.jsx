@@ -1,5 +1,3 @@
-// just need to manage colouring
-
 import { Rnd } from "react-rnd";
 
 function Circle({ isSelected, onSelect, activeCursor, itemStyle = {} }) {

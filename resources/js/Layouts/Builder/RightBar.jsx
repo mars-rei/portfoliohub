@@ -104,7 +104,7 @@ function RightBar({
                                 type="text"
                                 value={newPageName}
                                 onChange={(e) => setNewPageName(e.target.value)}
-                                className={`bg-transparent flex flex-row items-center w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium space-x-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}                                            
+                                className={`focus:outline-none focus:ring-0 bg-transparent flex flex-row items-center w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium space-x-2 ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}                                            
                                 placeholder="Enter page name..."
                             />
                         </div>
@@ -125,14 +125,40 @@ function RightBar({
                             <select 
                                 value={selectedDimensions} 
                                 onChange={(e) => setSelectedDimensions(e.target.value)}
-                                className={`bg-transparent flex flex-row items-center w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium space-x-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}      
+                                className={`focus:outline-none focus:ring-0 bg-transparent flex flex-row items-center w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium space-x-2 ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}      
                             >
                                 <option value="720x480">720 x 480</option>
                                 <option value="1280x720">1280 x 720</option>
                                 <option value="1920x1080">1920 x 1080</option>
                                 <option value="2480x3508">A4 - 2480 x 3508</option>
+                                <option value="custom">Custom dimensions</option>
                             </select>
+
+                            {selectedDimensions === 'custom' && (
+                                <div className="flex gap-2 mt-2">
+                                    <input
+                                        type="number"
+                                        placeholder="Width"
+                                        className={`focus:outline-none focus:ring-0 bg-transparent w-1/2 px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}
+                                        onChange={(e) => {
+                                            const height = selectedDimensions.split('x')[1] || '480';
+                                            setSelectedDimensions(`${e.target.value}x${height}`);
+                                        }}
+                                    />
+                                    <input
+                                        type="number"
+                                        placeholder="Height"
+                                        className={`focus:outline-none focus:ring-0 bg-transparent w-1/2 px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}
+                                        onChange={(e) => {
+                                            const width = selectedDimensions.split('x')[0] || '720';
+                                            setSelectedDimensions(`${width}x${e.target.value}`);
+                                        }}
+                                    />
+                                </div>
+                            )}
                         </div>
+
+
 
                         <div className="px-4 flex justify-center">
                             <button 
@@ -237,7 +263,7 @@ function RightBar({
 
                             <div className="pt-6 space-y-2">
                                 <p className="text-md font-fustat-bold capitalize">{selectedItem?.type} Details</p>
-                                <p className="text-sm font-fustat-semibold capitalize">{selectedItem?.type} ID: {selectedId}</p>
+                                <p className="text-sm font-fustat-semibold capitalize">{selectedItem?.type} ID: {selectedItem?.id || 'No ID'}</p>
                             </div>
 
                             <p className="text-sm font-fustat-semibold pt-4 capitalize">{selectedItem?.type} Styles: </p>

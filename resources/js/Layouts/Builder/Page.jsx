@@ -29,7 +29,8 @@ function Page({
     onRemove, 
     activeCursor, 
     pageColour,
-    dimensions = { width: 720, height: 480 } // default page dimensions
+    dimensions = { width: 720, height: 480 }, // default page dimensions
+    onStyleChange // to help dynamic classes for components on page
 }) {
 
     // for deleting components from canvas
@@ -48,15 +49,23 @@ function Page({
         const style = itemStyles?.[item.id] ?? {};
         const props = {
             key: item.id,
+            id: item.id, 
             isSelected: selectedId === item.id,
             onSelect: () => onSelect(item.id),
             onRemove: () => onRemove(item.id),
             activeCursor,
             itemStyle: style, 
+            onStyleChange: onStyleChange
+        };
+
+        // to track sizes of components
+        const handleSizeChange = (id, dimensions) => {
+            onStyleChange(id, 'width', dimensions.width);
+            onStyleChange(id, 'height', dimensions.height);
         };
 
         // components
-        if (item.type === 'image') return <Image {...props} src={item.src} />;
+        if (item.type === 'image') return <Image {...props} src={item.src} onSizeChange={handleSizeChange} />;
         if (item.type === 'slides') return <Slides {...props} />;
         if (item.type === 'carousel') return <Carousel {...props} />;
         if (item.type === 'text') return <Text {...props} />;
@@ -86,7 +95,9 @@ function Page({
         width: dimensions.width,
         height: dimensions.height,
         position: 'relative',
-        overflow: 'hidden' 
+        overflow: 'hidden',
+        margin: 0,
+        padding: 0,
     };
 
     return (
