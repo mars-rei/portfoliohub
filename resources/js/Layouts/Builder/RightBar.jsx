@@ -17,16 +17,20 @@ function RightBar({
     setCanvasColour,
     currentPageColour,
     currentPageId,
+    currentPageName,
+    currentPageItems,
     updatePageColour,
     selectedItem,
     currentItemStyles,
     defaultColour,
-    onStyleChange
+    onStyleChange,
+    currentPageWidth,
+    currentPageHeight
 }) {
     
     return (
         <div className={`w-1/6 flex flex-col relative z-10 ${darkMode ? "bg-[#111317]" : "bg-[#EBFFF2]"}`}>
-            <div className="flex flex-row items-center w-full px-4 h-20 justify-between shrink-0">
+            <div className={`flex flex-row items-center w-full px-4 h-20 justify-between shrink-0 border-b-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
                 <div className="rounded-full px-4 h-8 text-md bg-[#B5446E] text-[#EBFFF2] font-fustat-medium items-center justify-center flex">
                     Publish Portfolio
                 </div>
@@ -35,10 +39,11 @@ function RightBar({
                 </div>
             </div>
 
+            <div className="flex-1 overflow-y-auto scrollbar-hide">
             {openEditPanel === 'shapes' ? (
                 /* shapes creation menu */
                 <div>
-                    <div className={`space-y-4 p-4 border-t-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
+                    <div className="space-y-4 p-4">
                         <div className={`space-y-2 text-lg font-fustat-semibold ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
                             <p>Shapes</p>
                         </div>
@@ -85,7 +90,7 @@ function RightBar({
             ) : openEditPanel === 'pages' ? (
                 /* pages creation menu */
                 <div>
-                    <div className={`space-y-4 p-4 border-t-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
+                    <div className="space-y-4 p-4">
                         <div className={`space-y-2 text-lg font-fustat-semibold ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
                             <p>Add new page</p>
                         </div>
@@ -153,7 +158,7 @@ function RightBar({
                 </div>
             ) : (
                 /* styling menus */
-                <div className={`flex-1 p-4 border-t-2 ${darkMode ? "border-[#EBFFF2] text-[#EBFFF2]" : "border-[#111317] text-[#111317]"}`}>
+                <div className={`flex-1 p-4 ${darkMode ? " text-[#EBFFF2]" : " text-[#111317]"}`}>
                     {selectedId === null ? (
                         <>
                             {/* default styling menu is for colouring canvas */}
@@ -169,6 +174,56 @@ function RightBar({
                                 onChange={(val) => updatePageColour(currentPageId, val)} 
                                 darkMode={darkMode} 
                             />
+
+                            {/* page details */}
+                            <div className="pt-6 space-y-2">
+                                <p className="text-md font-fustat-bold">Page Details</p>
+                                <p className="text-sm font-fustat-semibold">Page ID: {currentPageId}</p>
+                                <p className="text-sm font-fustat-semibold">Page Name: {currentPageName}</p>
+
+                                <p className="text-sm font-fustat-semibold">Page Colour: {currentPageColour}</p>
+
+                                <p className="text-sm font-fustat-semibold">Page Dimensions:</p>
+                                <p className="text-sm font-fustat-semibold px-2">Page Width: {currentPageWidth}</p>
+                                <p className="text-sm font-fustat-semibold px-2">Page Height: {currentPageHeight}</p>
+
+                                {/* paage items details */}
+                                <p className="text-sm font-fustat-semibold pt-4">Page Items: ({currentPageItems.length})</p>
+                                <ul className="text-sm font-fustat-semibold px-2">
+                                    {currentPageItems.map((item) => (
+                                        <li key={item.id}>
+                                            {item.type}-{item.id}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <p className="text-sm font-fustat-semibold pt-4">Page Item Styles: </p>
+                                {currentPageItems.map((item) => {
+                                    // making sure to include default styling
+                                    const customStyles = currentItemStyles[item.id] || {};
+                                    const defaultFill = defaultColour[item.type] || '#545454';
+                                    const currentFill = customStyles.fill || defaultFill;
+
+                                    return (
+                                        <ul className="text-sm font-fustat-semibold px-2">
+                                            <li key={item.id}>
+                                                <div>
+                                                    {item.type}-{item.id}
+                                                </div>
+
+                                                <div className="text-sm font-fustat-semibold px-2">
+                                                    Fill: {currentFill} 
+                                                    {Object.entries(customStyles).filter(([key]) => key !== 'fill').map(([styleKey, styleValue]) => (
+                                                        <div key={styleKey}>
+                                                            {styleKey}: {JSON.stringify(styleValue)} <span>(custom)</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    )
+                                })}
+                            </div>
                         </>
                     ) : (
                         <>
@@ -179,10 +234,45 @@ function RightBar({
                                 onChange={val => onStyleChange(selectedItem?.id, 'fill', val)}
                                 darkMode={darkMode}
                             />
+
+                            <div className="pt-6 space-y-2">
+                                <p className="text-md font-fustat-bold capitalize">{selectedItem?.type} Details</p>
+                                <p className="text-sm font-fustat-semibold capitalize">{selectedItem?.type} ID: {selectedId}</p>
+                            </div>
+
+                            <p className="text-sm font-fustat-semibold pt-4 capitalize">{selectedItem?.type} Styles: </p>
+                            {(() => {
+                                const customStyles = currentItemStyles[selectedItem?.id] || {};
+                                const defaultFill = defaultColour[selectedItem?.type] || '#545454';
+                                const allStyles = {
+                                    fill: customStyles.fill || defaultFill,
+                                    ...customStyles
+                                };
+                                
+                                return (
+                                    <div className="text-sm font-fustat-semibold px-2">
+                                        {Object.entries(allStyles).map(([key, value]) => (
+                                            <div key={key}>
+                                                <span>{key}: {typeof value === 'object' ? JSON.stringify(value) : value}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                );
+                            })()}
+
+                            <div className="pt-4">
+                                {/* to customise styling menus for specific components */}
+                                {selectedItem?.type === 'text' ? (
+                                    <p>*Insert text customisation*</p>
+                                ) : (
+                                    <p>*Insert shape customisation*</p>
+                                )}
+                            </div>
                         </>
                     )}
                 </div>
             )}
+            </div>
         </div>
     );
 }

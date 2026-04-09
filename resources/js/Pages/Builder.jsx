@@ -15,9 +15,10 @@ function Builder({ portfolio, projects }) {
 
 
     /* ---------- pages ---------- */
+    const firstPageId = `page-${Date.now()}`
     const [pages, setPages] = useState([
         { 
-            id: 'p1', 
+            id: firstPageId, 
             name: 'Home', 
             colour: '#B5446E', 
             items: [], 
@@ -25,13 +26,15 @@ function Builder({ portfolio, projects }) {
             dimensions: { width: 720, height: 480 } 
         }
     ]);
-    const [currentPageId, setCurrentPageId] = useState('p1');
+    const [currentPageId, setCurrentPageId] = useState(firstPageId);
 
     // to get current page data
     const currentPage = pages.find(p => p.id === currentPageId);
-    const currentPageItems = currentPage?.items || [];
+    const currentPageName = currentPage.name || 'Untitled';
     const currentPageColour = currentPage?.colour || '#B5446E';
+    const currentPageItems = currentPage?.items || [];
     const currentItemStyles = currentPage?.itemStyles || {};
+    const { width: currentPageWidth, height: currentPageHeight } = currentPage?.dimensions || { width: 720, height: 480 };
 
     // new page
     const addPage = (pageConfig) => {
@@ -115,6 +118,8 @@ function Builder({ portfolio, projects }) {
 
     // update styles of elements of current page on canvas
     const onStyleChange = (id, key, value) => {
+        console.log('onStyleChange called with:', { id, key, value });
+        console.log('Current pages before update:', pages);
         setPages(prev => prev.map(page => {
             if (page.id === currentPageId) {
                 const currentStyles = page.itemStyles || {};
@@ -126,6 +131,7 @@ function Builder({ portfolio, projects }) {
                     }
                 };
             }
+            console.log('New styles for page:', newStyles);
             return page;
         }));
     };
@@ -240,11 +246,15 @@ function Builder({ portfolio, projects }) {
                         setCanvasColour={setCanvasColour}
                         currentPageColour={currentPageColour}
                         currentPageId={currentPageId}
+                        currentPageName={currentPageName}
+                        currentPageItems={currentPageItems}
                         updatePageColour={updatePageColour}
                         selectedItem={selectedItem}
                         currentItemStyles={currentItemStyles}
                         defaultColour={defaultColour}
                         onStyleChange={onStyleChange}
+                        currentPageWidth={currentPageWidth}
+                        currentPageHeight={currentPageHeight}
                     />
                 </div>
 

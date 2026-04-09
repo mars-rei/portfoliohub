@@ -80,7 +80,7 @@ function Page({
         onPageNameChange(pageId, e.target.value);
     };
 
-    // Generate dynamic classes based on dimensions
+    // dynamic classes to be edited in the right side bar
     const pageStyle = {
         backgroundColor: pageColour,
         width: dimensions.width,
