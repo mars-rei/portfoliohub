@@ -57,27 +57,26 @@ function LeftBar({
         <div className={`w-1/6 flex flex-col relative z-10
             ${darkMode ? "bg-[#111317]" : "bg-[#EBFFF2]"}`}
         >
-            <div className={`flex flex-row items-center w-full px-4 h-20 text-lg font-fustat-bold space-x-2 justify-between shrink-0
+            <div className={`flex flex-row items-center w-full px-4 h-20 text-lg font-fustat-bold space-x-4 shrink-0
                 ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}
             >
                 <Link href="/dashboard">
                     <i className="fa fa-xl fa-briefcase text-[#003c66]"></i>
                 </Link>
-                <div className="flex flex-row items-center space-x-2">
-                    <p>{portfolio.title}</p>
-                    <i className="fa fa-circle-user text-[#B5446E] fa-xl"></i>
-                </div>
+                <p>{portfolio.title}</p>
             </div>
 
             <div className={`flex-1 space-y-4 p-4 border-y-2 overflow-hidden
                 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}
             >
+                {/*
                 <div className={`flex flex-row items-center w-full px-4 py-1 border-2 rounded-md text-lg font-fustat-medium space-x-2
                     ${darkMode ? "border-[#EBFFF2] text-[#EBFFF2]" : "border-[#111317] text-[#111317]"}`}
                 >
                     <i className="fa fa-search fa-sm"></i>
                     <p>Search</p>
                 </div>
+                */}
 
                 {/* pages */}
                 <div className={`text-lg font-fustat-semibold ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>

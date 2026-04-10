@@ -1,5 +1,3 @@
-// just need to manage colouring
-
 import { Rnd } from "react-rnd";
 import { useRef } from "react";
 
@@ -32,16 +30,23 @@ function Rectangle({ isSelected, onSelect, activeCursor, onStyleChange, id, item
         }
     };
 
+    const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 'auto';
+    const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 'auto';
+
     return (
         <Rnd
             ref={rndRef}
             style={style}
-            default={{ 
-                x: 0,
-                y: 0, 
-                width: itemStyle?.width, 
-                height: itemStyle?.height
+            
+            position={{
+                x: itemStyle?.x || 0,
+                y: itemStyle?.y || 0
             }}
+            size={{
+                width: width,
+                height: height
+            }}
+            
             bounds="parent" 
             disableDragging={locked}
             enableResizing={!locked}

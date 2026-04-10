@@ -30,16 +30,23 @@ function Text({ isSelected, onSelect, activeCursor, onStyleChange, id, itemStyle
         }
     };
 
+    const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 'auto';
+    const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 'auto';
+
     return (
         <Rnd
             ref={rndRef}
             style={style}
-            default={{ 
-                x: 0, 
-                y: 0, 
-                width: itemStyle?.width, 
-                height: itemStyle?.height
+            
+            position={{
+                x: itemStyle?.x || 0,
+                y: itemStyle?.y || 0
             }}
+            size={{
+                width: width,
+                height: height
+            }}
+
             bounds="parent" 
             disableDragging={locked}
             enableResizing={!locked}
@@ -59,10 +66,10 @@ function Text({ isSelected, onSelect, activeCursor, onStyleChange, id, itemStyle
                 onMouseDown={(e) => e.stopPropagation()}
                 data-placeholder="Enter your text..."
                 style={{ color: itemStyle.fill ?? '#ffffff' }}
-                className={`w-full h-full flex items-center justify-center scrollbar-hide font-extrabold text-xl 
-                        bg-transparent outline-none overflow-auto break-all empty:before:content-[attr(data-placeholder)] 
-                        empty:before:text-white/40 
-                        ${locked ? 'cursor-grab pointer-events-none' : 'cursor-text'}`}
+                className={`w-full h-full flex scrollbar-hide font-extrabold text-xl 
+                    bg-transparent outline-none overflow-auto break-all empty:before:content-[attr(data-placeholder)] 
+                    empty:before:text-white/40 
+                    ${locked ? 'cursor-grab pointer-events-none' : 'cursor-text'}`}
             />
         </Rnd>
     );

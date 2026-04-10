@@ -94,13 +94,13 @@ function Builder({ portfolio, projects }) {
 
         // default dimensions for all components
         const defaultDimensions = 
-        (type === 'image' || type === 'text' || type === 'slides')
+        (type === 'image' || type === 'text')
             ? { width: 'auto', height: 'auto' }
             : type === 'rectangle'
                 ? { width: 200, height: 100 }
-                : type === 'carousel'
+                : type === 'carousel' || type == 'slides'
                     ? { width: 400, height: 150 }
-                    : { width: 100, height: 100 };
+                    : { width: 100, height: 100 }
 
         setPages(prev => prev.map(page => {
             if (page.id === currentPageId) {

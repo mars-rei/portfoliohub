@@ -306,11 +306,81 @@ function RightBar({
                         <>
                             {/* styling menu for components such as shapes and text */}
                             <p className="text-lg font-fustat-semibold mb-1 capitalize">{selectedItem?.type}</p>
-                            <ColourPicker
-                                color={currentItemStyles[selectedItem?.id]?.fill ?? defaultColour[selectedItem?.type]}
-                                onChange={val => onStyleChange(selectedItem?.id, 'fill', val)}
-                                darkMode={darkMode}
-                            />
+                            {selectedItem?.type !== 'image' && selectedItem?.type !== 'slides' && selectedItem?.type !== 'carousel' && (
+                                <ColourPicker
+                                    color={currentItemStyles[selectedItem?.id]?.fill ?? defaultColour[selectedItem?.type]}
+                                    onChange={val => onStyleChange(selectedItem?.id, 'fill', val)}
+                                    darkMode={darkMode}
+                                />
+                            )}
+
+                            <div className="mt-4">
+                                {selectedItem?.type === 'circle' || selectedItem?.type === 'square'
+                                    || selectedItem?.type === 'star' || selectedItem?.type === 'triangle' 
+                                    || selectedItem?.type === 'shape1' || selectedItem?.type === 'shape2' ? (
+                                    <>
+                                        <div>
+                                            <label className="text-sm font-fustat-semibold block mb-1">Size</label>
+                                            <input
+                                                type="number"
+                                                value={currentItemStyles[selectedItem?.id]?.width || ''}
+                                                onChange={(e) => {
+                                                    const size = e.target.value === '' ? undefined : parseInt(e.target.value);
+                                                    onStyleChange(selectedItem?.id, 'width', size);
+                                                    onStyleChange(selectedItem?.id, 'height', size);
+                                                }}
+                                                onKeyDown={(e) => e.stopPropagation()} 
+                                                className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
+                                                    darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
+                                                }`}
+                                                placeholder="Size"
+                                            />
+                                        </div>
+                                    </>
+                                ) : selectedItem?.type === 'image' || selectedItem?.type === 'carousel' 
+                                    || selectedItem?.type === 'rectangle' || selectedItem?.type === 'slides' 
+                                    || selectedItem?.type === 'text' ? (
+                                    <>
+                                        <div className="flex flex-row gap-x-2">
+                                            <div className="w-1/2">
+                                                <label className="text-sm font-fustat-semibold block mb-1">Width</label>
+                                                <input
+                                                    type="number"
+                                                    value={currentItemStyles[selectedItem?.id]?.width || ''}
+                                                    onChange={(e) => {
+                                                        const width = e.target.value === '' ? undefined : parseInt(e.target.value);
+                                                        onStyleChange(selectedItem?.id, 'width', width);
+                                                    }}
+                                                    onKeyDown={(e) => e.stopPropagation()} 
+                                                    className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
+                                                        darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
+                                                    }`}
+                                                    placeholder="Width"
+                                                />
+                                            </div>
+                                            
+                                            <div className="w-1/2">
+                                                <label className="text-sm font-fustat-semibold block mb-1">Height</label>
+                                                <input
+                                                    type="number"
+                                                    value={currentItemStyles[selectedItem?.id]?.height || ''}
+                                                    onChange={(e) => {
+                                                        const height = e.target.value === '' ? undefined : parseInt(e.target.value);
+                                                        onStyleChange(selectedItem?.id, 'height', height);
+                                                    }}
+                                                    onKeyDown={(e) => e.stopPropagation()} 
+                                                    className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
+                                                        darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
+                                                    }`}
+                                                    placeholder="Height"
+                                                />
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <p>*Insert shape customisation*</p>
+                                )}
+                            </div>
 
                             <div className="pt-6 space-y-2">
                                 <p className="text-md font-fustat-bold capitalize">{selectedItem?.type} Details</p>
@@ -341,15 +411,6 @@ function RightBar({
                                     </div>
                                 );
                             })()}
-
-                            <div className="pt-4">
-                                {/* to customise styling menus for specific components */}
-                                {selectedItem?.type === 'text' ? (
-                                    <p>*Insert text customisation*</p>
-                                ) : (
-                                    <p>*Insert shape customisation*</p>
-                                )}
-                            </div>
                         </>
                     )}
                 </div>

@@ -1,5 +1,3 @@
-// next goal is for object-contain to work
-
 import { Rnd } from "react-rnd";
 import { useRef } from "react";
 
@@ -32,18 +30,23 @@ function Image({ src, isSelected, onSelect, activeCursor, onStyleChange, id, ite
         }
     };
 
+    const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 'auto';
+    const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 'auto';
+
     return (
         <Rnd
             ref={rndRef}
             style={style}
-            default={{ 
-                // position is top left corner of image
-                x: 0,
-                y: 0, 
 
-                width: itemStyle?.width, 
-                height: itemStyle?.height
+            position={{
+                x: itemStyle?.x || 0,
+                y: itemStyle?.y || 0
             }}
+            size={{
+                width: width,
+                height: height
+            }}
+
             bounds="parent" 
             disableDragging={locked}
             enableResizing={!locked}
@@ -55,7 +58,7 @@ function Image({ src, isSelected, onSelect, activeCursor, onStyleChange, id, ite
 
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}
             className="component group"
-            onClick={(e) => e.stopPropagation()} 
+            onClick={(e) => e.stopPropagation()}
         >
             <img 
                 src={src} 
