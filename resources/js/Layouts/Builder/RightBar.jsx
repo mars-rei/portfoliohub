@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import ColourPicker from "@/Components/Builder/ColourPicker";
 
 function RightBar({ 
@@ -27,6 +29,11 @@ function RightBar({
     currentPageWidth,
     currentPageHeight
 }) {
+
+    // for custom size of page
+    const [isCustomMode, setIsCustomMode] = useState(false);
+    const [customWidth, setCustomWidth] = useState('');
+    const [customHeight, setCustomHeight] = useState('');
     
     return (
         <div className={`w-1/6 flex flex-col relative z-10 ${darkMode ? "bg-[#111317]" : "bg-[#EBFFF2]"}`}>
@@ -122,63 +129,101 @@ function RightBar({
                         {/* screen size input */}
                         <div className="px-4">
                             <p className="text-md font-fustat-semibold mb-1">Dimensions</p>
-                            <select 
-                                value={selectedDimensions} 
-                                onChange={(e) => setSelectedDimensions(e.target.value)}
-                                className={`focus:outline-none focus:ring-0 bg-transparent flex flex-row items-center w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium space-x-2 ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}      
-                            >
-                                <option value="720x480">720 x 480</option>
-                                <option value="1280x720">1280 x 720</option>
-                                <option value="1920x1080">1920 x 1080</option>
-                                <option value="2480x3508">A4 - 2480 x 3508</option>
-                                <option value="custom">Custom dimensions</option>
-                            </select>
+                            {!isCustomMode ? (
+                                <div className="flex flex-col gap-y-4">
+                                    <div className="flex gap-2">
+                                        <select 
+                                            value={selectedDimensions} 
+                                            onChange={(e) => setSelectedDimensions(e.target.value)}
+                                            className={`focus:outline-none focus:ring-0 bg-transparent flex-1 px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}      
+                                        >
+                                            <option value="1280x720">1280 x 720</option>
+                                            <option value="1920x1080">1920 x 1080</option>
+                                            <option value="2400x1600">2400 x 1600</option>
+                                            <option value="2480x3508">A4 - 2480 x 3508</option>
+                                        </select>
+                                        <button
+                                            onClick={() => setIsCustomMode(true)}
+                                            className="rounded-full px-4 h-8 text-md border-2 border-[#B5446E] text-[#B5446E] font-fustat-medium items-center justify-center flex"
+                                        >
+                                            Custom
+                                        </button>
+                                    </div>
+                                    <button 
+                                        onClick={() => {
+                                            const [width, height] = selectedDimensions.split('x').map(Number);
+                                            addPage({ 
+                                                name: newPageName, 
+                                                colour: newPageColour, 
+                                                dimensions: { width, height } 
+                                            });
+                                            toggleEditPanel('pages');
 
-                            {selectedDimensions === 'custom' && (
-                                <div className="flex gap-2 mt-2">
-                                    <input
-                                        type="number"
-                                        placeholder="Width"
-                                        className={`focus:outline-none focus:ring-0 bg-transparent w-1/2 px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}
-                                        onChange={(e) => {
-                                            const height = selectedDimensions.split('x')[1] || '480';
-                                            setSelectedDimensions(`${e.target.value}x${height}`);
+                                            setNewPageName('Untitled Page');
+                                            setNewPageColour('#B5446E');
+                                            setSelectedDimensions('720x480');
                                         }}
-                                    />
-                                    <input
-                                        type="number"
-                                        placeholder="Height"
-                                        className={`focus:outline-none focus:ring-0 bg-transparent w-1/2 px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}
-                                        onChange={(e) => {
-                                            const width = selectedDimensions.split('x')[0] || '720';
-                                            setSelectedDimensions(`${width}x${e.target.value}`);
+                                        className="rounded-full px-4 h-8 text-md bg-[#B5446E] text-[#EBFFF2] font-fustat-medium items-center justify-center flex"
+                                    >
+                                        Create Page
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col gap-y-2">
+                                    <div className="flex gap-2 mb-2">
+                                        <div className="flex gap-2 flex-1">
+                                            <input
+                                                type="number"
+                                                placeholder="Width"
+                                                value={customWidth}
+                                                onChange={(e) => setCustomWidth(e.target.value)}
+                                                className={`focus:outline-none focus:ring-0 bg-transparent w-1/2 px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}
+                                            />
+                                            <input
+                                                type="number"
+                                                placeholder="Height"
+                                                value={customHeight}
+                                                onChange={(e) => setCustomHeight(e.target.value)}
+                                                className={`focus:outline-none focus:ring-0 bg-transparent w-1/2 px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"}`}
+                                            />
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                setIsCustomMode(false);
+                                                setSelectedDimensions('1920x1080'); // Reset to default or keep last value
+                                            }}
+                                            className="rounded-full px-4 h-8 text-md border-2 border-[#B5446E] text-[#B5446E] font-fustat-medium items-center justify-center flex"
+                                        >
+                                            ←
+                                        </button>
+                                    </div>
+                                    <button
+                                        onClick={() => {
+                                            const width = parseInt(customWidth) || 1920;
+                                            const height = parseInt(customHeight) || 1080;
+                                            const dimensions = `${width}x${height}`;
+                                            setSelectedDimensions(dimensions);
+                                            
+                                            addPage({ 
+                                                name: newPageName, 
+                                                colour: newPageColour, 
+                                                dimensions: { width, height } 
+                                            });
+                                            toggleEditPanel('pages');
+                                            
+                                            setNewPageName('Untitled Page');
+                                            setNewPageColour('#B5446E');
+                                            setSelectedDimensions('1920x1080');
+                                            setCustomWidth('');
+                                            setCustomHeight('');
+                                            setIsCustomMode(false);
                                         }}
-                                    />
+                                        className="rounded-full px-4 h-8 text-md bg-[#B5446E] text-[#EBFFF2] font-fustat-medium items-center justify-center flex"
+                                    >
+                                        Create Page
+                                    </button>
                                 </div>
                             )}
-                        </div>
-
-
-
-                        <div className="px-4 flex justify-center">
-                            <button 
-                                onClick={() => {
-                                    const [width, height] = selectedDimensions.split('x').map(Number);
-                                    addPage({ 
-                                        name: newPageName, 
-                                        colour: newPageColour, 
-                                        dimensions: { width, height } 
-                                    });
-                                    toggleEditPanel('pages');
-
-                                    setNewPageName('Untitled Page');
-                                    setNewPageColour('#B5446E');
-                                    setSelectedDimensions('720x480');
-                                }}
-                                className="rounded-full px-4 h-8 text-md bg-[#B5446E] text-[#EBFFF2] font-fustat-medium items-center justify-center flex"
-                            >
-                                Create Page
-                            </button>
                         </div>
                     </div>
                 </div>

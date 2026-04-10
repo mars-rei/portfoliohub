@@ -21,7 +21,7 @@ function Builder({ portfolio, projects }) {
             colour: '#B5446E', 
             items: [], 
             itemStyles: {},
-            dimensions: { width: 720, height: 480 } 
+            dimensions: { width: 1920, height: 1080 } 
         }
     ]);
     const [currentPageId, setCurrentPageId] = useState(firstPageId);
@@ -32,7 +32,7 @@ function Builder({ portfolio, projects }) {
     const currentPageColour = currentPage?.colour || '#B5446E';
     const currentPageItems = currentPage?.items || [];
     const currentItemStyles = currentPage?.itemStyles || {};
-    const { width: currentPageWidth, height: currentPageHeight } = currentPage?.dimensions || { width: 720, height: 480 };
+    const { width: currentPageWidth, height: currentPageHeight } = currentPage?.dimensions || { width: 1920, height: 1080 };
 
     // new page
     const addPage = (pageConfig) => {
@@ -43,7 +43,7 @@ function Builder({ portfolio, projects }) {
             colour: pageConfig.colour || '#B5446E',
             items: [],
             itemStyles: {},
-            dimensions: pageConfig.dimensions || { width: 720, height: 480 }
+            dimensions: pageConfig.dimensions || { width: 1920, height: 1080 }
         }]);
         setCurrentPageId(newPageId);
     };
@@ -51,7 +51,7 @@ function Builder({ portfolio, projects }) {
     // defaults for a new page
     const [newPageName, setNewPageName] = useState('Untitled Page');
     const [newPageColour, setNewPageColour] = useState('#B5446E');
-    const [selectedDimensions, setSelectedDimensions] = useState('720x480');
+    const [selectedDimensions, setSelectedDimensions] = useState('1920x1080');
 
     // delete page
     const removePage = (pageId) => {

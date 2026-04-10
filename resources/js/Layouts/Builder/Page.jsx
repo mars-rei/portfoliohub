@@ -67,7 +67,7 @@ function Page({
         // components
         if (item.type === 'image') return <Image {...props} src={item.src} onSizeChange={handleSizeChange} />;
         if (item.type === 'slides') return <Slides {...props} onSizeChange={handleSizeChange} />;
-        if (item.type === 'carousel') return <Carousel {...props} />;
+        if (item.type === 'carousel') return <Carousel {...props} onSizeChange={handleSizeChange} />;
         if (item.type === 'text') return <Text {...props} onSizeChange={handleSizeChange} />;
 
         // ordinary shapes
@@ -105,7 +105,7 @@ function Page({
             <div className="flex flex-col text-[#EBFFF2] font-fustat-medium text-md">
                 <div className="w-full flex flex-row justify-between items-center">
                     <textarea 
-                        className="scrollbar-hide -ml-3 resize-none bg-transparent border-none outline-none focus:border-none focus:outline-none focus:ring-0 font-fustat-semibold text-lg"
+                        className="scrollbar-hide -ml-3 resize-none bg-transparent border-none outline-none focus:border-none focus:outline-none focus:ring-0 font-fustat-semibold text-2xl"
                         onMouseDown={(e) => e.stopPropagation()}
                         placeholder="Enter page name..."
                         value={pageName}
@@ -115,7 +115,7 @@ function Page({
                     />
 
                     {/* page height and width */}
-                    <p className="text-sm opacity-70">{dimensions.width} x {dimensions.height}</p> 
+                    <p className="text-2xl opacity-70">{dimensions.width} x {dimensions.height}</p> 
                 </div>
                 <div 
                     className="bounds relative" 
@@ -129,7 +129,7 @@ function Page({
                             items.map(showItem)
                         ) : (
                             <div className="flex h-full w-full items-center justify-center">
-                                <p className="opacity-50">Add components here</p>
+                                <p className="txt-xl opacity-50">Zoom out & add components here</p>
                             </div>
                         )}
                     </div>

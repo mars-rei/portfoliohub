@@ -1,5 +1,5 @@
 import { Rnd } from "react-rnd";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
 function Carousel({ isSelected, onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
     const rndRef = useRef(null);
