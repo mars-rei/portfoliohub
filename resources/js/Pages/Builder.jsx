@@ -275,6 +275,7 @@ function Builder({ portfolio, projects }) {
                         onStyleChange={onStyleChange}
                         currentPageWidth={currentPageWidth}
                         currentPageHeight={currentPageHeight}
+                        pages={pages} // to output data
                     />
                 </div>
 

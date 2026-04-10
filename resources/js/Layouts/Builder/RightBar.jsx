@@ -27,13 +27,30 @@ function RightBar({
     defaultColour,
     onStyleChange,
     currentPageWidth,
-    currentPageHeight
+    currentPageHeight,
+    pages
 }) {
 
     // for custom size of page
     const [isCustomMode, setIsCustomMode] = useState(false);
     const [customWidth, setCustomWidth] = useState('');
     const [customHeight, setCustomHeight] = useState('');
+
+    // for downloading portfolio data for now - most important things to save now are pages (and the itemstyles in pages), and the canvas colouras user preference
+    const downloadPortfolioData = () => {
+        const pageData = pages;
+        
+        const jsonData = JSON.stringify(pageData, null, 2);
+        
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'portfolio-data.json';
+        a.click();
+        
+        return jsonData;
+    };
     
     return (
         <div className={`w-1/6 flex flex-col relative z-10 ${darkMode ? "bg-[#111317]" : "bg-[#EBFFF2]"}`}>
@@ -41,9 +58,14 @@ function RightBar({
                 <div className="rounded-full px-4 h-8 text-md bg-[#B5446E] text-[#EBFFF2] font-fustat-medium items-center justify-center flex">
                     Publish Portfolio
                 </div>
-                <div className="rounded-full px-4 h-8 border-[#B5446E] border-2 text-[#B5446E] font-fustat-medium items-center justify-center flex">
+
+                {/* to save files - for the moment using for history(?) */}
+                <button 
+                    onClick={downloadPortfolioData}
+                    className="rounded-full px-4 h-8 border-[#B5446E] border-2 text-[#B5446E] font-fustat-medium items-center justify-center flex"
+                >
                     <i className="fa fa-download fa-md"></i>
-                </div>
+                </button>
             </div>
 
             <div className="flex-1 overflow-y-auto scrollbar-hide">
