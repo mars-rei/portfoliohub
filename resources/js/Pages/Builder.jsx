@@ -92,21 +92,15 @@ function Builder({ portfolio, projects }) {
         // id for new components
         const newId = Date.now(); 
 
-        // default dimensions for most components
-        const defaultDimensions = { 
-            width: 100,
-            height: 100
-        };
-
-
-        /* to set defaults for different components later on
-        if (type === 'text') {
-            defaultDimensions.width = 200;
-            defaultDimensions.height = 50;
-        } else if (type === 'carousel' || type === 'slides') {
-            defaultDimensions.width = 300;
-            defaultDimensions.height = 200;
-        }*/
+        // default dimensions for all components
+        const defaultDimensions = 
+        (type === 'image' || type === 'text' || type === 'slides')
+            ? { width: 'auto', height: 'auto' }
+            : type === 'rectangle'
+                ? { width: 200, height: 100 }
+                : type === 'carousel'
+                    ? { width: 400, height: 150 }
+                    : { width: 100, height: 100 };
 
         setPages(prev => prev.map(page => {
             if (page.id === currentPageId) {

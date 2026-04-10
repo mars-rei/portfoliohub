@@ -1,27 +1,56 @@
 import { Rnd } from "react-rnd";
+import { useRef } from "react";
 
-function Text({ isSelected, onSelect, activeCursor, itemStyle = {} }) {
-    const colour   = itemStyle.fill;
-    
+function Text({ isSelected, onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
+    const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
 
     const style = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: 'block',
+    };
+
+    const handleResizeStop = (e, direction, ref, delta, position) => {
+        const newWidth = parseInt(ref.style.width);
+        const newHeight = parseInt(ref.style.height);
+        
+        if (onSizeChange) {
+            onSizeChange(id, { width: newWidth, height: newHeight });
+        }
+        
+        if (onStyleChange) {
+            onStyleChange(id, 'x', position.x);
+            onStyleChange(id, 'y', position.y);
+        }
+    };
+
+    const handleDragStop = (e, data) => {
+        if (onStyleChange) {
+            onStyleChange(id, 'x', data.x);
+            onStyleChange(id, 'y', data.y);
+        }
     };
 
     return (
         <Rnd
+            ref={rndRef}
             style={style}
-            default={{ x: 0, y: 0, width: 190, height: 60 }}
+            default={{ 
+                x: 0, 
+                y: 0, 
+                width: itemStyle?.width, 
+                height: itemStyle?.height
+            }}
             bounds="parent" 
             disableDragging={locked}
             enableResizing={!locked}
             onDragStart={(e) => e.stopPropagation()}
             onResizeStart={(e) => e.stopPropagation()}
+
+            onDragStop={handleDragStop}
+            onResizeStop={handleResizeStop}
+
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}
-            className={`group p-4 ${isSelected ? "outline-2 outline-[#003c66]" : "hover:outline-2 hover:outline-[#003c66]"}`}
+            className="component group p-4"
             onClick={(e) => e.stopPropagation()} 
         >
             <div
@@ -30,8 +59,8 @@ function Text({ isSelected, onSelect, activeCursor, itemStyle = {} }) {
                 onMouseDown={(e) => e.stopPropagation()}
                 data-placeholder="Enter your text..."
                 style={{ color: itemStyle.fill ?? '#ffffff' }}
-                className={`w-full h-full flex items-center justify-center text-center scrollbar-hide font-extrabold text-xl 
-                        bg-transparent outline-none overflow-hidden empty:before:content-[attr(data-placeholder)] 
+                className={`w-full h-full flex items-center justify-center scrollbar-hide font-extrabold text-xl 
+                        bg-transparent outline-none overflow-auto break-all empty:before:content-[attr(data-placeholder)] 
                         empty:before:text-white/40 
                         ${locked ? 'cursor-grab pointer-events-none' : 'cursor-text'}`}
             />

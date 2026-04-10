@@ -230,6 +230,9 @@ function RightBar({
                                     const defaultFill = defaultColour[item.type] || '#545454';
                                     const currentFill = customStyles.fill || defaultFill;
 
+                                    // only show fill for specific components
+                                    const shouldShowFill = !['image', 'slides', 'carousel'].includes(item.type);
+
                                     return (
                                         <ul className="text-sm font-fustat-semibold px-2">
                                             <li key={item.id}>
@@ -238,10 +241,13 @@ function RightBar({
                                                 </div>
 
                                                 <div className="text-sm font-fustat-semibold px-2">
-                                                    Fill: {currentFill} 
+                                                    {shouldShowFill && (
+                                                        <>fill: {currentFill}</>
+                                                    )}
+
                                                     {Object.entries(customStyles).filter(([key]) => key !== 'fill').map(([styleKey, styleValue]) => (
                                                         <div key={styleKey}>
-                                                            {styleKey}: {JSON.stringify(styleValue)} <span>(custom)</span>
+                                                            {styleKey}: {JSON.stringify(styleValue)}
                                                         </div>
                                                     ))}
                                                 </div>
@@ -274,10 +280,15 @@ function RightBar({
                                     fill: customStyles.fill || defaultFill,
                                     ...customStyles
                                 };
+
+                                const shouldShowFill = !['image', 'slides', 'carousel'].includes(selectedItem?.type);
+                                const stylesToShow = shouldShowFill 
+                                    ? allStyles 
+                                    : Object.fromEntries(Object.entries(allStyles).filter(([key]) => key !== 'fill'));
                                 
                                 return (
                                     <div className="text-sm font-fustat-semibold px-2">
-                                        {Object.entries(allStyles).map(([key, value]) => (
+                                        {Object.entries(stylesToShow).map(([key, value]) => (
                                             <div key={key}>
                                                 <span>{key}: {typeof value === 'object' ? JSON.stringify(value) : value}</span>
                                             </div>

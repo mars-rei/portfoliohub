@@ -1,7 +1,8 @@
 import { Rnd } from "react-rnd";
+import { useState, useRef } from "react";
 
-function Carousel({ isSelected, onSelect, activeCursor }) {
-
+function Carousel({ isSelected, onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
+    const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
 
     {/* creates list of media */}
@@ -15,24 +16,54 @@ function Carousel({ isSelected, onSelect, activeCursor }) {
     // make it seem infinite
     const duplicatedItems = [...items, ...items, ...items, ...items, ...items];
 
-
     const style = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
     };
 
+    const handleResizeStop = (e, direction, ref, delta, position) => {
+        const newWidth = parseInt(ref.style.width);
+        const newHeight = parseInt(ref.style.height);
+        
+        if (onSizeChange) {
+            onSizeChange(id, { width: newWidth, height: newHeight });
+        }
+        
+        if (onStyleChange) {
+            onStyleChange(id, 'x', position.x);
+            onStyleChange(id, 'y', position.y);
+        }
+    };
+
+    const handleDragStop = (e, data) => {
+        if (onStyleChange) {
+            onStyleChange(id, 'x', data.x);
+            onStyleChange(id, 'y', data.y);
+        }
+    };
+
     return (
         <Rnd
+            ref={rndRef}
             style={style}
-            default={{ x: 0, y: 0, width: 600, height: 400 }}
+            default={{ 
+                x: 0,
+                y: 0, 
+                width: itemStyle?.width, 
+                height: itemStyle?.height
+            }}
             bounds="parent" 
             disableDragging={locked}
             enableResizing={!locked}
             onDragStart={(e) => e.stopPropagation()}
             onResizeStart={(e) => e.stopPropagation()}
+
+            onDragStop={handleDragStop}
+            onResizeStop={handleResizeStop}
+
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}
-            className={`group ${isSelected ? "outline-2 outline-[#003c66]" : "hover:outline-2 hover:outline-[#003c66]"}`}
+            className="component group"
         >
             <div className="w-full h-full overflow-hidden">
                 <div className="overflow-x-auto scrollbar-hide h-full">

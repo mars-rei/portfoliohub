@@ -67,7 +67,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
-
 .scrollbar-hide::-webkit-scrollbar { 
   display: none;
 }
@@ -75,4 +74,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .scrollbar-hide { 
   -ms-overflow-style: none; 
   scrollbar-width: none; 
+}
+
+
+.component:hover {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: #003c66;
+}
+
+.component.selected {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: #003c66;
 }

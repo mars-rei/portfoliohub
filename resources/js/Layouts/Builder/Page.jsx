@@ -66,20 +66,20 @@ function Page({
 
         // components
         if (item.type === 'image') return <Image {...props} src={item.src} onSizeChange={handleSizeChange} />;
-        if (item.type === 'slides') return <Slides {...props} />;
+        if (item.type === 'slides') return <Slides {...props} onSizeChange={handleSizeChange} />;
         if (item.type === 'carousel') return <Carousel {...props} />;
-        if (item.type === 'text') return <Text {...props} />;
+        if (item.type === 'text') return <Text {...props} onSizeChange={handleSizeChange} />;
 
         // ordinary shapes
-        if (item.type === 'star') return <Star {...props} />;
-        if (item.type === 'square') return <Square {...props} />;
-        if (item.type === 'circle') return <Circle {...props} />;
-        if (item.type === 'rectangle') return <Rectangle {...props} />;
-        if (item.type === 'triangle') return <Triangle {...props} />;
+        if (item.type === 'star') return <Star {...props} onSizeChange={handleSizeChange} />;
+        if (item.type === 'square') return <Square {...props} onSizeChange={handleSizeChange} />;
+        if (item.type === 'circle') return <Circle {...props} onSizeChange={handleSizeChange} />;
+        if (item.type === 'rectangle') return <Rectangle {...props} onSizeChange={handleSizeChange} />;
+        if (item.type === 'triangle') return <Triangle {...props} onSizeChange={handleSizeChange} />;
 
         // shapesByMo
-        if (item.type === 'shape1') return <Shape1 {...props} />;
-        if (item.type === 'shape2') return <Shape2 {...props} />;
+        if (item.type === 'shape1') return <Shape1 {...props} onSizeChange={handleSizeChange} />;
+        if (item.type === 'shape2') return <Shape2 {...props} onSizeChange={handleSizeChange} />;
         
         return null;
     };

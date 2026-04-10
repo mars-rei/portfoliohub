@@ -1,9 +1,9 @@
-// there's a problem with the boundary of the page becoming smaller unless the image is resized
+// next goal is for object-contain to work
 
 import { Rnd } from "react-rnd";
 import { useRef } from "react";
 
-function Image({ src, isSelected, onSelect, activeCursor, onStyleChange, id, itemStyle }) {
+function Image({ src, isSelected, onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
     const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
 
@@ -11,19 +11,15 @@ function Image({ src, isSelected, onSelect, activeCursor, onStyleChange, id, ite
         display: 'block',
     };
 
-    // stored dimensions or defaults
-    const initialWidth = itemStyle?.width || 100;
-    const initialHeight = itemStyle?.height || 100;
-    const initialX = itemStyle?.x || 0;
-    const initialY = itemStyle?.y || 0;
-
     const handleResizeStop = (e, direction, ref, delta, position) => {
         const newWidth = parseInt(ref.style.width);
         const newHeight = parseInt(ref.style.height);
         
+        if (onSizeChange) {
+            onSizeChange(id, { width: newWidth, height: newHeight });
+        }
+        
         if (onStyleChange) {
-            onStyleChange(id, 'width', newWidth);
-            onStyleChange(id, 'height', newHeight);
             onStyleChange(id, 'x', position.x);
             onStyleChange(id, 'y', position.y);
         }
@@ -42,11 +38,11 @@ function Image({ src, isSelected, onSelect, activeCursor, onStyleChange, id, ite
             style={style}
             default={{ 
                 // position is top left corner of image
-                x: initialX,
-                y: initialY, 
+                x: 0,
+                y: 0, 
 
-                width: initialWidth, 
-                height: initialHeight 
+                width: itemStyle?.width, 
+                height: itemStyle?.height
             }}
             bounds="parent" 
             disableDragging={locked}
@@ -58,12 +54,12 @@ function Image({ src, isSelected, onSelect, activeCursor, onStyleChange, id, ite
             onResizeStop={handleResizeStop}
 
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}
-            className={`group ${isSelected ? "outline-2 outline-[#003c66]" : "hover:outline-2 hover:outline-[#003c66]"}`}
+            className="component group"
             onClick={(e) => e.stopPropagation()} 
         >
             <img 
                 src={src} 
-                className="w-full h-full object-contain" 
+                className="w-full h-full" 
                 draggable={false}
             />
         </Rnd>
