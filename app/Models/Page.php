@@ -11,9 +11,19 @@ class Page extends Model
     use HasFactory;
 
     protected $fillable = [
+        'portfolio_id',
         'page_name',
         'code',
     ];
+
+    protected $casts = [
+        'code' => 'json', 
+    ];
+
+    public function portfolio()
+    {
+        return $this->belongsTo(Portfolio::class);
+    }
 
     public function components()
     {

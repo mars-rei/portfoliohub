@@ -10,8 +10,11 @@ export default function GuestLayout({ children }) {
                     </Link>
 
                     <div className="flex items-center text-[#1f1f1f] space-x-4 font-fustat-bold text-xl">
+                        {/*
                         <Link className="hover:text-[#B5446E]" href="/about">About</Link>
                         <Link className="hover:text-[#B5446E]" href="/documentation">Documentation</Link>
+                        */}
+                        
                         <Link className="hover:text-[#B5446E]" href="/login">Log in</Link>
                         <Link className="hover:text-[#B5446E]" href="/register">Register</Link>
                     </div>

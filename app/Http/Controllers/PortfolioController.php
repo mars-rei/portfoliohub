@@ -9,6 +9,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use App\Models\Page;
+
 class PortfolioController extends Controller
 {
     // display user's portfolios
@@ -125,6 +127,26 @@ class PortfolioController extends Controller
         $validated['code'] = null;
 
         $portfolio = Portfolio::create($validated);
+
+
+        /* create a portfolio page with default values */
+        $defaultPageData = [
+            'id' => 'page-' . floor(microtime(true) * 1000),
+            'name' => 'Home',
+            'colour' => '#B5446E',
+            'items' => [],
+            'itemStyles' => new \stdClass(), 
+            'dimensions' => [
+                'width' => 1920,
+                'height' => 1080
+            ]
+        ];
+
+        $page = new Page();
+        $page->portfolio_id = $portfolio->id;
+        $page->page_name = 'Home';
+        $page->code = json_encode($defaultPageData);
+        $page->save(); // inserts new page record into database
 
         return redirect()->route('dashboard')
             ->with('success', 'Portfolio created successfully!');
