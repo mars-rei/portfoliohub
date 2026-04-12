@@ -5,14 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\Portfolio;
 use App\Http\Requests\StorePortfolioRequest;
 use App\Http\Requests\UpdatePortfolioRequest;
+
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 use App\Models\Page;
 
 class PortfolioController extends Controller
 {
+    // for when a portfolio is newly made
+    public function build(Portfolio $portfolio)
+    {
+        if ($portfolio->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // load pages with portfolio
+        $portfolio->load('pages');
+
+        // get user's projects and project media to place in builder
+        $projects = Auth::user()->projects()
+            ->with('media')
+            ->get(['id', 'title']);
+
+        return Inertia::render('Builder', [
+            'portfolio' => $portfolio,
+            'projects' => $projects,
+        ]);
+    }
+
     // display user's portfolios
     public function index()
     {
@@ -111,7 +132,7 @@ class PortfolioController extends Controller
 
     // store newly created portfolio
     public function store(StorePortfolioRequest $request)
-{
+    {
         // check if user has more than the maximum number of portfolios
         $portfolioCount = Auth::user()->portfolios()->count();
         
@@ -131,7 +152,6 @@ class PortfolioController extends Controller
 
         /* create a portfolio page with default values */
         $defaultPageData = [
-            'id' => 'page-' . floor(microtime(true) * 1000),
             'name' => 'Home',
             'colour' => '#B5446E',
             'items' => [],
@@ -145,8 +165,9 @@ class PortfolioController extends Controller
         $page = new Page();
         $page->portfolio_id = $portfolio->id;
         $page->page_name = 'Home';
-        $page->code = json_encode($defaultPageData);
+        $page->code = $defaultPageData;
         $page->save(); // inserts new page record into database
+
 
         return redirect()->route('dashboard')
             ->with('success', 'Portfolio created successfully!');
@@ -278,26 +299,6 @@ class PortfolioController extends Controller
             ->with('success', 'Portfolio deleted successfully.');
     }
 
-
-
-    // for builder of portfolio
-    public function build(Portfolio $portfolio)
-    {
-        if ($portfolio->user_id !== Auth::id()) {
-            abort(403);
-        }
-
-        // get user's projects and project media to place in builder
-        $projects = Auth::user()->projects()
-            ->with('media')
-            ->get(['id', 'title']);
-
-        return Inertia::render('Builder', [
-            'portfolio' => $portfolio,
-            'projects' => $projects,
-        ]);
-    }
-
     /* to save portfolio code from builder
     public function saveCode(Request $request, Portfolio $portfolio)
     {
@@ -316,7 +317,7 @@ class PortfolioController extends Controller
 
         return response()->json(['message' => 'Portfolio saved successfully']);
     }
-        */
+    */
 
     // update publish status of portfolio
     public function togglePublish(Portfolio $portfolio)

@@ -29,4 +29,10 @@ class Portfolio extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /* portfolio has many pages */
+    public function pages()
+    {
+        return $this->hasMany(Page::class);
+    }
 }

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ColourPicker from "@/Components/Builder/ColourPicker";
 
 function RightBar({ 
+    portfolioId,
     darkMode,
     openEditPanel,
     addToCanvas,
@@ -40,7 +41,7 @@ function RightBar({
     const downloadPortfolioData = () => {
         const pageData = pages;
         
-        const jsonData = JSON.stringify(pageData, null, 2);
+        const jsonData = JSON.stringify(pageData, null, 2); // pretty-printing for when json file is downloaded
         
         const blob = new Blob([jsonData], { type: 'application/json' });
         const url = URL.createObjectURL(blob);

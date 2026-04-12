@@ -11,7 +11,7 @@ class UpdatePageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdatePageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'page_name' => 'sometimes|string|max:255',
+            'code' => 'sometimes',
         ];
     }
 }

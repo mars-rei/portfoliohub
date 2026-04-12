@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StorePageRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StorePageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,14 @@ class StorePageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'portfolio_id' => [
+                'required',
+                Rule::exists('portfolios', 'id')->where(function ($query) {
+                    $query->where('user_id', Auth::id());
+                }),
+            ],
+            'page_name' => 'required|string|max:255',
+            'code' => 'required',
         ];
     }
 }

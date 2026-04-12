@@ -9,8 +9,11 @@ use Inertia\Inertia;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
-// for portfolio
+// for portfolio 
 use App\Http\Controllers\PortfolioController;
+
+// for portfolio pages
+use App\Http\Controllers\PageController;
 
 // for project
 use App\Http\Controllers\ProjectController;
@@ -45,9 +48,8 @@ require __DIR__.'/auth.php';
 
 
 // normal routes to pages
-Route::inertia('/about', 'About');
-
-Route::inertia('/documentation', 'Documentation');
+// Route::inertia('/about', 'About');
+// Route::inertia('/documentation', 'Documentation');
 
 
 // for email verification
@@ -80,11 +82,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
     Route::get('/portfolios/{portfolio}', [PortfolioController::class, 'show'])->name('portfolios.show');
 });
-
-// builder routes
-// Route::post('/portfolios/{portfolio}/save-code', [PortfolioController::class, 'saveCode'])->name('portfolios.save-code');
-// Route::post('/portfolios/{portfolio}/toggle-publish', [PortfolioController::class, 'togglePublish'])->name('portfolios.toggle-publish');
-
 
 // project routes
 Route::middleware(['auth'])->group(function () {
@@ -132,40 +129,25 @@ Route::get('/dashboard', function () {
         'graphic_design' => 'Graphic Design',
         'illustration' => 'Illustration',
         'animation' => 'Animation',
-        // 'comic_art' => 'Comic Art',
-        // 'concept_art' => 'Concept Art',
 
         // digital design
         'ui/ux_design' => 'UI/UX Design',
-        // 'web_design' => 'Web Design',
-        //'app_design' => 'App Design',
         'software_design' => 'Software Design',
         'game_design' => 'Game Design',
-        // 'motion_graphics' => 'Motion Graphics',
         '3d_art/animation' => '3D Art/Animation',
 
         // photography and video
         'photography' => 'Photography',
-        // 'videography' => 'videography',
         'film_production' => 'Film Production',
-        // 'cinematography' => 'Cinematography',
 
         // fashion and beauty
         'fashion_design' => 'Fashion Design',
-        // 'textile_design' => 'Textile Design',
-        // 'costume_design' => 'Costume Design',
-        // 'makeup_artistry' => 'Makeup Artistry',
-        // 'hair_styling' => 'Hair Styling',
-        // 'jewellery_design' => 'Jewellery Design',
 
         // architecture
         'architecture' => 'Architecture',
-        // 'interior_design' => 'Interior Design',
-        // 'landscape_architecture' => 'Landscape Architecture',
 
         // branding and marketing
         'product_design' => 'Product Design',
-        // 'brand_strategy' => 'Brand Strategy',
         'content_creation' => 'Content Creation',
         'marketing' => 'Marketing',
         'social_media_management' => 'Social Media Management',
@@ -175,23 +157,8 @@ Route::get('/dashboard', function () {
         'screen_writing' => 'Screen Writing',
         'creative_writing' => 'Creative Writing',
 
-        // crafts and trades
-        // 'ceramics' => 'Ceramics',
-        // 'woodworking' => 'Woodworking',
-        // 'metalworking' => 'Metalworking',
-        // 'glass_art' => 'Glass Art',
-        // 'furniture_making' => 'Furniture Making',
-        // 'tattoo_artistry' => 'Tattoo Artistry',
-
-        // culinary arts
-        // 'culinary_arts' => 'Culinary Arts',
-        // 'pastry_arts' => 'Pastry Arts',
-
         // performance arts
-        // 'dance' => 'Dance',
-        // 'theatre' => 'Theatre',
         'music' => 'Music',
-        // 'choreography' => 'Choreography',
     ];
     
     return Inertia::render('Dashboard', [
@@ -201,3 +168,10 @@ Route::get('/dashboard', function () {
         'industries' => $industries
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// portfolio page routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
+    Route::put('/pages/{page}', [PageController::class, 'update'])->middleware(['auth']);
+    Route::delete('/pages/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
+});

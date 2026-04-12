@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios"; // using instead of inertia to fetch data
 
 import Toolbar from "@/Layouts/Builder/ToolBar";
 import RightBar from "@/Layouts/Builder/RightBar";
@@ -13,21 +14,26 @@ function Builder({ portfolio, projects }) {
 
 
     /* ---------- pages ---------- */
-    const firstPageId = `page-${Date.now()}`
-    const [pages, setPages] = useState([
-        { 
-            id: firstPageId, 
-            name: 'Home', 
-            colour: '#B5446E', 
-            items: [], 
-            itemStyles: {},
-            dimensions: { width: 1920, height: 1080 } 
+    const [pages, setPages] = useState(() => {
+        // on load
+        if (portfolio.pages && portfolio.pages.length > 0) {
+            return portfolio.pages.map(page => ({
+                id: page.id, 
+                name: page.page_name,
+                colour: page.code?.colour || '#B5446E',
+                items: page.code?.items || [],
+                itemStyles: page.code?.itemStyles || {},
+                dimensions: page.code?.dimensions || { width: 1920, height: 1080 }
+            }));
         }
-    ]);
-    const [currentPageId, setCurrentPageId] = useState(firstPageId);
+    });
+    
+    const [currentPageId, setCurrentPageId] = useState(() => {
+        return pages.length > 0 ? pages[0].id : null;
+    });
 
     // to get current page data
-    const currentPage = pages.find(p => p.id === currentPageId);
+    const currentPage = pages.find(p => p.id === currentPageId) || pages[0];
     const currentPageName = currentPage.name || 'Untitled';
     const currentPageColour = currentPage?.colour || '#B5446E';
     const currentPageItems = currentPage?.items || [];
@@ -35,17 +41,41 @@ function Builder({ portfolio, projects }) {
     const { width: currentPageWidth, height: currentPageHeight } = currentPage?.dimensions || { width: 1920, height: 1080 };
 
     // new page
-    const addPage = (pageConfig) => {
-        const newPageId = `page-${Date.now()}`;
-        setPages(prev => [...prev, {
-            id: newPageId,
+    const addPage = async (pageConfig) => {
+        // temporary id before getting the id of the page to add
+        const temporaryId = `temporary-${Date.now()}`;
+
+        const newPage = {
+            id: temporaryId,
             name: pageConfig.name || 'Untitled',
             colour: pageConfig.colour || '#B5446E',
             items: [],
             itemStyles: {},
             dimensions: pageConfig.dimensions || { width: 1920, height: 1080 }
-        }]);
-        setCurrentPageId(newPageId);
+        };
+        
+        setPages(prev => [...prev, newPage]);
+        setCurrentPageId(temporaryId);
+        
+        const response = await axios.post('/pages', {
+            portfolio_id: portfolio.id,
+            page_name: newPage.name,
+            code: {
+                name: newPage.name,
+                colour: newPage.colour,
+                items: newPage.items,
+                itemStyles: newPage.itemStyles,
+                dimensions: newPage.dimensions
+            }
+        });
+        
+        // replace temporary id with id from database
+        setPages(prev => prev.map(p => 
+            p.id === temporaryId 
+                ? { ...p, id: response.data.page.id }
+                : p
+        ));
+        setCurrentPageId(response.data.page.id);
     };
 
     // defaults for a new page
@@ -54,35 +84,51 @@ function Builder({ portfolio, projects }) {
     const [selectedDimensions, setSelectedDimensions] = useState('1920x1080');
 
     // delete page
-    const removePage = (pageId) => {
+    const removePage = async (pageId) => {
         if (pages.length === 1) {
             alert("Cannot remove the last page");
             return;
         }
-        
+                
         setPages(prev => prev.filter(p => p.id !== pageId));
         
-        // if removing current page, switch to another page
         if (currentPageId === pageId) {
             const remainingPages = pages.filter(p => p.id !== pageId);
             if (remainingPages.length > 0) {
                 setCurrentPageId(remainingPages[0].id);
             }
         }
+
+        if (!String(pageId).startsWith('temporary-')) {
+            await axios.delete(`/pages/${pageId}`);
+        }
     };
 
     // update page name
-    const updatePageName = (pageId, newName) => {
+    const updatePageName = async (pageId, newName) => {
         setPages(prev => prev.map(page => 
             page.id === pageId ? { ...page, name: newName } : page
         ));
+        
+        await axios.put(`/pages/${pageId}`, {
+            page_name: newName,
+            code: {
+                name: newName  
+            }
+        });
     };
 
     // update page colour
-    const updatePageColour = (pageId, newColour) => {
+    const updatePageColour = async (pageId, newColour) => {
         setPages(prev => prev.map(page => 
             page.id === pageId ? { ...page, colour: newColour } : page
-        ));
+        )); 
+
+        await axios.put(`/pages/${pageId}`, {
+            code: {
+                colour: newColour
+            }
+        });
     };
 
 
@@ -250,6 +296,7 @@ function Builder({ portfolio, projects }) {
                     </Canvas>
 
                     <RightBar
+                        portfolioId={portfolio.id}
                         darkMode={darkMode}
                         openEditPanel={openEditPanel}
                         addToCanvas={addToCanvas}
