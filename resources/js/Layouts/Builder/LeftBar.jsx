@@ -160,7 +160,7 @@ function LeftBar({
                     <i className={`fa fa-chevron-down fa-xs ${openPanel === 'media' ? 'rotate-180' : ''}`}></i>
                 </div>
                 {openPanel === 'media' && (
-                    <div className="scrollbar-hide overflow-y-auto max-h-full space-y-2 p-4 text-sm font-fustat-medium border-t border-[#111317]">
+                    <div className={`scrollbar-hide overflow-y-auto max-h-full space-y-2 p-4 text-sm font-fustat-medium border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
                         {openFolder.panel === 'media' && projectMedia[openFolder.name] ? (
                             // inner level - project media
                             <div className="space-y-2">
@@ -199,7 +199,7 @@ function LeftBar({
             {/* general components */}
             <div className={`shrink-0 ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
                 <div
-                    className="flex flex-row items-center justify-between w-full px-4 py-2 text-lg font-fustat-medium cursor-pointer select-none hover:bg-[#B5446E]/2 border-t-2 border-[#111317]"
+                    className={`flex flex-row items-center justify-between w-full px-4 py-2 text-lg font-fustat-medium cursor-pointer select-none hover:bg-[#B5446E]/2 border-t-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}
                     onClick={() => togglePanel('general')}
                 >
                     <div className="flex flex-row items-center space-x-2">
@@ -210,7 +210,7 @@ function LeftBar({
                 </div>
                 
                 {openPanel === 'general' && (
-                    <div className="scrollbar-hide overflow-y-auto max-h-96 border-t border-[#111317]">
+                    <div className={`scrollbar-hide overflow-y-auto max-h-96 border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
                         <div className="grid grid-cols-2 gap-2 p-4">
                             <div onClick={() => addToCanvas('slides')} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
                                 <i className="fa fa-images fa-2x text-[#B5446E]"></i>
@@ -232,7 +232,7 @@ function LeftBar({
             {/* component libraries */}
             <div className={`shrink-0 ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
                 <div
-                    className="flex flex-row items-center justify-between w-full px-4 py-2 text-lg font-fustat-medium cursor-pointer select-none hover:bg-[#B5446E]/2 border-t-2 border-[#111317]"
+                    className={`flex flex-row items-center justify-between w-full px-4 py-2 text-lg font-fustat-medium cursor-pointer select-none hover:bg-[#B5446E]/2 border-t-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}
                     onClick={() => togglePanel('components')}
                 >
                     <div className="flex flex-row items-center space-x-2">
@@ -242,7 +242,7 @@ function LeftBar({
                     <i className={`fa fa-chevron-down fa-xs ${openPanel === 'components' ? 'rotate-180' : ''}`}></i>
                 </div>
                 {openPanel === 'components' && (
-                    <div className="scrollbar-hide overflow-y-auto max-h-96 border-t border-[#111317]">
+                    <div className={`scrollbar-hide overflow-y-auto max-h-96 border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
                         {openFolder.panel === 'components' && components[openFolder.name] ? (
                             // inner level - library components
                             <div className="p-4 space-y-2">
