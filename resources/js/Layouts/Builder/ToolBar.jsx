@@ -44,7 +44,7 @@ function Toolbar({
 
                     {/* for new shape */}
                     <button 
-                        className="fa fa-draw-polygon cursor-pointer hover:text-[#B5446E]" 
+                        className="fa fa-shapes cursor-pointer hover:text-[#B5446E]" 
                         onClick={() => toggleEditPanel('shapes')}
                     />
 

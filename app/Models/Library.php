@@ -10,8 +10,13 @@ class Library extends Model
     /** @use HasFactory<\Database\Factories\LibraryFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'industry',
+    ];
+
     public function components()
     {
-        return $this->belongsToMany(Component::class, 'library_components');
+        return $this->hasMany(Component::class);
     }
 }

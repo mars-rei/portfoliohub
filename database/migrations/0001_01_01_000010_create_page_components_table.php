@@ -12,10 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('page_components', function (Blueprint $table) {
+            $table->id();
+
             $table->foreignId('page_id')->constrained()->onDelete('cascade');
             $table->foreignId('component_id')->constrained()->onDelete('cascade');
+
+            // for storing styles specific to the component on the page
+            $table->json('styles')->default('{}');
                         
-            $table->unique(['page_id', 'component_id']);
+            $table->timestamps();
         });
     }
 

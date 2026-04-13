@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('components', function (Blueprint $table) {
             $table->id();
+
             $table->string('name', 60);
-            $table->json('code')->nullable();
+            $table->foreignId('library_id')->constrained()->onDelete('cascade');
+            $table->json('code');
+
             $table->timestamps();
         });
     }

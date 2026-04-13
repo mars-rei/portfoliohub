@@ -220,10 +220,6 @@ function LeftBar({
                                 <i className="fa fa-film fa-2x text-[#B5446E]"></i>
                                 <span className="text-sm">Carousel</span>
                             </div>
-                            <div onClick={() => addToCanvas('text')} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                <i className="fa fa-font fa-2x text-[#B5446E]"></i>
-                                <span className="text-sm">Text</span>
-                            </div>
                         </div>
                     </div>
                 )}
