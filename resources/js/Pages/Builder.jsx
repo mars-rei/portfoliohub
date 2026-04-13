@@ -134,7 +134,7 @@ function Builder({ portfolio, projects }) {
 
     /* ---------- canvas ---------- */
     // add elements to current page on canvas
-    const addToCanvas = (type, src = null) => {
+    const addToCanvas = async (type, src = null) => {
         // id for new components
         const newId = Date.now(); 
 
@@ -148,57 +148,79 @@ function Builder({ portfolio, projects }) {
                     ? { width: 400, height: 150 }
                     : { width: 100, height: 100 }
 
-        setPages(prev => prev.map(page => {
-            if (page.id === currentPageId) {
-                return {
-                    ...page,
-                    items: [...page.items, { id: newId, type, src }],
-                    itemStyles: {
-                        ...page.itemStyles,
-                        [newId]: {
-                            ...page.itemStyles[newId],
-                            width: defaultDimensions.width,
-                            height: defaultDimensions.height,
-                            fill: defaultColour[type],
-                            x: 0,  // x position on page
-                            y: 0 // y position on page
-                        }
-                    }
-                };
+        const currentPageData = pages.find(p => p.id === currentPageId);
+    
+        const updatedItems = [...currentPageData.items, { id: newId, type, src }];
+        const updatedItemStyles = {
+            ...currentPageData.itemStyles,
+            [newId]: {
+                width: defaultDimensions.width,
+                height: defaultDimensions.height,
+                fill: defaultColour[type] || '#545454',
+                x: 0,
+                y: 0
             }
-            return page;
-        }));
+        };
+
+        setPages(prev => prev.map(page => 
+            page.id === currentPageId 
+                ? { ...page, items: updatedItems, itemStyles: updatedItemStyles }
+                : page
+        ));
+
+        await axios.put(`/pages/${currentPageId}`, {
+            code: {
+                items: updatedItems,
+                itemStyles: updatedItemStyles
+            }
+        });
     };
 
     // remove elements from current page on canvas
-    const removeFromCanvas = (id) => {
-        setPages(prev => prev.map(page => {
-            if (page.id === currentPageId) {
-                return {
-                    ...page,
-                    items: page.items.filter(item => item.id !== id)
-                };
-            }
-            return page;
-        }));
+    const removeFromCanvas = async (id) => {
+        const currentPageData = pages.find(p => p.id === currentPageId);
+        
+        const updatedItems = currentPageData.items.filter(item => item.id !== id);
+        const updatedItemStyles = { ...currentPageData.itemStyles };
+        delete updatedItemStyles[id];
+        
+        setPages(prev => prev.map(page => 
+            page.id === currentPageId 
+                ? { ...page, items: updatedItems, itemStyles: updatedItemStyles }
+                : page
+        ));
         setSelectedId(null);
+        
+        await axios.put(`/pages/${currentPageId}`, {
+            code: {
+                items: updatedItems,
+                itemStyles: updatedItemStyles
+            }
+        });
     };
 
     // update styles of elements of current page on canvas
-    const onStyleChange = (id, key, value) => {
-        setPages(prev => prev.map(page => {
-            if (page.id === currentPageId) {
-                const currentStyles = page.itemStyles || {};
-                return {
-                    ...page,
-                    itemStyles: {
-                        ...currentStyles,
-                        [id]: { ...currentStyles[id], [key]: value }
-                    }
-                };
-            }
-            return page;
-        }));
+    const onStyleChange = async (id, key, value) => {
+        setPages(prev => {
+            const currentPageData = prev.find(p => p.id === currentPageId);
+            
+            const updatedItemStyles = {
+                ...currentPageData.itemStyles,
+                [id]: { ...currentPageData.itemStyles[id], [key]: value }
+            };
+                        
+            axios.put(`/pages/${currentPageId}`, {
+                code: { itemStyles: updatedItemStyles }
+            });
+            
+            
+            // return updated pages to display
+            return prev.map(page => 
+                page.id === currentPageId 
+                    ? { ...page, itemStyles: updatedItemStyles }
+                    : page
+            );
+        });
     };
 
     // for removing items from canvas

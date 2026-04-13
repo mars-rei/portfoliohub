@@ -28,6 +28,7 @@
         "react-color": "^2.19.3",
         "react-dom": "^19.2.4",
         "react-eyedrop": "^5.5.1",
-        "react-rnd": "^10.5.2"
+        "react-rnd": "^10.5.2",
+        "use-debounce": "^10.1.1"
     }
 }

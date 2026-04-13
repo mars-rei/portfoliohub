@@ -1,9 +1,15 @@
 import { Rnd } from "react-rnd";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function Carousel({ isSelected, onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
     const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
+
+    // trying to sort out placement glitching problem
+    const [localPosition, setLocalPosition] = useState({
+        x: itemStyle?.x || 0,
+        y: itemStyle?.y || 0
+    });
 
     {/* creates list of media */}
     const items = [
@@ -37,6 +43,7 @@ function Carousel({ isSelected, onSelect, activeCursor, onStyleChange, id, itemS
     };
 
     const handleDragStop = (e, data) => {
+        setLocalPosition({ x: data.x, y: data.y });
         if (onStyleChange) {
             onStyleChange(id, 'x', data.x);
             onStyleChange(id, 'y', data.y);
@@ -51,11 +58,9 @@ function Carousel({ isSelected, onSelect, activeCursor, onStyleChange, id, itemS
             ref={rndRef}
             style={style}
             
-            position={{
+            default={{
                 x: itemStyle?.x || 0,
-                y: itemStyle?.y || 0
-            }}
-            size={{
+                y: itemStyle?.y || 0,
                 width: width,
                 height: height
             }}
