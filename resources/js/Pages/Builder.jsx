@@ -141,7 +141,7 @@ function Builder({ portfolio, projects }) {
         // default dimensions for all components
         const defaultDimensions = 
         (type === 'image' || type === 'text')
-            ? { width: 'auto', height: 'auto' }
+            ? { width: '500', height: 'auto' }
             : type === 'rectangle'
                 ? { width: 200, height: 100 }
                 : type === 'carousel' || type == 'slides'

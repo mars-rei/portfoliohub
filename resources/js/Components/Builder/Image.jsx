@@ -37,7 +37,7 @@ function Image({ src, isSelected, onSelect, activeCursor, onStyleChange, id, ite
         }
     };
 
-    const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 'auto';
+    const width = typeof itemStyle?.width === 'number' ? itemStyle.width : '500';
     const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 'auto';
 
     return (
