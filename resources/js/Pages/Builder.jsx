@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import axios from "axios"; // using instead of inertia to fetch data
 
 import Toolbar from "@/Layouts/Builder/ToolBar";
@@ -8,6 +8,27 @@ import Canvas from "@/Layouts/Builder/Canvas";
 import Page from "@/Layouts/Builder/Page";
 
 function Builder({ portfolio, projects }) {
+
+    /* ---------- redo & undo history ---------- */
+    // use callback for some of these methods
+    // array / list of the past ten or less than 10 edits during the session
+    const undoHistory = [] // use useState
+    const redoHistory = [] // use useState
+    // have a reference and pointer for checking if the builder is currently undoing or redoing
+
+    // for saving to history method using callback
+    // on addPage, removePage, updatePageName, updatePageColour, addToCanvas, removeFromCanvas, onStyleChange, get pages and store this to history
+    // if it gets to the length of 10, on the next edit, first remove the first item in the list, and add the next item at the end of the list
+
+    // for undoing method using callback
+    // on undo, remove the last item in the list, adding it to the end of redoHistory and set pages to the new last item in the list's pages state
+    // if after undoing, the user makes a change that is different to the last item in redoHistory, empty redoHistory
+
+    // for redoing method using callback
+    // on redo, remove the last item in the list, adding it to the end of undoHistory and set pages to the new last item in the list's pages state
+
+    // reset flag so a new undo or redo action can be performed
+
 
     // to set the colour of the whole canvas (where the page canvases sit)
     const [canvasColour, setCanvasColour] = useState('#1d2025'); 
@@ -42,6 +63,9 @@ function Builder({ portfolio, projects }) {
 
     // new page
     const addPage = async (pageConfig) => {
+        // save state before making changes
+
+
         // temporary id before getting the id of the page to add
         const temporaryId = `temporary-${Date.now()}`;
 
@@ -85,6 +109,9 @@ function Builder({ portfolio, projects }) {
 
     // delete page
     const removePage = async (pageId) => {
+        // save state before making changes
+
+
         if (pages.length === 1) {
             alert("Cannot remove the last page");
             return;
@@ -106,6 +133,9 @@ function Builder({ portfolio, projects }) {
 
     // update page name
     const updatePageName = async (pageId, newName) => {
+        // save state before making changes
+
+
         setPages(prev => prev.map(page => 
             page.id === pageId ? { ...page, name: newName } : page
         ));
@@ -120,6 +150,9 @@ function Builder({ portfolio, projects }) {
 
     // update page colour
     const updatePageColour = async (pageId, newColour) => {
+        // save state before making changes
+
+
         setPages(prev => prev.map(page => 
             page.id === pageId ? { ...page, colour: newColour } : page
         )); 
@@ -135,6 +168,9 @@ function Builder({ portfolio, projects }) {
     /* ---------- canvas ---------- */
     // add elements to current page on canvas
     const addToCanvas = async (type, src = null) => {
+        // save state before making changes
+
+
         // id for new components
         const newId = Date.now(); 
 
@@ -178,6 +214,9 @@ function Builder({ portfolio, projects }) {
 
     // remove elements from current page on canvas
     const removeFromCanvas = async (id) => {
+        // save state before making changes
+
+
         const currentPageData = pages.find(p => p.id === currentPageId);
         
         const updatedItems = currentPageData.items.filter(item => item.id !== id);
@@ -201,6 +240,9 @@ function Builder({ portfolio, projects }) {
 
     // update styles of elements of current page on canvas
     const onStyleChange = async (id, key, value) => {
+        // save state before making changes
+
+
         setPages(prev => {
             const currentPageData = prev.find(p => p.id === currentPageId);
             
@@ -355,6 +397,10 @@ function Builder({ portfolio, projects }) {
                     addToCanvas={addToCanvas}
                     darkMode={darkMode}
                     setDarkMode={setDarkMode}
+                    // add undo function
+                    // add if undo is valid
+                    // add redo function
+                    // add if redo is valid
                 />
             </div>
         </>
