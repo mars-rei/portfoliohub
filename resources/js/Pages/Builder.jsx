@@ -163,6 +163,9 @@ function Builder({ portfolio, projects }) {
                     ? { width: 400, height: 150 }
                     : { width: 100, height: 100 }
 
+        // default text
+        const defaultText = type === 'text' ? 'Enter your text...' : undefined;
+
         const currentPageData = pages.find(p => p.id === currentPageId);
     
         const updatedItems = [...currentPageData.items, { id: newId, type, src }];
@@ -173,7 +176,8 @@ function Builder({ portfolio, projects }) {
                 height: defaultDimensions.height,
                 fill: defaultColour[type] || '#545454',
                 x: 0,
-                y: 0
+                y: 0,
+                text: defaultText 
             }
         };
 

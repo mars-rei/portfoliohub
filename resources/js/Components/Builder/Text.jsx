@@ -2,7 +2,8 @@ import { Rnd } from "react-rnd";
 import { useRef, useEffect } from "react";
 
 function Text({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
-    const rndRef = useRef(null);
+    const rndRef = useRef(null); // div containing text
+    const contentRef = useRef(null); // for the actual text
     const locked = activeCursor === 'hand';
     
     // trying to sort out placement glitching problem - prevents infinite update loops
@@ -24,9 +25,14 @@ function Text({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChan
                 width: width,
                 height: height
             });
+
+            // update text
+            if (contentRef.current && itemStyle?.text !== undefined) {
+                contentRef.current.innerText = itemStyle.text;
+            }
         }
         isInternalUpdate.current = false;
-    }, [itemStyle?.x, itemStyle?.y, itemStyle?.width, itemStyle?.height]);
+    }, [itemStyle?.x, itemStyle?.y, itemStyle?.width, itemStyle?.height, itemStyle?.text]);
 
     const style = {
         display: 'block',
@@ -59,6 +65,26 @@ function Text({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChan
     const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 'auto';
     const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 'auto';
 
+
+    // text handling
+    const handleTextChange = () => {
+        if (contentRef.current) {
+            const newText = contentRef.current.innerText;
+            isInternalUpdate.current = true;
+            if (onStyleChange) {
+                onStyleChange(id, 'text', newText);
+            }
+        }
+    };
+
+    const handleBlur = () => {
+        handleTextChange();
+    };
+
+    const handleInput = () => {
+        handleTextChange();
+    };
+
     return (
         <Rnd
             ref={rndRef}
@@ -85,12 +111,16 @@ function Text({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChan
             onClick={(e) => e.stopPropagation()} 
         >
             <div
+                ref={contentRef}
+                onBlur={handleBlur}
+                onInput={handleInput}
+
                 contentEditable={!locked}
                 suppressContentEditableWarning
                 onMouseDown={(e) => e.stopPropagation()}
                 data-placeholder="Enter your text..."
                 style={{ color: itemStyle.fill ?? '#ffffff' }}
-                className={`w-full h-full flex scrollbar-hide font-extrabold text-xl 
+                className={`w-full h-full flex flex-row scrollbar-hide font-extrabold text-xl 
                     bg-transparent outline-none overflow-auto break-all empty:before:content-[attr(data-placeholder)] 
                     empty:before:text-white/40 
                     ${locked ? 'cursor-grab pointer-events-none' : 'cursor-text'}`}
