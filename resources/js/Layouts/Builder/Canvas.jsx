@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 
 const dragInertia = 32 // increased to slow down drag
-const zoomBy = 0.01 // lowered to slow down zoom
+const zoomBy = 0.02 // lowered to slow down zoom
 
 function Canvas({ canvasColour, activeCursor, onSelect, children }) {
 

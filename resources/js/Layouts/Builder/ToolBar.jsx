@@ -4,7 +4,11 @@ function Toolbar({
     toggleEditPanel,
     addToCanvas,
     darkMode,
-    setDarkMode
+    setDarkMode,
+    undo, 
+    canUndo,
+    redo,
+    canRedo
 }) {
     return (
         <div className="relative z-10">
@@ -14,12 +18,16 @@ function Toolbar({
                 >
                     {/* undo - to implement */}
                     <button
-                        className={`fa fa-rotate-left cursor-pointer hover:text-[#B5446E]`}
+                        className={`fa fa-rotate-left cursor-pointer hover:text-[#B5446E] ${!canUndo ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        onClick={undo}
+                        disabled={!canUndo}
                     />
 
                     {/* redo - to implement */}
                     <button
-                        className={`fa fa-rotate-right cursor-pointer hover:text-[#B5446E]`}
+                        className={`fa fa-rotate-right cursor-pointer hover:text-[#B5446E] ${!canRedo ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        onClick={redo}
+                        disabled={!canRedo}
                     />
 
                     <div className={`inline-block h-full min-h-[2em] w-1 self-stretch rounded-full ${darkMode ? "bg-[#EBFFF2]" : "bg-[#1F1F1F]"}`}></div>

@@ -1,15 +1,32 @@
 import { Rnd } from "react-rnd";
-import { useRef, useState } from "react";
+import { useRef, useEffect } from "react";
 
-function Triangle({ src, isSelected, onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
+function Triangle({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
     const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
 
-    // trying to sort out placement glitching problem
-    const [localPosition, setLocalPosition] = useState({
-        x: itemStyle?.x || 0,
-        y: itemStyle?.y || 0
-    });
+    // trying to sort out placement glitching problem - prevents infinite update loops
+    const isInternalUpdate = useRef(false);
+    
+    // to sync undo and redo (item styles is updated but the visual of the component didn't use to change)
+    useEffect(() => {
+        if (rndRef.current && !isInternalUpdate.current) {
+            // update position
+            rndRef.current.updatePosition({
+                x: itemStyle?.x || 0,
+                y: itemStyle?.y || 0
+            });
+            
+            // update size
+            const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 'auto';
+            const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 'auto';
+            rndRef.current.updateSize({
+                width: width,
+                height: height
+            });
+        }
+        isInternalUpdate.current = false;
+    }, [itemStyle?.x, itemStyle?.y, itemStyle?.width, itemStyle?.height]);
 
     const style = {
         display: 'block',
@@ -24,6 +41,8 @@ function Triangle({ src, isSelected, onSelect, activeCursor, onStyleChange, id, 
         
         ref.style.width = `${size}px`;
         ref.style.height = `${size}px`;
+
+        isInternalUpdate.current = true;
         
         if (onSizeChange) {
             onSizeChange(id, { width: size, height: size });
@@ -36,7 +55,7 @@ function Triangle({ src, isSelected, onSelect, activeCursor, onStyleChange, id, 
     };
 
     const handleDragStop = (e, data) => {
-        setLocalPosition({ x: data.x, y: data.y });
+        isInternalUpdate.current = true;
         if (onStyleChange) {
             onStyleChange(id, 'x', data.x);
             onStyleChange(id, 'y', data.y);

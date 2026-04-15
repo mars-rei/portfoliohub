@@ -29,7 +29,7 @@ function Page({
     onRemove, 
     activeCursor, 
     pageColour,
-    dimensions = { width: 720, height: 480 }, // default page dimensions
+    dimensions = { width: 1920, height: 1080 }, // default page dimensions
     onStyleChange // to help dynamic classes for components on page
 }) {
 
