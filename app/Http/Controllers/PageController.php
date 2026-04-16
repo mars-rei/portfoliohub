@@ -58,22 +58,6 @@ class PageController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Page $page)
-    {
-        if ($page->portfolio->user_id !== Auth::id()) {
-            abort(403);
-        }
-
-        return;
-
-        {/*
-        return Inertia::render('Pages/Show');
-        */}
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdatePageRequest $request, Page $page)

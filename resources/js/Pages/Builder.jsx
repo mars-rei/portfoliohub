@@ -425,7 +425,6 @@ function Builder({ portfolio, projects }) {
                     </Canvas>
 
                     <RightBar
-                        portfolioId={portfolio.id}
                         darkMode={darkMode}
                         openEditPanel={openEditPanel}
                         addToCanvas={addToCanvas}
@@ -452,6 +451,7 @@ function Builder({ portfolio, projects }) {
                         currentPageWidth={currentPageWidth}
                         currentPageHeight={currentPageHeight}
                         pages={pages} // to output data
+                        portfolioId={portfolio.id}
                     />
                 </div>
 

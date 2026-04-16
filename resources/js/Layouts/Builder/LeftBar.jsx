@@ -69,14 +69,6 @@ function LeftBar({
             <div className={`flex-1 space-y-4 p-4 border-y-2 overflow-hidden
                 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}
             >
-                {/*
-                <div className={`flex flex-row items-center w-full px-4 py-1 border-2 rounded-md text-lg font-fustat-medium space-x-2
-                    ${darkMode ? "border-[#EBFFF2] text-[#EBFFF2]" : "border-[#111317] text-[#111317]"}`}
-                >
-                    <i className="fa fa-search fa-sm"></i>
-                    <p>Search</p>
-                </div>
-                */}
 
                 {/* pages */}
                 <div className={`text-lg font-fustat-semibold ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>

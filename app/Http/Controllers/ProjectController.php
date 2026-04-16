@@ -82,7 +82,7 @@ class ProjectController extends Controller
             'ended_on' => $validated['ended_on'] ?? null,
         ]);
 
-        return redirect()->route('projects.show', $project->id)
+        return redirect()->route('dashboard')
             ->with('success', 'Project details updated successfully.');
     }
 

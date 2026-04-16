@@ -9,40 +9,25 @@ const Portfolios = ({ portfolios = [], onPortfolioClick, onCreateClick }) => {
             'graphic_design': 'fa-bezier-curve',
             'illustration': 'fa-paint-brush',
             'animation': 'fa-person-walking',
-            // 'comic_art': 'fa-paint-brush',
-            // 'concept_art': 'fa-paint-brush',
 
             // digital design
             'ui/ux_design': 'fa-user-check',
-            // 'web_design': 'fa-paint-brush',
-            //'app_design': 'fa-window-restore',
             'software_design': 'fa-laptop-code',
             'game_design': 'fa-gamepad',
-            // 'motion_graphics': 'fa-paint-brush',
             '3d_art/animation': 'fa-cube',
 
             // photography and video
             'photography': 'fa-camera',
-            // 'videography': 'fa-paint-brush',
             'film_production': 'fa-film',
-            // 'cinematography': 'fa-paint-brush',
 
             // fashion and beauty
             'fashion_design': 'fa-shirt',
-            // 'textile_design': 'fa-paint-brush',
-            // 'costume_design': 'fa-paint-brush',
-            // 'makeup_artistry': 'fa-paint-brush',
-            // 'hair_styling': 'fa-paint-brush',
-            // 'jewellery_design': 'fa-paint-brush',
 
             // architecture
             'architecture': 'fa-archway',
-            // 'interior_design': 'fa-paint-brush',
-            // 'landscape_architecture': 'fa-paint-brush',
 
             // branding and marketing
             'product_design': 'fa-box-open',
-            // 'brand_strategy': 'fa-paint-brush',
             'content_creation': 'fa-lightbulb',
             'marketing': 'fa-magnifying-glass-chart',
             'social_media_management': 'fa-hashtag',
@@ -52,23 +37,8 @@ const Portfolios = ({ portfolios = [], onPortfolioClick, onCreateClick }) => {
             'screen_writing': 'fa-pen-clip',
             'creative_writing': 'fa-paint-book-bookmark',
 
-            // crafts and trades
-            // 'ceramics': 'fa-paint-brush',
-            // 'woodworking': 'fa-paint-brush',
-            // 'metalworking': 'fa-paint-brush',
-            // 'glass_art': 'fa-paint-brush',
-            // 'furniture_making': 'fa-paint-brush',
-            // 'tattoo_artistry': 'fa-paint-brush',
-
-            // culinary arts
-            // 'culinary_arts': 'fa-paint-brush',
-            // 'pastry_arts': 'fa-paint-brush',
-
             // performance arts
-            // 'dance': 'fa-paint-brush',
-            // 'theatre': 'fa-paint-brush',
             'music': 'fa-music',
-            // 'choreography': 'fa-paint-brush',
         };
 
         // default icon for portfolio

@@ -1,9 +1,7 @@
 import { useState } from 'react';
-
 import ColourPicker from "@/Components/Builder/ColourPicker";
 
 function RightBar({ 
-    portfolioId,
     darkMode,
     openEditPanel,
     addToCanvas,
@@ -29,7 +27,8 @@ function RightBar({
     onStyleChange,
     currentPageWidth,
     currentPageHeight,
-    pages
+    pages,
+    portfolioId
 }) {
 
     // for custom size of page
@@ -52,15 +51,24 @@ function RightBar({
         
         return jsonData;
     };
+
+    const handlePreviewPortfolio = () => {
+        const previewUrl = `/portfolios/${portfolioId}/preview`;
+        window.open(previewUrl, '_blank'); // open new page for preview
+    };
     
     return (
         <div className={`w-1/6 flex flex-col relative z-10 ${darkMode ? "bg-[#111317]" : "bg-[#EBFFF2]"}`}>
             <div className={`flex flex-row items-center w-full px-4 h-20 justify-between shrink-0 border-b-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
-                <div className="rounded-full px-4 h-8 text-md bg-[#B5446E] text-[#EBFFF2] font-fustat-medium items-center justify-center flex">
-                    Publish Portfolio
-                </div>
+                {/* to preview portfolio */}
+                <button 
+                    onClick={handlePreviewPortfolio}
+                    className="rounded-full px-4 h-8 text-md bg-[#B5446E] text-[#EBFFF2] font-fustat-medium items-center justify-center flex"
+                >
+                    Preview Portfolio
+                </button>
 
-                {/* to save files - for the moment using for history(?) */}
+                {/* to save files */}
                 <button 
                     onClick={downloadPortfolioData}
                     className="rounded-full px-4 h-8 border-[#B5446E] border-2 text-[#B5446E] font-fustat-medium items-center justify-center flex"
@@ -281,7 +289,7 @@ function RightBar({
                                 <p className="text-sm font-fustat-semibold px-2">Page Width: {currentPageWidth}</p>
                                 <p className="text-sm font-fustat-semibold px-2">Page Height: {currentPageHeight}</p>
 
-                                {/* paage items details */}
+                                {/* page items details */}
                                 <p className="text-sm font-fustat-semibold pt-4">Page Items: ({currentPageItems.length})</p>
                                 <ul className="text-sm font-fustat-semibold px-2">
                                     {currentPageItems.map((item) => (
