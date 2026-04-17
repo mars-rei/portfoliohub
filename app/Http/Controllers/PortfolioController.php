@@ -120,7 +120,7 @@ class PortfolioController extends Controller
         $portfolio = Portfolio::create($validated);
 
 
-        /* create a portfolio page with default values */
+        // create a portfolio page with default values
         $defaultPageData = [
             'name' => 'Home',
             'colour' => '#B5446E',
@@ -150,13 +150,10 @@ class PortfolioController extends Controller
             abort(403);
         }
 
-        // Load pages with their items and styles
         $portfolio->load('pages');
         
-        // Get the canvas colour from the portfolio or use default
         $canvasColour = $portfolio->canvas_colour ?? '#ffffff';
         
-        // Transform pages data to include items with their styles
         $pages = $portfolio->pages->map(function ($page) {
             $pageData = $page->code;
             
@@ -179,18 +176,6 @@ class PortfolioController extends Controller
             ],
             'pages' => $pages,
             'canvasColour' => $canvasColour,
-        ]);
-    }
-
-    // display portfolio preview in modal(?)
-    public function show(Portfolio $portfolio)
-    {
-        if ($portfolio->user_id !== Auth::id()) {
-            abort(403);
-        }
-
-        return Inertia::render('Portfolios/Show', [
-            'portfolio' => $portfolio
         ]);
     }
 

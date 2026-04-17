@@ -78,7 +78,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
     Route::delete('/portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
     Route::get('/portfolios/{portfolio}/preview', [PortfolioController::class, 'preview'])->name('portfolios.preview');
-    Route::get('/portfolios/{portfolio}', [PortfolioController::class, 'show'])->name('portfolios.show');
 });
 
 // project routes
@@ -110,8 +109,16 @@ Route::get('/dashboard', function () {
     $user = Auth::user();
     
     $portfolios = $user ? $user->portfolios()
+        ->with('pages') 
         ->orderBy('updated_at', 'desc')
         ->get(['id', 'title', 'description', 'industry', 'publish_status', 'created_at', 'updated_at']) : [];
+
+    // to get last time a page has been updated
+    $portfolios->each(function ($portfolio) {
+        $latestPage = $portfolio->pages->sortByDesc('updated_at')->first();
+        $portfolio->last_update_time = $latestPage ? $latestPage->updated_at : $portfolio->updated_at;
+    });
+
 
     $projects = $user ? $user->projects()
         ->orderBy('updated_at', 'desc')

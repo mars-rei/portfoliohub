@@ -38,6 +38,7 @@ export default function Dashboard() {
     const [showShowModal, setShowShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedPortfolio, setSelectedPortfolio] = useState(null);
+    const [lastUpdateTime, setLastUpdateTime] = useState(null); // for last page update time
     
     // project modal states 
     const [showCreateProjectModal, setShowCreateProjectModal] = useState(false);
@@ -61,6 +62,9 @@ export default function Dashboard() {
     // portfolio handlers 
     const handlePortfolioClick = (portfolio) => {
         setSelectedPortfolio(portfolio);
+
+        setLastUpdateTime(portfolio.last_update_time);
+
         setShowShowModal(true);
     };
 
@@ -148,6 +152,7 @@ export default function Dashboard() {
         setShowShowModal(false);
         setShowDeleteModal(false);
         setSelectedPortfolio(null);
+        setLastUpdateTime(null);
         
         // project modals
         setShowCreateProjectModal(false);
@@ -246,6 +251,7 @@ export default function Dashboard() {
                     onClose={handleCloseModals}
                     portfolio={selectedPortfolio}
                     onEdit={handleEditClick}
+                    lastUpdateTime={lastUpdateTime}
                     onDelete={handleDeleteClick}
                 />
                 <EditPortfolioModal

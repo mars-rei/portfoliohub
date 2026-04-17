@@ -1,6 +1,6 @@
 import { router } from '@inertiajs/react';
 
-export default function ShowPortfolioModal({ isOpen, onClose, portfolio, onEdit, onDelete }) {
+export default function ShowPortfolioModal({ isOpen, onClose, portfolio, lastUpdateTime, onEdit, onDelete }) {
     if (!isOpen || !portfolio) return null;
 
     const formatDate = (date) => {
@@ -58,7 +58,7 @@ export default function ShowPortfolioModal({ isOpen, onClose, portfolio, onEdit,
                     </div>
                     <div>
                         <p className="text-sm text-gray-400">Last Updated</p>
-                        <p className="text-[#EBFFF2] text-base font-fustat-medium">{formatDate(portfolio.updated_at)}</p>
+                        <p className="text-[#EBFFF2] text-base font-fustat-medium">{formatDate(lastUpdateTime)}</p>
                     </div>
                 </div>
 
