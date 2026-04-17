@@ -246,8 +246,8 @@ class PortfolioController extends Controller
             'publish_status' => $validated['publish_status'] ?? false,
         ]);
 
-        return redirect()->route('portfolios.show', $portfolio->id)
-            ->with('success', 'Portfolio details updated successfully.');
+        return redirect()->route('dashboard')
+            ->with('success', 'Portfolio created successfully!');
     }
     
     // delete portfolio

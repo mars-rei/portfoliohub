@@ -112,7 +112,7 @@ const Portfolios = ({ portfolios = [], onPortfolioClick, onCreateClick }) => {
                             ) : (
                                 <p className="font-fustat-semibold text-sm">Draft</p>
                             )}
-                            <p className="text-xs font-fustat-medium text-gray-600">{formatTimeAgo(portfolio.updated_at)}</p>
+                            <p className="text-xs font-fustat-medium text-gray-600">{formatTimeAgo(portfolio.last_update_time)}</p>
                         </div>
                     </div>
                 </div>
