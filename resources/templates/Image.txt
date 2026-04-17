@@ -1,0 +1,8 @@
+<div class="image-component absolute" 
+     data-component-id="{{id}}"
+     style="left: {{x}}px; top: {{y}}px; width: {{width}}px; height: {{height}}px;">
+    <img 
+        src="{{src}}"
+        className="w-full h-full"
+    >
+</div>

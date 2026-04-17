@@ -16,6 +16,9 @@ import starTemplate from '@/../templates/shapes/ordinary/Star.txt?raw';
 import shape1Template from '@/../templates/shapes/svgShapesByMo/Shape1.txt?raw';
 import shape2Template from '@/../templates/shapes/svgShapesByMo/Shape2.txt?raw';
 
+import imageTemplate from '@/../templates/Image.txt?raw';
+
+
 function RightBar({ 
     darkMode,
     openEditPanel,
@@ -62,6 +65,7 @@ function RightBar({
         const y = itemStyles.y;
         const fill = itemStyles.fill || '#545454';
         const componentId = item.id;
+        const src = item.src; 
         
         switch(item.type) {
             case 'circle':
@@ -121,6 +125,15 @@ function RightBar({
                     .replace(/{{width}}/g, width)
                     .replace(/{{height}}/g, height)
                     .replace(/{{colourFill}}/g, fill);
+
+            case 'image':
+                return imageTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{src}}/g, src);
             
             
             default:
