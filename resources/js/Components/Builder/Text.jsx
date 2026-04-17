@@ -18,7 +18,7 @@ function Text({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChan
                 y: itemStyle?.y || 0
             });
             
-            // update size
+            // update size of text container
             const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 'auto';
             const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 'auto';
             rndRef.current.updateSize({
@@ -119,8 +119,11 @@ function Text({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChan
                 suppressContentEditableWarning
                 onMouseDown={(e) => e.stopPropagation()}
                 data-placeholder="Enter your text..."
-                style={{ color: itemStyle.fill ?? '#ffffff' }}
-                className={`w-full h-full flex flex-row scrollbar-hide font-extrabold text-xl 
+                style={{ 
+                    color: itemStyle.fill ?? '#ffffff',
+                    fontSize: itemStyle.fontSize ? `${itemStyle.fontSize}px` : '2rem'
+                }}
+                className={`w-full h-full flex flex-row scrollbar-hide
                     bg-transparent outline-none overflow-auto break-all empty:before:content-[attr(data-placeholder)] 
                     empty:before:text-white/40 
                     ${locked ? 'cursor-grab pointer-events-none' : 'cursor-text'}`}

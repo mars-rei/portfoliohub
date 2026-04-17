@@ -86,6 +86,11 @@ function Builder({ portfolio, projects }) {
                 dimensions: newPage.dimensions
             }
         });
+
+
+        if (type === 'text') {
+            newItemStyles.fontSize = 20; 
+        }
         
         // replace temporary id with id from database
         setPages(prev => prev.map(p => 

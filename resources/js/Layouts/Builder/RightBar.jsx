@@ -365,7 +365,7 @@ function RightBar({
                                         <button
                                             onClick={() => {
                                                 setIsCustomMode(false);
-                                                setSelectedDimensions('1920x1080'); // Reset to default or keep last value
+                                                setSelectedDimensions('1920x1080'); 
                                             }}
                                             className="rounded-full px-4 h-8 text-md border-2 border-[#B5446E] text-[#B5446E] font-fustat-medium items-center justify-center flex"
                                         >
@@ -512,9 +512,7 @@ function RightBar({
                                             />
                                         </div>
                                     </>
-                                ) : selectedItem?.type === 'image' || selectedItem?.type === 'carousel' 
-                                    || selectedItem?.type === 'rectangle' || selectedItem?.type === 'slides' 
-                                    || selectedItem?.type === 'text' ? (
+                                ) : (
                                     <>
                                         <div className="flex flex-row gap-x-2">
                                             <div className="w-1/2">
@@ -552,8 +550,30 @@ function RightBar({
                                             </div>
                                         </div>
                                     </>
-                                ) : (
-                                    <p>*Insert shape customisation*</p>
+                                )}
+                            </div>
+
+                            {/* font sizing for text and font changes */}
+                            <div className="mt-4">
+                                {selectedItem?.type === 'text' && (
+                                    <>
+                                        <div>
+                                            <label className="text-sm font-fustat-semibold block mb-1">Font Size</label>
+                                            <input
+                                                type="number"
+                                                value={currentItemStyles[selectedItem?.id]?.fontSize || ''}
+                                                onChange={(e) => {
+                                                    const fontSize = e.target.value === '' ? undefined : parseInt(e.target.value);
+                                                    onStyleChange(selectedItem?.id, 'fontSize', fontSize);
+                                                }}
+                                                onKeyDown={(e) => e.stopPropagation()} 
+                                                className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
+                                                    darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
+                                                }`}
+                                                placeholder="Font size"
+                                            />
+                                        </div>
+                                    </>
                                 )}
                             </div>
 
