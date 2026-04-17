@@ -86,11 +86,6 @@ function Builder({ portfolio, projects }) {
                 dimensions: newPage.dimensions
             }
         });
-
-
-        if (type === 'text') {
-            newItemStyles.fontSize = 20; 
-        }
         
         // replace temporary id with id from database
         setPages(prev => prev.map(p => 
@@ -189,16 +184,24 @@ function Builder({ portfolio, projects }) {
         const currentPageData = pages.find(p => p.id === currentPageId);
     
         const updatedItems = [...currentPageData.items, { id: newId, type, src }];
+
+        const newItemStyles = {
+            width: defaultDimensions.width,
+            height: defaultDimensions.height,
+            fill: defaultColour[type] || '#545454',
+            x: 0,
+            y: 0,
+            text: defaultText 
+        };
+        
+        if (type === 'text') {
+            newItemStyles.fontSize = 50;
+            newItemStyles.fontFamily = 'Arial, sans-serif'; 
+        }
+
         const updatedItemStyles = {
             ...currentPageData.itemStyles,
-            [newId]: {
-                width: defaultDimensions.width,
-                height: defaultDimensions.height,
-                fill: defaultColour[type] || '#545454',
-                x: 0,
-                y: 0,
-                text: defaultText 
-            }
+            [newId]: newItemStyles
         };
 
         setPages(prev => prev.map(page => 

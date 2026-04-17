@@ -5,7 +5,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 
-import Layout from '@/Layouts/Layout';
+import '../css/fonts.css'; // for custom fonts
 
 createInertiaApp({
     resolve: (name) =>

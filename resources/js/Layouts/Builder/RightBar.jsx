@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ColourPicker from "@/Components/Builder/ColourPicker";
-
 
 // for downloading portfolio
 import htmlTemplate from '@/../templates/template.html?raw'; // template for html files with in-built css and tailwindcss
@@ -48,6 +47,47 @@ function RightBar({
     pages,
     portfolioId
 }) {
+
+    const fonts = {
+        'Advercase': 'advercase, serif',
+        'Angelica': 'angelica, serif',
+        'Angel Knives': 'angelknives, sans-serif',
+        'Arial': 'Arial, sans-serif',
+        'Ballet': 'ballet, serif',
+        'Cavalhatriz': 'cavalhatriz, serif',
+        'Chopin Script': 'chopinscript, serif',
+        'Courier New': 'Courier New, monospace',
+        'Crazy Curlz': 'crazycurlz, serif',
+        'Cross Stitch': 'crossstitch, sans-serif',
+        'Curly Shirley': 'curlyshirley, serif',
+        'Cutie Queues': 'cutiequeues, serif',
+        'Daydream': 'daydream, sans-serif',
+        'DM Serif Display': 'dmserifdisplay, serif',
+        'Dreamer TM': 'dreamertm, serif',
+        'Floozy': 'floozy, serif',
+        'From Me 2 You': 'fromme2you, serif',
+        'Georgia': 'Georgia, serif',
+        'Griffiths': 'griffiths, serif',
+        'Helvetica': 'Helvetica, sans-serif',
+        'I Am The Crayon Monster': 'iamthecrayonmonster, sans-serif',
+        'Impact': 'Impact, sans-serif',
+        'Jheri Curls': 'jhericurls, sans-serif',
+        'Kiwi Soda': 'kiwisoda, sans-serif',
+        'Letter Magic': 'lettermagic, serif',
+        'Mansalva': 'mansalva, serif',
+        'Minecraft': 'minecraft, sans-serif',
+        'New Romantics': 'newromantics, sans-serif',
+        'Orange': 'orange, serif',
+        'Press Start 2P': 'pressstart2p, serif',
+        'Pretty On The Inside': 'prettyontheinside, serif',
+        'Rainy Hearts': 'rainyhearts, sans-serif',
+        'Rascal': 'rascal, sans-serif',
+        'Starborn': 'starborn, sans-serif',
+        'Stars': 'stars, sans-serif',
+        'Times New Roman': 'Times New Roman, serif',
+        'Verdana': 'Verdana, sans-serif',
+        'Words Taken': 'wordstaken, serif',
+    };
 
     // for custom size of page
     const [isCustomMode, setIsCustomMode] = useState(false);
@@ -558,6 +598,7 @@ function RightBar({
                                 {selectedItem?.type === 'text' && (
                                     <>
                                         <div>
+                                            {/* font size */}
                                             <label className="text-sm font-fustat-semibold block mb-1">Font Size</label>
                                             <input
                                                 type="number"
@@ -572,6 +613,35 @@ function RightBar({
                                                 }`}
                                                 placeholder="Font size"
                                             />
+
+                                            {/* fonts menu */}
+                                            <label className="text-sm font-fustat-semibold block mb-1 pt-4">Font</label>
+                                            <select
+                                                value={currentItemStyles[selectedItem?.id]?.fontFamily || 'Arial, sans-serif'}
+                                                onChange={
+                                                    (e) => onStyleChange(selectedItem?.id, 'fontFamily', e.target.value)
+                                                }
+                                                className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
+                                                    darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
+                                                }`}
+                                                style={{ 
+                                                    fontFamily: currentItemStyles[selectedItem?.id]?.fontFamily || 'Arial, sans-serif' 
+                                                }}
+                                            >
+                                                <optgroup>
+                                                    {Object.entries(fonts).map(([fontName, fontValue]) => (
+                                                        <option 
+                                                            key={fontName} 
+                                                            value={fontValue}
+                                                            style={{ 
+                                                                fontFamily: fontValue 
+                                                            }}
+                                                        >
+                                                            {fontName}
+                                                        </option>
+                                                    ))}
+                                                </optgroup>
+                                            </select>
                                         </div>
                                     </>
                                 )}

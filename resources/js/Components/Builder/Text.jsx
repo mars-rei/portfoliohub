@@ -121,7 +121,8 @@ function Text({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChan
                 data-placeholder="Enter your text..."
                 style={{ 
                     color: itemStyle.fill ?? '#ffffff',
-                    fontSize: itemStyle.fontSize ? `${itemStyle.fontSize}px` : '2rem'
+                    fontSize: itemStyle.fontSize ? `${itemStyle.fontSize}px` : '2rem',
+                    fontFamily: itemStyle.fontFamily || 'Arial, sans-serif'
                 }}
                 className={`w-full h-full flex flex-row scrollbar-hide
                     bg-transparent outline-none overflow-auto break-all empty:before:content-[attr(data-placeholder)] 
