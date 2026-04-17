@@ -25,6 +25,7 @@ class UpdatePortfolioRequest extends FormRequest
             'title' => 'sometimes|string|max:60',
             'description' => 'sometimes|string|max:500',
             'industry' => 'sometimes|string|max:60',
+            'canvas_colour' => 'sometimes|string|max:7',
         ];
     }
 }

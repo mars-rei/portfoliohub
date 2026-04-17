@@ -10,7 +10,22 @@ import Page from "@/Layouts/Builder/Page";
 function Builder({ portfolio, projects }) {
 
     // to set the colour of the whole canvas (where the page canvases sit)
-    const [canvasColour, setCanvasColour] = useState('#1d2025'); 
+    const [canvasColour, setCanvasColour] = useState(() => {
+        if (portfolio.canvas_colour) {
+            return portfolio.canvas_colour;
+        }
+        return '#1d2025';
+    });
+
+    useEffect(() => {
+        const saveCanvasColour = async () => {
+            await axios.put(`/portfolios/${portfolio.id}`, {
+                canvas_colour: canvasColour
+            });
+        };
+
+        saveCanvasColour();
+    }, [canvasColour, portfolio.id]);
 
 
     /* ---------- pages ---------- */

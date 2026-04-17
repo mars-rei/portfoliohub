@@ -199,7 +199,7 @@ function RightBar({
                     Preview Portfolio
                 </button>
 
-                {/* to save files */}
+                {/* to download files */}
                 <button 
                     onClick={downloadPortfolioData}
                     className="rounded-full px-4 h-8 border-[#B5446E] border-2 text-[#B5446E] font-fustat-medium items-center justify-center flex"

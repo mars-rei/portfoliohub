@@ -15,11 +15,11 @@ class Portfolio extends Model
         'title',
         'description',
         'industry',
-        'code',
+        'canvas_colour',
     ];
 
-    protected $casts = [
-        'code' => 'array',
+    protected $attributes = [
+        'canvas_colour' => '#1d2025',
     ];
 
     /* get user who owns portfolio */

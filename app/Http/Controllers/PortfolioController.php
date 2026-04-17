@@ -113,9 +113,8 @@ class PortfolioController extends Controller
         $validated = $request->validated();
         
         $validated['user_id'] = Auth::id();
-        
-        // make sure code is empty
-        $validated['code'] = null;
+
+        $validated['canvas_colour'] = '#1d2025';
 
         $portfolio = Portfolio::create($validated);
 
@@ -152,7 +151,7 @@ class PortfolioController extends Controller
 
         $portfolio->load('pages');
         
-        $canvasColour = $portfolio->canvas_colour ?? '#ffffff';
+        $canvasColour = $portfolio->canvas_colour ?? '#1d2025';
         
         $pages = $portfolio->pages->map(function ($page) {
             $pageData = $page->code;
@@ -160,7 +159,7 @@ class PortfolioController extends Controller
             return [
                 'id' => $page->id,
                 'name' => $page->page_name,
-                'colour' => $pageData['colour'] ?? '#ffffff',
+                'colour' => $pageData['colour'] ?? '#B5446E',
                 'dimensions' => $pageData['dimensions'] ?? ['width' => 1920, 'height' => 1080],
                 'items' => $pageData['items'] ?? [],
                 'itemStyles' => $pageData['itemStyles'] ?? new \stdClass(),
@@ -239,14 +238,20 @@ class PortfolioController extends Controller
 
         $validated = $request->validated();
         
-        $portfolio->update([
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'industry' => $validated['industry'],
-        ]);
+        $dataToUpdate = [
+            'title' => $validated['title'] ?? $portfolio->title,
+            'description' => $validated['description'] ?? $portfolio->description,
+            'industry' => $validated['industry'] ?? $portfolio->industry,
+        ];
+
+        if ($request->has('canvas_colour')) {
+            $dataToUpdate['canvas_colour'] = $validated['canvas_colour'];
+        }
+        
+        $portfolio->update($dataToUpdate);
 
         return redirect()->route('dashboard')
-            ->with('success', 'Portfolio created successfully!');
+            ->with('success', 'Portfolio updated successfully!');
     }
     
     // delete portfolio

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title', 60);
             $table->string('description', 500);
             $table->string('industry', 60);
-            $table->json('code')->nullable();
+            $table->string('canvas_colour', 7);
 
             $table->timestamps();
         });
