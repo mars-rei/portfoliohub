@@ -8,7 +8,6 @@ export default function EditPortfolioModal({ isOpen, onClose, portfolio, industr
         title: portfolio?.title || '',
         description: portfolio?.description || '',
         industry: portfolio?.industry || '',
-        publish_status: portfolio?.publish_status || false,
     });
 
     useEffect(() => {
@@ -17,7 +16,6 @@ export default function EditPortfolioModal({ isOpen, onClose, portfolio, industr
                 title: portfolio.title,
                 description: portfolio.description,
                 industry: portfolio.industry,
-                publish_status: portfolio.publish_status,
             });
         }
     }, [portfolio]);
@@ -99,19 +97,6 @@ export default function EditPortfolioModal({ isOpen, onClose, portfolio, industr
                             ))}
                         </select>
                         {errors.industry && <div className="text-[#B5446E] text-sm mt-1">{errors.industry}</div>}
-                    </div>
-
-                    {/* publish status toggle */}
-                    <div className="flex items-center space-x-2 text-[#EBFFF2]">
-                        <Checkbox
-                            name="remember"
-                            id="publish_status"
-                            checked={data.publish_status}
-                            onChange={e => setData('publish_status', e.target.checked)}
-                        />
-                        <label htmlFor="publish_status">
-                            Published
-                        </label>
                     </div>
 
                     {/* form buttons */}

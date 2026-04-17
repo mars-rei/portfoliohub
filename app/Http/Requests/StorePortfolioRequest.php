@@ -25,7 +25,6 @@ class StorePortfolioRequest extends FormRequest
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:500',
             'industry' => 'required|string|max:60',
-            'publish_status' => 'boolean',
         ];
     }
 }

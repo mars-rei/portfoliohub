@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('title', 60);
             $table->string('description', 500);
             $table->string('industry', 60);
-            $table->boolean('publish_status')->default(false);
             $table->json('code')->nullable();
 
             $table->timestamps();

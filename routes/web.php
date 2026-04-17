@@ -111,7 +111,7 @@ Route::get('/dashboard', function () {
     $portfolios = $user ? $user->portfolios()
         ->with('pages') 
         ->orderBy('updated_at', 'desc')
-        ->get(['id', 'title', 'description', 'industry', 'publish_status', 'created_at', 'updated_at']) : [];
+        ->get(['id', 'title', 'description', 'industry', 'created_at', 'updated_at']) : [];
 
     // to get last time a page has been updated
     $portfolios->each(function ($portfolio) {

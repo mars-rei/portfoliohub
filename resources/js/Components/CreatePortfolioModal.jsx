@@ -6,7 +6,6 @@ export default function CreatePortfolioModal({ isOpen, onClose, industries, onSu
         title: '',
         description: '',
         industry: '',
-        publish_status: false,
     });
 
     useEffect(() => {

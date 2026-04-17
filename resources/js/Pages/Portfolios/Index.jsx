@@ -107,11 +107,6 @@ const Portfolios = ({ portfolios = [], onPortfolioClick, onCreateClick }) => {
                             </p>
                         </div>
                         <div className="flex flex-col">
-                            {portfolio.publish_status ? (
-                                <p className="font-fustat-semibold text-sm">Published</p>
-                            ) : (
-                                <p className="font-fustat-semibold text-sm">Draft</p>
-                            )}
                             <p className="text-xs font-fustat-medium text-gray-600">{formatTimeAgo(portfolio.last_update_time)}</p>
                         </div>
                     </div>

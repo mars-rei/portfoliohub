@@ -39,7 +39,7 @@ class PortfolioController extends Controller
     {
         $portfolios = Auth::user()->portfolios()
             ->orderBy('updated_at', 'desc')
-            ->get(['id', 'title', 'industry', 'publish_status', 'updated_at']);
+            ->get(['id', 'title', 'industry', 'updated_at']);
 
         return Inertia::render('Portfolios/Index', [
             'portfolios' => $portfolios
@@ -243,7 +243,6 @@ class PortfolioController extends Controller
             'title' => $validated['title'],
             'description' => $validated['description'],
             'industry' => $validated['industry'],
-            'publish_status' => $validated['publish_status'] ?? false,
         ]);
 
         return redirect()->route('dashboard')
@@ -261,21 +260,5 @@ class PortfolioController extends Controller
 
         return redirect()->route('dashboard')
             ->with('success', 'Portfolio deleted successfully.');
-    }
-
-    // update publish status of portfolio
-    public function togglePublish(Portfolio $portfolio)
-    {
-        if ($portfolio->user_id !== Auth::id()) {
-            abort(403);
-        }
-
-        $portfolio->update([
-            'publish_status' => !$portfolio->publish_status
-        ]);
-
-        $status = $portfolio->publish_status ? 'published' : 'unpublished';
-        
-        return redirect()->back()->with('success', "Portfolio {$status} successfully.");
     }
 }

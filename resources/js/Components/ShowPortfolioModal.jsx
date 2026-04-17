@@ -47,12 +47,6 @@ export default function ShowPortfolioModal({ isOpen, onClose, portfolio, lastUpd
                         <p className="text-[#EBFFF2] text-base font-fustat-medium">{formatIndustry(portfolio.industry)}</p>
                     </div>
                     <div>
-                        <p className="text-sm text-gray-400">Status</p>
-                        <p className="text-[#EBFFF2] text-base font-fustat-medium">
-                            {portfolio.publish_status ? 'Published' : 'Draft'}
-                        </p>
-                    </div>
-                    <div>
                         <p className="text-sm text-gray-400">Created</p>
                         <p className="text-[#EBFFF2] text-base font-fustat-medium">{formatDate(portfolio.created_at)}</p>
                     </div>

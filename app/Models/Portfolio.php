@@ -15,12 +15,10 @@ class Portfolio extends Model
         'title',
         'description',
         'industry',
-        'publish_status',
         'code',
     ];
 
     protected $casts = [
-        'publish_status' => 'boolean',
         'code' => 'array',
     ];
 
