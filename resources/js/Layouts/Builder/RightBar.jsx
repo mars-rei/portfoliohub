@@ -1,6 +1,21 @@
 import { useState } from 'react';
 import ColourPicker from "@/Components/Builder/ColourPicker";
 
+
+// for downloading portfolio
+import htmlTemplate from '@/../templates/template.html?raw'; // template for html files with in-built css and tailwindcss
+import JSZip from 'jszip'; // for zipping files
+
+// component files
+import circleTemplate from '@/../templates/shapes/ordinary/Circle.txt?raw';
+import rectangleTemplate from '@/../templates/shapes/ordinary/Rectangle.txt?raw';
+import squareTemplate from '@/../templates/shapes/ordinary/Square.txt?raw';
+import triangleTemplate from '@/../templates/shapes/ordinary/Triangle.txt?raw';
+import starTemplate from '@/../templates/shapes/ordinary/Star.txt?raw';
+
+import shape1Template from '@/../templates/shapes/svgShapesByMo/Shape1.txt?raw';
+import shape2Template from '@/../templates/shapes/svgShapesByMo/Shape2.txt?raw';
+
 function RightBar({ 
     darkMode,
     openEditPanel,
@@ -36,20 +51,136 @@ function RightBar({
     const [customWidth, setCustomWidth] = useState('');
     const [customHeight, setCustomHeight] = useState('');
 
-    // for downloading portfolio data for now - most important things to save now are pages (and the itemstyles in pages), and the canvas colouras user preference
-    const downloadPortfolioData = () => {
-        const pageData = pages;
+    // to render components
+    const renderComponent = (item, styles) => {
+        // get item styles
+        const itemStyles = styles;
+
+        const width = itemStyles.width;
+        const height = itemStyles.height;
+        const x = itemStyles.x;
+        const y = itemStyles.y;
+        const fill = itemStyles.fill || '#545454';
+        const componentId = item.id;
         
-        const jsonData = JSON.stringify(pageData, null, 2); // pretty-printing for when json file is downloaded
-        
-        const blob = new Blob([jsonData], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'portfolio-data.json';
-        a.click();
-        
-        return jsonData;
+        switch(item.type) {
+            case 'circle':
+                return circleTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{colourFill}}/g, fill);
+            case 'rectangle':
+                return rectangleTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{colourFill}}/g, fill);
+            case 'square':
+                return squareTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{colourFill}}/g, fill);
+            case 'star':
+                return starTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{colourFill}}/g, fill);
+            case 'triangle':
+                return triangleTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{colourFill}}/g, fill);
+
+            case 'shape1':
+                return shape1Template
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{colourFill}}/g, fill);
+            case 'shape2':
+                return shape2Template
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{colourFill}}/g, fill);
+            
+            
+            default:
+                return `<div class="absolute">
+                            <p>Error.</p>
+                        </div>`;
+        }
+    };
+
+    // organising files to zip when user tries downloading portfolio
+    const downloadPortfolioData = async () => {
+        try {
+            // create zip instance
+            const zip = new JSZip();
+
+            // json data of portfolio
+            const pageData = pages;
+            const jsonData = JSON.stringify(pageData, null, 2);
+            zip.file('portfolio-data.json', jsonData);
+            
+            pages.forEach((page, index) => {
+
+                let pageContent = '';
+                page.items.forEach(item => {
+                    const itemStyles = page.itemStyles[item.id] || {};
+                    const componentHtml = renderComponent(item, itemStyles);
+                    pageContent += componentHtml;
+                });
+
+                const fileName = `${page.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.html`; // keeps file name valid so no errors occur on compilation
+                
+                let htmlPage = htmlTemplate; // use html template and replace attributes
+                
+                htmlPage = htmlPage
+                    .replace(/{{pageName}}/g, page.name)
+                    .replace(/{{pageColour}}/g, page.colour)
+                    .replace(/{{pageWidth}}/g, page.dimensions.width)
+                    .replace(/{{pageHeight}}/g, page.dimensions.height)
+
+                    .replace(/{{content}}/g, pageContent);
+                
+                zip.file(fileName, htmlPage);
+            });
+
+
+            // generate zip
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            
+            // download zip
+            const url = URL.createObjectURL(zipBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'portfolio.zip';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            return jsonData;
+        } catch (error) {
+            console.error('Error creating zip file:', error);
+        }
     };
 
     const handlePreviewPortfolio = () => {
