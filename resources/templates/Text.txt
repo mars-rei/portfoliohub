@@ -1,0 +1,18 @@
+<div class="text-component absolute" 
+    data-component-id="{{id}}"
+    style="
+        left: {{x}}px; 
+        top: {{y}}px; 
+        width: {{width}}px; 
+        height: {{height}}px;"
+>
+    <p 
+        class="w-full h-full"
+        style="
+            color: {{colourFill}}; 
+            font-size: {{fontSize}}px; 
+            font-family: {{fontFamily}};"
+    >
+        {{textContent}}
+    </p>
+</div>

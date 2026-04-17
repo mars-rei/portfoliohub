@@ -17,6 +17,8 @@ import shape2Template from '@/../templates/shapes/svgShapesByMo/Shape2.txt?raw';
 
 import imageTemplate from '@/../templates/Image.txt?raw';
 
+import textTemplate from '@/../templates/Text.txt?raw';
+
 
 function RightBar({ 
     darkMode,
@@ -49,44 +51,44 @@ function RightBar({
 }) {
 
     const fonts = {
-        'Advercase': 'advercase, serif',
-        'Angelica': 'angelica, serif',
-        'Angel Knives': 'angelknives, sans-serif',
-        'Arial': 'Arial, sans-serif',
-        'Ballet': 'ballet, serif',
-        'Cavalhatriz': 'cavalhatriz, serif',
-        'Chopin Script': 'chopinscript, serif',
-        'Courier New': 'Courier New, monospace',
-        'Crazy Curlz': 'crazycurlz, serif',
-        'Cross Stitch': 'crossstitch, sans-serif',
-        'Curly Shirley': 'curlyshirley, serif',
-        'Cutie Queues': 'cutiequeues, serif',
-        'Daydream': 'daydream, sans-serif',
-        'DM Serif Display': 'dmserifdisplay, serif',
-        'Dreamer TM': 'dreamertm, serif',
-        'Floozy': 'floozy, serif',
-        'From Me 2 You': 'fromme2you, serif',
-        'Georgia': 'Georgia, serif',
-        'Griffiths': 'griffiths, serif',
-        'Helvetica': 'Helvetica, sans-serif',
-        'I Am The Crayon Monster': 'iamthecrayonmonster, sans-serif',
-        'Impact': 'Impact, sans-serif',
-        'Jheri Curls': 'jhericurls, sans-serif',
-        'Kiwi Soda': 'kiwisoda, sans-serif',
-        'Letter Magic': 'lettermagic, serif',
-        'Mansalva': 'mansalva, serif',
-        'Minecraft': 'minecraft, sans-serif',
-        'New Romantics': 'newromantics, sans-serif',
-        'Orange': 'orange, serif',
-        'Press Start 2P': 'pressstart2p, serif',
-        'Pretty On The Inside': 'prettyontheinside, serif',
-        'Rainy Hearts': 'rainyhearts, sans-serif',
-        'Rascal': 'rascal, sans-serif',
-        'Starborn': 'starborn, sans-serif',
-        'Stars': 'stars, sans-serif',
-        'Times New Roman': 'Times New Roman, serif',
-        'Verdana': 'Verdana, sans-serif',
-        'Words Taken': 'wordstaken, serif',
+        'Advercase': { value: 'advercase, serif', custom: true, file: 'advercase.ttf', family: 'advercase' },
+        'Angelica': { value: 'angelica, serif', custom: true, file: 'angelica.ttf', family: 'angelica' },
+        'Angel Knives': { value: 'angelknives, sans-serif', custom: true, file: 'angelknives.ttf', family: 'angelknives' },
+        'Arial': { value: 'Arial, sans-serif', custom: false },
+        'Ballet': { value: 'ballet, serif', custom: true, file: 'ballet.ttf', family: 'ballet' },
+        'Cavalhatriz': { value: 'cavalhatriz, serif', custom: true, file: 'cavalhatriz.ttf', family: 'cavalhatriz' },
+        'Chopin Script': { value: 'chopinscript, serif', custom: true, file: 'chopinScript.otf', family: 'chopinscript' },
+        'Courier New': { value: 'Courier New, monospace', custom: false },
+        'Crazy Curlz': { value: 'crazycurlz, serif', custom: true, file: 'crazycurlz.ttf', family: 'crazycurlz' },
+        'Cross Stitch': { value: 'crossstitch, sans-serif', custom: true, file: 'crossstitch.ttf', family: 'crossstitch' },
+        'Curly Shirley': { value: 'curlyshirley, serif', custom: true, file: 'curlyshirley.ttf', family: 'curlyshirley' },
+        'Cutie Queues': { value: 'cutiequeues, serif', custom: true, file: 'cutiequeues.ttf', family: 'cutiequeues' },
+        'Daydream': { value: 'daydream, sans-serif', custom: true, file: 'daydream.ttf', family: 'daydream' },
+        'DM Serif Display': { value: 'DM Serif Display, serif', custom: true, file: 'dmserifdisplay.ttf', family: 'dmserifdisplay' },
+        'Dreamer TM': { value: 'dreamertm, serif', custom: true, file: 'dreamertm.ttf', family: 'dreamertm' },
+        'Floozy': { value: 'floozy, serif', custom: true, file: 'floozy.ttf', family: 'floozy' },
+        'From Me 2 You': { value: 'fromme2you, serif', custom: true, file: 'fromme2you.ttf', family: 'fromme2you' },
+        'Georgia': { value: 'Georgia, serif', custom: false },
+        'Griffiths': { value: 'griffiths, serif', custom: true, file: 'griffiths.otf', family: 'griffiths' },
+        'Helvetica': { value: 'Helvetica, sans-serif', custom: false },
+        'I Am The Crayon Monster': { value: 'iamthecrayonmonster, sans-serif', custom: true, file: 'iamthecrayonmonster.ttf', family: 'iamthecrayonmonster' },
+        'Impact': { value: 'Impact, sans-serif', custom: false },
+        'Jheri Curls': { value: 'jhericurls, sans-serif', custom: true, file: 'jhericurls.ttf', family: 'jhericurls' },
+        'Kiwi Soda': { value: 'kiwisoda, sans-serif', custom: true, file: 'kiwisoda.ttf', family: 'kiwisoda' },
+        'Letter Magic': { value: 'lettermagic, serif', custom: true, file: 'lettermagic.ttf', family: 'lettermagic' },
+        'Mansalva': { value: 'mansalva, serif', custom: true, file: 'mansalva.ttf', family: 'mansalva' },
+        'Minecraft': { value: 'minecraft, sans-serif', custom: true, file: 'minecraft.ttf', family: 'minecraft' },
+        'New Romantics': { value: 'newromantics, sans-serif', custom: true, file: 'newromantics.ttf', family: 'newromantics' },
+        'Orange': { value: 'orange, serif', custom: true, file: 'orange.ttf', family: 'orange' },
+        'Press Start 2P': { value: 'Press Start 2P, serif', custom: true, file: 'presssart2p.ttf', family: 'presssart2p' },
+        'Pretty On The Inside': { value: 'prettyontheinside, sans-serif', custom: true, file: 'prettynntheinside.ttf', family: 'prettyontheinside' },
+        'Rainy Hearts': { value: 'rainyhearts, sans-serif', custom: true, file: 'rainyhearts.ttf', family: 'rainyhearts' },
+        'Rascal': { value: 'rascal, sans-serif', custom: true, file: 'rascal.ttf', family: 'rascal' },
+        'Starborn': { value: 'starborn, sans-serif', custom: true, file: 'starborn.ttf', family: 'starborn' },
+        'Stars': { value: 'stars, sans-serif', custom: true, file: 'stars.ttf', family: 'stars' },
+        'Times New Roman': { value: 'Times New Roman, serif', custom: false },
+        'Verdana': { value: 'Verdana, sans-serif', custom: false },
+        'Words Taken': { value: 'wordstaken, serif', custom: true, file: 'wordstaken.ttf', family: 'wordstaken' }
     };
 
     // for custom size of page
@@ -99,13 +101,19 @@ function RightBar({
         // get item styles
         const itemStyles = styles;
 
-        const width = itemStyles.width;
-        const height = itemStyles.height;
+        const width = itemStyles.width || 'auto';
+        const height = itemStyles.height || 'auto';
         const x = itemStyles.x;
         const y = itemStyles.y;
         const fill = itemStyles.fill || '#545454';
         const componentId = item.id;
+
         const src = item.src; 
+
+        const text = itemStyles.text;
+        const fontFamily = itemStyles.fontFamily;
+        const fontSize = itemStyles.fontSize;
+
         
         switch(item.type) {
             case 'circle':
@@ -174,6 +182,18 @@ function RightBar({
                     .replace(/{{width}}/g, width)
                     .replace(/{{height}}/g, height)
                     .replace(/{{src}}/g, src);
+
+            case 'text':
+                return textTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{colourFill}}/g, fill)
+                    .replace(/{{textContent}}/g, text)
+                    .replace(/{{fontSize}}/g, fontSize)
+                    .replace(/{{fontFamily}}/g, fontFamily);
             
             
             default:
@@ -193,7 +213,12 @@ function RightBar({
             const pageData = pages;
             const jsonData = JSON.stringify(pageData, null, 2);
             zip.file('portfolio-data.json', jsonData);
+
+            // css file of portfolio
+            const css = '';
+            zip.file('styles.css', css);
             
+            // html files of portfolio
             pages.forEach((page, index) => {
 
                 let pageContent = '';
@@ -618,9 +643,7 @@ function RightBar({
                                             <label className="text-sm font-fustat-semibold block mb-1 pt-4">Font</label>
                                             <select
                                                 value={currentItemStyles[selectedItem?.id]?.fontFamily || 'Arial, sans-serif'}
-                                                onChange={
-                                                    (e) => onStyleChange(selectedItem?.id, 'fontFamily', e.target.value)
-                                                }
+                                                onChange={(e) => onStyleChange(selectedItem?.id, 'fontFamily', e.target.value)}
                                                 className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
                                                     darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
                                                 }`}
@@ -628,19 +651,15 @@ function RightBar({
                                                     fontFamily: currentItemStyles[selectedItem?.id]?.fontFamily || 'Arial, sans-serif' 
                                                 }}
                                             >
-                                                <optgroup>
-                                                    {Object.entries(fonts).map(([fontName, fontValue]) => (
-                                                        <option 
-                                                            key={fontName} 
-                                                            value={fontValue}
-                                                            style={{ 
-                                                                fontFamily: fontValue 
-                                                            }}
-                                                        >
-                                                            {fontName}
-                                                        </option>
-                                                    ))}
-                                                </optgroup>
+                                                {Object.entries(fonts).map(([fontName, fontInfo]) => (
+                                                    <option 
+                                                        key={fontName} 
+                                                        value={fontInfo.value}
+                                                        style={{ fontFamily: fontInfo.value }}
+                                                    >
+                                                        {fontName}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                     </>
