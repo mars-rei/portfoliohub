@@ -82,7 +82,12 @@ export default function ProjectShow({
                                 {item.file_type?.match(/(jpg|jpeg|png|gif|webp)/i) ? (
                                     <img 
                                         src={item.cloud_url} 
-                                        alt={item.caption || 'Media'}
+                                        className="object-cover h-full w-full"
+                                    />
+                                ) : item.file_type?.match(/(mp4|mov|webm|avi|mkv|m4v)/i) ? (
+                                    <video 
+                                        src={item.cloud_url} 
+                                        controls
                                         className="object-cover h-full w-full"
                                     />
                                 ) : (

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import Carousel from '@/Components/Builder/Carousel';
 import Image from '@/Components/Builder/Image';
+import Video from '@/Components/Builder/Video';
 import Slides from '@/Components/Builder/Slides';
 import Text from '@/Components/Builder/Text';
 
@@ -66,6 +67,7 @@ function Page({
 
         // components
         if (item.type === 'image') return <Image {...props} src={item.src} onSizeChange={handleSizeChange} />;
+        if (item.type === 'video') return <Video {...props} src={item.src} onSizeChange={handleSizeChange} />;
         if (item.type === 'slides') return <Slides {...props} onSizeChange={handleSizeChange} />;
         if (item.type === 'carousel') return <Carousel {...props} onSizeChange={handleSizeChange} />;
         if (item.type === 'text') return <Text {...props} onSizeChange={handleSizeChange} />;

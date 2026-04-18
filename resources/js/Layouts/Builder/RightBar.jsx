@@ -16,6 +16,7 @@ import shape1Template from '@/../templates/shapes/svgShapesByMo/Shape1.txt?raw';
 import shape2Template from '@/../templates/shapes/svgShapesByMo/Shape2.txt?raw';
 
 import imageTemplate from '@/../templates/Image.txt?raw';
+import videoTemplate from '@/../templates/Video.txt?raw';
 
 import textTemplate from '@/../templates/Text.txt?raw';
 
@@ -63,7 +64,7 @@ function RightBar({
         'Cross Stitch': { value: 'crossstitch, sans-serif', custom: true, file: 'crossstitch.ttf', family: 'crossstitch' },
         'Curly Shirley': { value: 'curlyshirley, serif', custom: true, file: 'curlyshirley.ttf', family: 'curlyshirley' },
         'Cutie Queues': { value: 'cutiequeues, serif', custom: true, file: 'cutiequeues.ttf', family: 'cutiequeues' },
-        'Daydream': { value: 'daydream, sans-serif', custom: true, file: 'daydream.ttf', family: 'daydream' },
+        'Daydream': { value: 'daydream, sans-serif', custom: true, file: 'daydream.otf', family: 'daydream' },
         'DM Serif Display': { value: 'DM Serif Display, serif', custom: true, file: 'dmserifdisplay.ttf', family: 'dmserifdisplay' },
         'Dreamer TM': { value: 'dreamertm, serif', custom: true, file: 'dreamertm.ttf', family: 'dreamertm' },
         'Floozy': { value: 'floozy, serif', custom: true, file: 'floozy.ttf', family: 'floozy' },
@@ -80,8 +81,8 @@ function RightBar({
         'Minecraft': { value: 'minecraft, sans-serif', custom: true, file: 'minecraft.ttf', family: 'minecraft' },
         'New Romantics': { value: 'newromantics, sans-serif', custom: true, file: 'newromantics.ttf', family: 'newromantics' },
         'Orange': { value: 'orange, serif', custom: true, file: 'orange.ttf', family: 'orange' },
-        'Press Start 2P': { value: 'Press Start 2P, serif', custom: true, file: 'presssart2p.ttf', family: 'presssart2p' },
-        'Pretty On The Inside': { value: 'prettyontheinside, sans-serif', custom: true, file: 'prettynntheinside.ttf', family: 'prettyontheinside' },
+        'Press Start 2P': { value: 'Press Start 2P, serif', custom: true, file: 'pressstart2p.ttf', family: 'presssart2p' },
+        'Pretty On The Inside': { value: 'prettyontheinside, sans-serif', custom: true, file: 'prettyontheinside.ttf', family: 'prettyontheinside' },
         'Rainy Hearts': { value: 'rainyhearts, sans-serif', custom: true, file: 'rainyhearts.ttf', family: 'rainyhearts' },
         'Rascal': { value: 'rascal, sans-serif', custom: true, file: 'rascal.ttf', family: 'rascal' },
         'Starborn': { value: 'starborn, sans-serif', custom: true, file: 'starborn.ttf', family: 'starborn' },
@@ -182,14 +183,27 @@ function RightBar({
                     .replace(/{{width}}/g, width)
                     .replace(/{{height}}/g, height)
                     .replace(/{{src}}/g, src);
-
-            case 'text':
-                return textTemplate
+            case 'video':
+                return videoTemplate
                     .replace(/{{id}}/g, componentId)
                     .replace(/{{x}}/g, x)
                     .replace(/{{y}}/g, y)
                     .replace(/{{width}}/g, width)
                     .replace(/{{height}}/g, height)
+                    .replace(/{{src}}/g, src);
+
+            case 'text':
+                // in case height or width is auto
+                // problem when width or height is auto - it gets visually squished on download
+                const widthFinal = width === 'auto' ? 'auto' : `${width}px`;
+                const heightFinal = height === 'auto' ? 'auto' : `${height}px`;
+
+                return textTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, widthFinal)
+                    .replace(/{{height}}/g, heightFinal)
                     .replace(/{{colourFill}}/g, fill)
                     .replace(/{{textContent}}/g, text)
                     .replace(/{{fontSize}}/g, fontSize)
@@ -214,9 +228,57 @@ function RightBar({
             const jsonData = JSON.stringify(pageData, null, 2);
             zip.file('portfolio-data.json', jsonData);
 
-            // css file of portfolio
-            const css = '';
+
+            // control which custom font files need to be downloaded alongside their styling in styles.css
+            const customFonts = new Set();
+            pages.forEach(page => {
+                Object.values(page.itemStyles).forEach(style => {
+                    if (style.fontFamily) {
+                        // get font family as string to compare
+                        const fontFamilyString = style.fontFamily;
+                        
+                        // find custom fonts used
+                        const usedFonts = Object.entries(fonts).find(([_, fontInfo]) => {
+                            const fontValue = fontInfo.value.split(',')[0].replace(/'/g, '');
+                            const styleFont = fontFamilyString.split(',')[0].replace(/'/g, '');
+                            return fontValue === styleFont && fontInfo.custom === true;
+                        });
+                        
+                        if (usedFonts) {
+                            customFonts.add(usedFonts[0]); 
+                        }
+                    }
+                });
+            });
+
+            for (const font of customFonts) {
+                const info = fonts[font];
+                if (info && info.file) {
+                    const response = await fetch(`/fonts/${info.file}`);
+                    const fontBlob = await response.blob();
+                    zip.file(info.file, fontBlob);
+                }
+            }
+
+            // font styling for css file
+            let fontCss = '';
+            for (const fontName of customFonts) {
+                const fontInfo = fonts[fontName];
+                if (fontInfo && fontInfo.custom) {
+                    const format = fontInfo.file.endsWith('.ttf') ? 'truetype' : 'opentype';
+                    fontCss += `@font-face {
+                        font-family: '${fontInfo.family}';
+                        src: url('${fontInfo.file}') format('${format}');
+                        font-weight: normal;
+                        font-style: normal;
+                    }`;
+                }
+            }
+
+            const css = fontCss;
             zip.file('styles.css', css);
+
+
             
             // html files of portfolio
             pages.forEach((page, index) => {
@@ -228,9 +290,11 @@ function RightBar({
                     pageContent += componentHtml;
                 });
 
-                const fileName = `${page.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.html`; // keeps file name valid so no errors occur on compilation
+                // keeps file name valid so no errors occur on compilation
+                const fileName = `${page.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.html`; 
                 
-                let htmlPage = htmlTemplate; // use html template and replace attributes
+                // use html template and replace attributes
+                let htmlPage = htmlTemplate; 
                 
                 htmlPage = htmlPage
                     .replace(/{{pageName}}/g, page.name)

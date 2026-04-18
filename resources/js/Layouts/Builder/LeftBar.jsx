@@ -22,11 +22,25 @@ function LeftBar({
     
 }) {
 
+    const getMediaType = (url) => {
+        const imageExtensions = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i;
+        const videoExtensions = /\.(mp4|mov|webm|avi|mkv|m4v|flv|wmv|ogv)(\?.*)?$/i;
+        
+        if (imageExtensions.test(url)) return 'image';
+        if (videoExtensions.test(url)) return 'video';
+        return 'unknown';
+    };
+
     // project directory
     const projectMedia = Object.fromEntries(
         projects.map(project => [
             project.title,
-            project.media.map(m => m.cloud_url)
+            project.media.map(m => ({
+                url: m.cloud_url,
+                type: getMediaType(m.cloud_url),
+                caption: m.caption,
+                file_type: m.file_type
+            }))
         ])
     );
 
@@ -163,12 +177,32 @@ function LeftBar({
                                     <i className="fa fa-chevron-left fa-xs"></i>
                                     <span>{openFolder.name}</span>
                                 </div>
+
                                 {projectMedia[openFolder.name].length === 0 ? (
                                     <p className="text-xs text-gray-500 text-center">No media yet</p>
                                 ) : (
-                                    projectMedia[openFolder.name].map((url) => (
-                                        <div key={url} onClick={() => addToCanvas('image', url)} className="flex flex-row items-center space-x-2 px-2 py-1 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                            <img src={url} className="w-full h-full object-cover" />
+                                    projectMedia[openFolder.name].map((media, index) => (
+                                        <div 
+                                            key={index} 
+                                            onClick={() => addToCanvas(media.type === 'video' ? 'video' : 'image', media.url)} 
+                                            className="flex flex-row items-center space-x-2 px-2 py-1 hover:bg-[#B5446E]/8 rounded cursor-pointer"
+                                        >
+                                            {media.type === 'image' ? (
+                                                <img 
+                                                    src={media.url} 
+                                                    className="w-full h-full object-cover" 
+                                                />
+                                            ) : media.type === 'video' ? (
+                                                <video 
+                                                    src={media.url}
+                                                    className="w-full h-full object-cover"
+                                                    muted
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center">
+                                                    <i className="fa fa-file fa-2x text-[#B5446E]"></i>
+                                                </div>
+                                            )}
                                         </div>
                                     ))
                                 )}

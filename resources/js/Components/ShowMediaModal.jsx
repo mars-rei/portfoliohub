@@ -1,8 +1,6 @@
 export default function ShowMediaModal({ isOpen, onClose, media, onDelete, onEdit }) {
     if (!isOpen || !media) return null;
 
-    const isImage = media.file_type?.match(/(jpg|jpeg|png|gif|webp)/i);
-
     return (
 
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -17,10 +15,15 @@ export default function ShowMediaModal({ isOpen, onClose, media, onDelete, onEdi
                 </div>
 
                 <div className="mb-4">
-                    {isImage ? (
+                    {media.file_type?.match(/(jpg|jpeg|png|gif|webp)/i) ? (
                         <img 
                             src={media.cloud_url} 
-                            alt={media.caption}
+                            className="w-full object-contain border-[#EBFFF2] border-4"
+                        />
+                    ) : media.file_type?.match(/(mp4|mov|webm|avi|mkv|m4v)/i) ? (
+                        <video 
+                            src={media.cloud_url}  
+                            controls
                             className="w-full object-contain border-[#EBFFF2] border-4"
                         />
                     ) : (
