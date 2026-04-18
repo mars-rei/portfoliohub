@@ -1,7 +1,7 @@
 import { Rnd } from "react-rnd";
 import { useRef, useEffect } from "react";
 
-function Video({ src, onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
+function Video({ src, onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange, showCaption, caption }) {
     const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
 
@@ -89,6 +89,13 @@ function Video({ src, onSelect, activeCursor, onStyleChange, id, itemStyle, onSi
                 className="w-full h-full" 
                 draggable={false}
             />
+            {showCaption && caption && (
+                <div className="pt-2 w-full text-center">
+                    <p className="text-sm text-white font-fustat-medium">
+                        {caption}
+                    </p>
+                </div>
+            )}
         </Rnd>
     );
 }

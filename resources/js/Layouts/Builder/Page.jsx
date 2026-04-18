@@ -66,8 +66,8 @@ function Page({
         };
 
         // components
-        if (item.type === 'image') return <Image {...props} src={item.src} onSizeChange={handleSizeChange} />;
-        if (item.type === 'video') return <Video {...props} src={item.src} onSizeChange={handleSizeChange} />;
+        if (item.type === 'image') return <Image {...props} src={item.src} onSizeChange={handleSizeChange} showCaption={style.showCaption || false} caption={item.caption || ''} />;
+        if (item.type === 'video') return <Video {...props} src={item.src} onSizeChange={handleSizeChange} showCaption={style.showCaption || false} caption={item.caption || ''}/>;
         if (item.type === 'slides') return <Slides {...props} onSizeChange={handleSizeChange} />;
         if (item.type === 'carousel') return <Carousel {...props} onSizeChange={handleSizeChange} />;
         if (item.type === 'text') return <Text {...props} onSizeChange={handleSizeChange} />;

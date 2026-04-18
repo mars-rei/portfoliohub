@@ -161,7 +161,7 @@ function Builder({ portfolio, projects }) {
 
     /* ---------- canvas ---------- */
     // add elements to current page on canvas
-    const addToCanvas = async (type, src = null) => {
+    const addToCanvas = async (type, src = null, caption = null) => {
         // save state before making changes
         saveToHistory();
 
@@ -183,7 +183,7 @@ function Builder({ portfolio, projects }) {
 
         const currentPageData = pages.find(p => p.id === currentPageId);
     
-        const updatedItems = [...currentPageData.items, { id: newId, type, src }];
+        const updatedItems = [...currentPageData.items, { id: newId, type, src, caption }];
 
         const newItemStyles = {
             width: defaultDimensions.width,
@@ -194,10 +194,16 @@ function Builder({ portfolio, projects }) {
             text: defaultText 
         };
         
+
         if (type === 'text') {
             newItemStyles.fontSize = 50;
             newItemStyles.fontFamily = 'Arial, sans-serif'; 
         }
+
+        if (type === 'image' || type === 'video') {
+            newItemStyles.showCaption = false;
+        }
+
 
         const updatedItemStyles = {
             ...currentPageData.itemStyles,

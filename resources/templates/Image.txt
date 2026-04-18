@@ -1,8 +1,11 @@
 <div class="image-component absolute" 
-     data-component-id="{{id}}"
-     style="left: {{x}}px; top: {{y}}px; width: {{width}}px; height: {{height}}px;">
+    data-component-id="{{id}}"
+    style="left: {{x}}px; top: {{y}}px; width: {{width}}px; height: {{height}}px;"
+    class="flex flex-col justify-center"
+>
     <img 
         src="{{src}}"
-        className="w-full h-full"
+        class="w-full object-contain"
     >
+    {{caption}}
 </div>

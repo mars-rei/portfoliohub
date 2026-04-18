@@ -184,7 +184,7 @@ function LeftBar({
                                     projectMedia[openFolder.name].map((media, index) => (
                                         <div 
                                             key={index} 
-                                            onClick={() => addToCanvas(media.type === 'video' ? 'video' : 'image', media.url)} 
+                                            onClick={() => addToCanvas(media.type === 'video' ? 'video' : 'image', media.url, media.caption)} 
                                             className="flex flex-row items-center space-x-2 px-2 py-1 hover:bg-[#B5446E]/8 rounded cursor-pointer"
                                         >
                                             {media.type === 'image' ? (

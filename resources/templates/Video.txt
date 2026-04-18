@@ -1,9 +1,12 @@
 <div class="video-component absolute" 
     data-component-id="{{id}}"
-    style="left: {{x}}px; top: {{y}}px; width: {{width}}px; height: {{height}}px;">
+    style="left: {{x}}px; top: {{y}}px; width: {{width}}px; height: {{height}}px;"
+    class="flex flex-col justify-center"
+>
     <video
         src="{{src}}"
         controls
-        className="w-full h-full"
-    >
+        class="w-full object-contain"
+    ></video>
+    {{caption}}
 </div>

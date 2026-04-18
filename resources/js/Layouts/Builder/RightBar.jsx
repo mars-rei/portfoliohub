@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ColourPicker from "@/Components/Builder/ColourPicker";
 
 // for downloading portfolio
@@ -109,13 +109,16 @@ function RightBar({
         const fill = itemStyles.fill || '#545454';
         const componentId = item.id;
 
+        // for media components
         const src = item.src; 
+        const showCaption = itemStyles.showCaption || false;
+        const caption = item.caption || '';
 
+        // for text components
         const text = itemStyles.text;
         const fontFamily = itemStyles.fontFamily;
         const fontSize = itemStyles.fontSize;
 
-        
         switch(item.type) {
             case 'circle':
                 return circleTemplate
@@ -176,21 +179,38 @@ function RightBar({
                     .replace(/{{colourFill}}/g, fill);
 
             case 'image':
+                // generate caption html is show caption is not false
+        const imageCaptionHtml = showCaption && caption ? `<div className="pt-2">
+                    <p class="text-sm text-white">
+                        ${caption}
+                    </p>
+                </div>` : '';
+
                 return imageTemplate
                     .replace(/{{id}}/g, componentId)
                     .replace(/{{x}}/g, x)
                     .replace(/{{y}}/g, y)
                     .replace(/{{width}}/g, width)
                     .replace(/{{height}}/g, height)
-                    .replace(/{{src}}/g, src);
+                    .replace(/{{src}}/g, src)
+                    .replace(/{{caption}}/g, imageCaptionHtml);
+
             case 'video':
+                // generate caption html is show caption is not false
+        const videoCaptionHtml = showCaption && caption ? `<div className="pt-2">
+                    <p class="text-sm text-white">
+                        ${caption}
+                    </p>
+                </div>` : '';
+
                 return videoTemplate
                     .replace(/{{id}}/g, componentId)
                     .replace(/{{x}}/g, x)
                     .replace(/{{y}}/g, y)
                     .replace(/{{width}}/g, width)
                     .replace(/{{height}}/g, height)
-                    .replace(/{{src}}/g, src);
+                    .replace(/{{src}}/g, src)
+                    .replace(/{{caption}}/g, videoCaptionHtml);
 
             case 'text':
                 // in case height or width is auto
@@ -730,6 +750,26 @@ function RightBar({
                                 )}
                             </div>
 
+                            {/* captions for media */}
+                            <div className="mt-4">
+                                {(selectedItem?.type === 'image' || selectedItem?.type === 'video') && (
+                                    <div className="flex flex-col justify-between">
+                                        <label className="text-sm font-fustat-semibold block">Caption</label>
+                                        <label className="flex items-center cursor-pointer gap-2 pt-2">
+                                            <input
+                                                type="checkbox"
+                                                checked={currentItemStyles[selectedItem?.id]?.showCaption || false}
+                                                onChange={(e) => onStyleChange(selectedItem?.id, 'showCaption', e.target.checked)}
+                                                className="rounded border-2 border-[#B5446E] bg-transparent focus:outline-none focus:ring-0 focus:border-[#B5446E] focus:ring-offset-0 checked:bg-[#B5446E] text-[#B5446E]"
+                                            />
+                                            <span className="text-sm font-fustat-medium">
+                                                {currentItemStyles[selectedItem?.id]?.showCaption ? 'Hide' : 'Show'}
+                                            </span>
+                                        </label>
+                                    </div>
+                                )}
+                            </div>
+
                             <div className="pt-6 space-y-2">
                                 <p className="text-md font-fustat-bold capitalize">{selectedItem?.type} Details</p>
                                 <p className="text-sm font-fustat-semibold capitalize">{selectedItem?.type} ID: {selectedItem?.id || 'No ID'}</p>
@@ -753,7 +793,7 @@ function RightBar({
                                     <div className="text-sm font-fustat-semibold px-2">
                                         {Object.entries(stylesToShow).map(([key, value]) => (
                                             <div key={key}>
-                                                <span>{key}: {typeof value === 'object' ? JSON.stringify(value) : value}</span>
+                                                <span>{key}: {typeof value === 'boolean' ? value.toString() : (typeof value === 'object' ? JSON.stringify(value) : value)}</span>
                                             </div>
                                         ))}
                                     </div>
