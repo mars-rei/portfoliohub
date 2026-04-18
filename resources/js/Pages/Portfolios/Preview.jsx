@@ -1,4 +1,4 @@
-// issue - either the builder is synced more quickly or the preview is
+// issue - the preview is more synced to positions than the builder
 
 import { useEffect, useState } from 'react';
 
@@ -12,10 +12,7 @@ export default function Preview({ portfolio, pages }) {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const currentPage = pages[currentPageIndex];
 
-
-
-
-    // render items
+    // render items - would probably be better if there was a function to compress the interactable components to static ones
     const renderItem = (item, customStyles) => {
         const styles = {...customStyles};
 
@@ -51,6 +48,7 @@ export default function Preview({ portfolio, pages }) {
         }
     };
 
+
     return (
         <div className="bg-[#ebfff2] p-4">
             {/* portfolio info */}
@@ -78,7 +76,7 @@ export default function Preview({ portfolio, pages }) {
                 </div>
             </div>
 
-            {/* just for implementation purposes */}
+            {/* just for implementation purposes - will remove before testing */}
             <div className="mx-4">
                 <div className="flex flex-col">
                     {pages.map((page) => {
