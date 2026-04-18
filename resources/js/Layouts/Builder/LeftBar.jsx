@@ -44,28 +44,30 @@ function LeftBar({
         ])
     );
 
-    // industry library components directory - need to get from database
-        const components = {
-            'Graphic Design': ['fa-bezier-curve', { 'h': 'h' }],
-            'Illustration': ['fa-paint-brush', { 'h': 'h' }],
-            'Animation': ['fa-person-walking', { 'h': 'h' }],
-            'UI/UX Design': ['fa-user-check', { 'h': 'h' }],
-            'Software Design': ['fa-laptop-code', { 'h': 'h' }],
-            'Game Design': ['fa-gamepad', { 'h': 'h' }],
-            '3d Art / Animation': ['fa-cube', { 'h': 'h' }],
-            'Photography': ['fa-camera', { 'h': 'h' }],
-            'Film Production': ['fa-film', { 'h': 'h' }],
-            'Fashion Design': ['fa-shirt', { 'h': 'h' }],
-            'Architecture': ['fa-archway', { 'h': 'h' }],
-            'Product Design': ['fa-box-open', { 'h': 'h' }],
-            'Content Creation': ['fa-lightbulb', { 'Social media embed': 'h' }],
-            'Marketing': ['fa-magnifying-glass-chart', { 'h': 'h' }],
-            'Social Media Management': ['fa-hashtag', { 'h': 'h' }],
-            'Journalism': ['fa-book-open', { 'h': 'h' }],
-            'Screen Writing': ['fa-pen-clip', { 'h': 'h' }],
-            'Creative Writing': ['fa-bookmark', { 'h': 'h' }],
-            'Music': ['fa-music', { 'h': 'h' }],
-        };
+    // industry library components directory - will include them for future improvements
+    /*
+    const components = {
+        'Graphic Design': ['fa-bezier-curve', { 'h': 'h' }],
+        'Illustration': ['fa-paint-brush', { 'h': 'h' }],
+        'Animation': ['fa-person-walking', { 'h': 'h' }],
+        'UI/UX Design': ['fa-user-check', { 'h': 'h' }],
+        'Software Design': ['fa-laptop-code', { 'h': 'h' }],
+        'Game Design': ['fa-gamepad', { 'h': 'h' }],
+        '3d Art / Animation': ['fa-cube', { 'h': 'h' }],
+        'Photography': ['fa-camera', { 'h': 'h' }],
+        'Film Production': ['fa-film', { 'h': 'h' }],
+        'Fashion Design': ['fa-shirt', { 'h': 'h' }],
+        'Architecture': ['fa-archway', { 'h': 'h' }],
+        'Product Design': ['fa-box-open', { 'h': 'h' }],
+        'Content Creation': ['fa-lightbulb', { 'Social media embed': 'h' }],
+        'Marketing': ['fa-magnifying-glass-chart', { 'h': 'h' }],
+        'Social Media Management': ['fa-hashtag', { 'h': 'h' }],
+        'Journalism': ['fa-book-open', { 'h': 'h' }],
+        'Screen Writing': ['fa-pen-clip', { 'h': 'h' }],
+        'Creative Writing': ['fa-bookmark', { 'h': 'h' }],
+        'Music': ['fa-music', { 'h': 'h' }],
+    };
+    */
     
     return (
         <div className={`w-1/6 flex flex-col relative z-10
@@ -80,10 +82,11 @@ function LeftBar({
                 <p>{portfolio.title}</p>
             </div>
 
-            <div className={`flex-1 space-y-4 p-4 border-y-2 overflow-hidden
+
+            {/* maybe next time apply this styling to the pages and layers containers separately */}
+            <div className={`flex-1 min-h-0 flex flex-col space-y-4 p-4 border-y-2 overflow-y-auto scrollbar-hide
                 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}
             >
-
                 {/* pages */}
                 <div className={`text-lg font-fustat-semibold ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
                     <div className="flex flex-row items-center justify-between">
@@ -154,7 +157,7 @@ function LeftBar({
             </div>
 
             {/* project media */}
-            <div className={`shrink-0 ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
+            <div className={`shrink-0 ${darkMode ? "text-[#EBFFF2] bg-[#111317]" : "text-[#111317] bg-[#EBFFF2]"}`}>
                 <div
                     className="flex flex-row items-center justify-between w-full px-4 py-2 text-lg font-fustat-medium cursor-pointer select-none hover:bg-[#B5446E]/2"
                     onClick={() => togglePanel('media')}
@@ -166,7 +169,7 @@ function LeftBar({
                     <i className={`fa fa-chevron-down fa-xs ${openPanel === 'media' ? 'rotate-180' : ''}`}></i>
                 </div>
                 {openPanel === 'media' && (
-                    <div className={`scrollbar-hide overflow-y-auto max-h-full space-y-2 p-4 text-sm font-fustat-medium border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
+                    <div className={`scrollbar-hide overflow-y-auto max-h-64 space-y-2 p-4 text-sm font-fustat-medium border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
                         {openFolder.panel === 'media' && projectMedia[openFolder.name] ? (
                             // inner level - project media
                             <div className="space-y-2">
@@ -223,7 +226,7 @@ function LeftBar({
             </div>
 
             {/* general components */}
-            <div className={`shrink-0 ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
+            <div className={`shrink-0 ${darkMode ? "text-[#EBFFF2] bg-[#111317]" : "text-[#111317] bg-[#EBFFF2]"}`}>
                 <div
                     className={`flex flex-row items-center justify-between w-full px-4 py-2 text-lg font-fustat-medium cursor-pointer select-none hover:bg-[#B5446E]/2 border-t-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}
                     onClick={() => togglePanel('general')}
@@ -236,7 +239,7 @@ function LeftBar({
                 </div>
                 
                 {openPanel === 'general' && (
-                    <div className={`scrollbar-hide overflow-y-auto max-h-96 border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
+                    <div className={`scrollbar-hide overflow-y-auto max-h-64 border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
                         <div className="grid grid-cols-2 gap-2 p-4">
                             <div onClick={() => addToCanvas('slides')} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
                                 <i className="fa fa-images fa-2x text-[#B5446E]"></i>
@@ -246,6 +249,27 @@ function LeftBar({
                                 <i className="fa fa-film fa-2x text-[#B5446E]"></i>
                                 <span className="text-sm">Carousel</span>
                             </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* embedded components */}
+            <div className={`shrink-0 ${darkMode ? "text-[#EBFFF2] bg-[#111317]" : "text-[#111317] bg-[#EBFFF2]"}`}>
+                <div
+                    className={`flex flex-row items-center justify-between w-full px-4 py-2 text-lg font-fustat-medium cursor-pointer select-none hover:bg-[#B5446E]/2 border-t-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}
+                    onClick={() => togglePanel('embeds')}
+                >
+                    <div className="flex flex-row items-center space-x-2">
+                        <i className="fa fa-link fa-sm"></i>
+                        <p>Media Embeds</p>
+                    </div>
+                    <i className={`fa fa-chevron-down fa-xs ${openPanel === 'embeds' ? 'rotate-180' : ''}`}></i>
+                </div>
+                
+                {openPanel === 'embeds' && (
+                    <div className={`scrollbar-hide overflow-y-auto max-h-64 border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
+                        <div className="grid grid-cols-2 gap-2 p-4">
                             <div onClick={() => addToCanvas('link')} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
                                 <i className="fa fa-link fa-2x text-[#B5446E]"></i>
                                 <span className="text-sm">Link</span>
@@ -256,7 +280,8 @@ function LeftBar({
             </div>
 
             {/* component libraries */}
-            <div className={`shrink-0 ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
+            {/*
+            <div className={`shrink-0 ${darkMode ? "text-[#EBFFF2] bg-[#111317]" : "text-[#111317] bg-[#EBFFF2]"}`}>
                 <div
                     className={`flex flex-row items-center justify-between w-full px-4 py-2 text-lg font-fustat-medium cursor-pointer select-none hover:bg-[#B5446E]/2 border-t-2 ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}
                     onClick={() => togglePanel('components')}
@@ -268,7 +293,7 @@ function LeftBar({
                     <i className={`fa fa-chevron-down fa-xs ${openPanel === 'components' ? 'rotate-180' : ''}`}></i>
                 </div>
                 {openPanel === 'components' && (
-                    <div className={`scrollbar-hide overflow-y-auto max-h-96 border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
+                    <div className={`scrollbar-hide overflow-y-auto max-h-64 border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
                         {openFolder.panel === 'components' && components[openFolder.name] ? (
                             // inner level - library components
                             <div className="p-4 space-y-2">
@@ -300,6 +325,7 @@ function LeftBar({
                     </div>
                 )}
             </div>
+            */}
 
         </div>
     );
