@@ -25,10 +25,12 @@ function LeftBar({
     const getMediaType = (url) => {
         const imageExtensions = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i;
         const videoExtensions = /\.(mp4|mov|webm|avi|mkv|m4v|flv|wmv|ogv)(\?.*)?$/i;
+        const pdfExtensions = /\.(pdf)(\?.*)?$/i;
         
         if (imageExtensions.test(url)) return 'image';
         if (videoExtensions.test(url)) return 'video';
-        return 'unknown';
+        if (pdfExtensions.test(url)) return 'pdf';
+        return 'undefined';
     };
 
     // project directory
@@ -187,7 +189,7 @@ function LeftBar({
                                     projectMedia[openFolder.name].map((media, index) => (
                                         <div 
                                             key={index} 
-                                            onClick={() => addToCanvas(media.type === 'video' ? 'video' : 'image', media.url, media.caption)} 
+                                            onClick={() => addToCanvas(media.type === 'video' ? 'video' : media.type === 'pdf' ? 'pdf' : 'image', media.url, media.caption)} 
                                             className="flex flex-row items-center space-x-2 px-2 py-1 hover:bg-[#B5446E]/8 rounded cursor-pointer"
                                         >
                                             {media.type === 'image' ? (
@@ -201,7 +203,12 @@ function LeftBar({
                                                     className="w-full h-full object-cover"
                                                     muted
                                                 />
-                                            ) : (
+                                            
+                                            ) :/* media.type === 'pdf' ? (
+                                                <div className="w-full h-full flex items-center justify-center">
+                                                    <i className="fa fa-file-pdf fa-2x text-[#B5446E]"></i>
+                                                </div>
+                                            ) :*/ (
                                                 <div className="w-full h-full flex items-center justify-center">
                                                     <i className="fa fa-file fa-2x text-[#B5446E]"></i>
                                                 </div>
