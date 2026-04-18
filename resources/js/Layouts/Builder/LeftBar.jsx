@@ -189,7 +189,7 @@ function LeftBar({
                                     projectMedia[openFolder.name].map((media, index) => (
                                         <div 
                                             key={index} 
-                                            onClick={() => addToCanvas(media.type === 'video' ? 'video' : media.type === 'pdf' ? 'pdf' : 'image', media.url, media.caption)} 
+                                            onClick={() => addToCanvas(media.type === 'video' ? 'video' : 'image', media.url, media.caption)} 
                                             className="flex flex-row items-center space-x-2 px-2 py-1 hover:bg-[#B5446E]/8 rounded cursor-pointer"
                                         >
                                             {media.type === 'image' ? (
@@ -203,12 +203,11 @@ function LeftBar({
                                                     className="w-full h-full object-cover"
                                                     muted
                                                 />
-                                            
-                                            ) :/* media.type === 'pdf' ? (
+                                            ) : media.type === 'pdf' ? (
                                                 <div className="w-full h-full flex items-center justify-center">
                                                     <i className="fa fa-file-pdf fa-2x text-[#B5446E]"></i>
                                                 </div>
-                                            ) :*/ (
+                                            ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
                                                     <i className="fa fa-file fa-2x text-[#B5446E]"></i>
                                                 </div>
@@ -280,6 +279,10 @@ function LeftBar({
                             <div onClick={() => addToCanvas('link')} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
                                 <i className="fa fa-link fa-2x text-[#B5446E]"></i>
                                 <span className="text-sm">Link</span>
+                            </div>
+                            <div onClick={() => addToCanvas('spotifyMusic')} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                                <i className="fa-brands fa-spotify fa-2x text-[#B5446E]"></i>
+                                <span className="text-sm">Spotify</span>
                             </div>
                         </div>
                     </div>

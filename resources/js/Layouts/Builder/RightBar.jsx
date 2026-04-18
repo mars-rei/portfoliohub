@@ -17,6 +17,7 @@ import shape2Template from '@/../templates/shapes/svgShapesByMo/Shape2.txt?raw';
 
 import imageTemplate from '@/../templates/Image.txt?raw';
 import videoTemplate from '@/../templates/Video.txt?raw';
+// import spotifyMusicTemplate from '@/../templates/SpotifyMusic.txt';
 
 import textTemplate from '@/../templates/Text.txt?raw';
 import linkTemplate from '@/../templates/Link.txt?raw';
@@ -121,7 +122,7 @@ function RightBar({
         const fontFamily = itemStyles.fontFamily;
         const fontSize = itemStyles.fontSize;
 
-        // for link component
+        // for link and spotify music components
         const url = itemStyles.url;
 
         switch(item.type) {
@@ -248,6 +249,17 @@ function RightBar({
                     .replace(/{{fontSize}}/g, fontSize)
                     .replace(/{{fontFamily}}/g, fontFamily)
                     .replace(/{{url}}/g, url);
+
+            /*
+            case 'spotifyMusic':
+                return spotifyMusicTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{url}}/g, url);
+            */
             
             
             default:
@@ -771,7 +783,7 @@ function RightBar({
                             </div>
 
                             {/* add link to text of link component */}
-                            {selectedItem?.type === 'link' && (
+                            {selectedItem?.type === 'link' || selectedItem?.type === 'spotifyMusic' && (
                                 <div className="mt-4">
                                     <label className="text-sm font-fustat-semibold block mb-1">URL</label>
                                     <input

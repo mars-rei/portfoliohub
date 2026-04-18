@@ -1,0 +1,10 @@
+<div class="spotify-music-component absolute" 
+    data-component-id="{{id}}"
+    style="
+        left: {{x}}px; 
+        top: {{y}}px; 
+        width: {{width}}; 
+        height: {{height}};"
+>
+    <SpotifyEmbed src={{url}} />
+</div>

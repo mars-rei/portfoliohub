@@ -170,7 +170,7 @@ function Builder({ portfolio, projects }) {
 
         // default dimensions for all components
         const defaultDimensions = 
-        (type === 'image' || type === 'text' || type === 'link')
+        (type === 'image' || type === 'text' || type === 'link' || type === 'spotifyMusic')
             ? { width: '500', height: 'auto' }
             : type === 'rectangle'
                 ? { width: 200, height: 100 }
