@@ -19,6 +19,8 @@ import imageTemplate from '@/../templates/Image.txt?raw';
 import videoTemplate from '@/../templates/Video.txt?raw';
 
 import textTemplate from '@/../templates/Text.txt?raw';
+import linkTemplate from '@/../templates/Link.txt?raw';
+
 
 
 function RightBar({ 
@@ -119,6 +121,9 @@ function RightBar({
         const fontFamily = itemStyles.fontFamily;
         const fontSize = itemStyles.fontSize;
 
+        // for link component
+        const url = itemStyles.url;
+
         switch(item.type) {
             case 'circle':
                 return circleTemplate
@@ -215,19 +220,34 @@ function RightBar({
             case 'text':
                 // in case height or width is auto
                 // problem when width or height is auto - it gets visually squished on download
-                const widthFinal = width === 'auto' ? 'auto' : `${width}px`;
-                const heightFinal = height === 'auto' ? 'auto' : `${height}px`;
+                const textWidth = width === 'auto' ? 'auto' : `${width}px`;
+                const textHeight = height === 'auto' ? 'auto' : `${height}px`;
 
                 return textTemplate
                     .replace(/{{id}}/g, componentId)
                     .replace(/{{x}}/g, x)
                     .replace(/{{y}}/g, y)
-                    .replace(/{{width}}/g, widthFinal)
-                    .replace(/{{height}}/g, heightFinal)
+                    .replace(/{{width}}/g, textWidth)
+                    .replace(/{{height}}/g, textHeight)
                     .replace(/{{colourFill}}/g, fill)
                     .replace(/{{textContent}}/g, text)
                     .replace(/{{fontSize}}/g, fontSize)
                     .replace(/{{fontFamily}}/g, fontFamily);
+            case 'link':
+                const linkWidth = width === 'auto' ? 'auto' : `${width}px`;
+                const linkHeight = height === 'auto' ? 'auto' : `${height}px`;
+
+                return linkTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, linkWidth)
+                    .replace(/{{height}}/g, linkHeight)
+                    .replace(/{{colourFill}}/g, fill)
+                    .replace(/{{textContent}}/g, text)
+                    .replace(/{{fontSize}}/g, fontSize)
+                    .replace(/{{fontFamily}}/g, fontFamily)
+                    .replace(/{{url}}/g, url);
             
             
             default:
@@ -704,7 +724,7 @@ function RightBar({
 
                             {/* font sizing for text and font changes */}
                             <div className="mt-4">
-                                {selectedItem?.type === 'text' && (
+                                {selectedItem?.type === 'text' || selectedItem?.type === 'link' && (
                                     <>
                                         <div>
                                             {/* font size */}
@@ -749,6 +769,23 @@ function RightBar({
                                     </>
                                 )}
                             </div>
+
+                            {/* add link to text of link component */}
+                            {selectedItem?.type === 'link' && (
+                                <div className="mt-4">
+                                    <label className="text-sm font-fustat-semibold block mb-1">URL</label>
+                                    <input
+                                        type="text"
+                                        value={currentItemStyles[selectedItem?.id]?.url || ''}
+                                        onChange={(e) => onStyleChange(selectedItem?.id, 'url', e.target.value)}
+                                        onKeyDown={(e) => e.stopPropagation()} 
+                                        className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
+                                            darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
+                                        }`}
+                                        placeholder="Enter URL..."
+                                    />
+                                </div>
+                            )}
 
                             {/* captions for media */}
                             <div className="mt-4">

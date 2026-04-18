@@ -170,7 +170,7 @@ function Builder({ portfolio, projects }) {
 
         // default dimensions for all components
         const defaultDimensions = 
-        (type === 'image' || type === 'text')
+        (type === 'image' || type === 'text' || type === 'link')
             ? { width: '500', height: 'auto' }
             : type === 'rectangle'
                 ? { width: 200, height: 100 }
@@ -179,7 +179,7 @@ function Builder({ portfolio, projects }) {
                     : { width: 100, height: 100 }
 
         // default text
-        const defaultText = type === 'text' ? 'Enter your text...' : undefined;
+        const defaultText = type === 'text' ? 'Enter your text...' : type === 'link' ? 'Click here!' : undefined;
 
         const currentPageData = pages.find(p => p.id === currentPageId);
     
@@ -198,6 +198,10 @@ function Builder({ portfolio, projects }) {
         if (type === 'text') {
             newItemStyles.fontSize = 50;
             newItemStyles.fontFamily = 'Arial, sans-serif'; 
+        }
+
+        if (type === 'link') {
+            newItemStyles.url = ''; 
         }
 
         if (type === 'image' || type === 'video') {
@@ -399,6 +403,7 @@ function Builder({ portfolio, projects }) {
         shape1: '#545454',
         shape2: '#545454',
         text: '#ffffff',
+        link: '#B5446E',
     };
 
 

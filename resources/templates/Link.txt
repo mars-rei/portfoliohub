@@ -1,0 +1,20 @@
+<div class="link-component absolute" 
+    data-component-id="{{id}}"
+    style="
+        left: {{x}}px; 
+        top: {{y}}px; 
+        width: {{width}}; 
+        height: {{height}};"
+>
+    <a
+        href={{url}}
+        class="w-full h-full"
+        style="
+            textDecoration: 'none';
+            color: {{colourFill}}; 
+            font-size: {{fontSize}}px; 
+            font-family: {{fontFamily}};"
+    >
+        {{textContent}}
+    </a>
+</div>

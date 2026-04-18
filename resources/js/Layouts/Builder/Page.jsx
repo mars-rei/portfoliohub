@@ -7,6 +7,7 @@ import Image from '@/Components/Builder/Image';
 import Video from '@/Components/Builder/Video';
 import Slides from '@/Components/Builder/Slides';
 import Text from '@/Components/Builder/Text';
+import Link from '@/Components/Builder/Link';
 
 import Star from '@/Components/Builder/shapes/ordinary/Star';
 import Square from '@/Components/Builder/shapes/ordinary/Square';
@@ -71,6 +72,7 @@ function Page({
         if (item.type === 'slides') return <Slides {...props} onSizeChange={handleSizeChange} />;
         if (item.type === 'carousel') return <Carousel {...props} onSizeChange={handleSizeChange} />;
         if (item.type === 'text') return <Text {...props} onSizeChange={handleSizeChange} />;
+        if (item.type === 'link') return <Link {...props} onSizeChange={handleSizeChange} />;
 
         // ordinary shapes
         if (item.type === 'star') return <Star {...props} onSizeChange={handleSizeChange} />;
