@@ -8,6 +8,8 @@ import Canvas from "@/Layouts/Builder/Canvas";
 import Page from "@/Layouts/Builder/Page";
 
 import CreateCarouselModal from "@/Components/Builder/CreateModals/CreateCarouselModal";
+import CreateSlidesModal from "@/Components/Builder/CreateModals/CreateSlidesModal";
+
 
 function Builder({ portfolio, projects }) {
 
@@ -166,6 +168,7 @@ function Builder({ portfolio, projects }) {
 
     // for adding carousel or slide media components
     const [showCarouselModal, setShowCarouselModal] = useState(false);
+    const [showSlidesModal, setShowSlidesModal] = useState(false);
 
 
     // add elements to current page on canvas
@@ -182,7 +185,7 @@ function Builder({ portfolio, projects }) {
             ? { width: '500', height: 'auto' }
             : type === 'rectangle'
                 ? { width: 200, height: 100 }
-                : type === 'carousel' || type == 'slides'
+                : type === 'carousel' || type === 'slides'
                     ? { width: 400, height: 150 }
                     : { width: 100, height: 100 }
 
@@ -333,6 +336,49 @@ function Builder({ portfolio, projects }) {
         });
 
         setShowCarouselModal(false);
+    };
+
+    // repetitive due to time crunch - should refactor into main addToCanvas method later on
+    const handleCreateSlides = async (selectedMedia) => {
+        // save state before making changes
+        saveToHistory();
+
+        const newId = Date.now();
+
+        const currentPageData = pages.find(p => p.id === currentPageId);
+
+        const updatedItems = [...currentPageData.items, { 
+            id: newId, 
+            type: 'slides',
+            media: selectedMedia,
+        }];
+
+        const newItemStyles = {
+            width: 600,
+            height: 200,
+            x: 0,
+            y: 0
+        };
+
+        const updatedItemStyles = {
+            ...currentPageData.itemStyles,
+            [newId]: newItemStyles
+        };
+
+        setPages(prev => prev.map(page => 
+            page.id === currentPageId 
+                ? { ...page, items: updatedItems, itemStyles: updatedItemStyles }
+                : page
+        ));
+
+        await axios.put(`/pages/${currentPageId}`, {
+            code: {
+                items: updatedItems,
+                itemStyles: updatedItemStyles
+            }
+        });
+
+        setShowSlidesModal(false);
     };
 
     
@@ -489,6 +535,7 @@ function Builder({ portfolio, projects }) {
                         addToCanvas={addToCanvas}
 
                         setShowCarouselModal={setShowCarouselModal}
+                        setShowSlidesModal={setShowSlidesModal}
                     />
 
                     {/* canvas */}
@@ -563,6 +610,14 @@ function Builder({ portfolio, projects }) {
                     projects={projects}
                     onClose={() => setShowCarouselModal(false)}
                     onCreateCarousel={handleCreateCarousel}
+                />
+            )}
+
+            {showSlidesModal && (
+                <CreateSlidesModal
+                    projects={projects}
+                    onClose={() => setShowSlidesModal(false)}
+                    onCreateSlides={handleCreateSlides}
                 />
             )}
         </>

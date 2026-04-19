@@ -19,8 +19,8 @@ function LeftBar({
     removeFromCanvas,  
     togglePanel,      
     toggleFolder,
-    setShowCarouselModal  
-    
+    setShowCarouselModal,
+    setShowSlidesModal  
 }) {
 
     const getMediaType = (url) => {
@@ -248,7 +248,7 @@ function LeftBar({
                 {openPanel === 'general' && (
                     <div className={`scrollbar-hide overflow-y-auto max-h-64 border-t ${darkMode ? "border-[#EBFFF2]" : "border-[#111317]"}`}>
                         <div className="grid grid-cols-2 gap-2 p-4">
-                            <div onClick={() => addToCanvas('slides')} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                            <div onClick={() => setShowSlidesModal(true)} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
                                 <i className="fa fa-images fa-2x text-[#B5446E]"></i>
                                 <span className="text-sm">Slides</span>
                             </div>

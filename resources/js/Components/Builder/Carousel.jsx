@@ -4,15 +4,20 @@ import { useRef, useEffect } from "react";
 function Carousel({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange, media = [] }) {
     const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
+
+    // trying to sort out placement glitching problem - prevents infinite update loops
     const isInternalUpdate = useRef(false);
     
+    // to sync undo and redo (item styles is updated but the visual of the component didn't use to change)
     useEffect(() => {
         if (rndRef.current && !isInternalUpdate.current) {
+            // update position
             rndRef.current.updatePosition({
                 x: itemStyle?.x || 0,
                 y: itemStyle?.y || 0
             });
             
+            // update size
             const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 400;
             const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 150;
             rndRef.current.updateSize({ width, height });
@@ -58,19 +63,23 @@ function Carousel({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSize
         <Rnd
             ref={rndRef}
             style={style}
+
             default={{ 
                 x: itemStyle?.x || 0, 
                 y: itemStyle?.y || 0, 
                 width: width, 
                 height: height 
             }}
+
             bounds="parent"
             disableDragging={locked}
             enableResizing={!locked}
             onDragStart={(e) => e.stopPropagation()}
             onResizeStart={(e) => e.stopPropagation()}
+
             onDragStop={handleDragStop}
             onResizeStop={handleResizeStop}
+            
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}
             className="component group"
         >

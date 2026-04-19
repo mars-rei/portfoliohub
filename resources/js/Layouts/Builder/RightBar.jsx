@@ -849,7 +849,7 @@ function RightBar({
                                 );
                             })()}
 
-                            {selectedItem?.type === 'carousel' && selectedItem?.media && (
+                            {selectedItem?.type === 'carousel' || selectedItem?.type === 'slides' && selectedItem?.media && (
                                 <>
                                     <p className="text-sm font-fustat-semibold pt-2">Media Items: ({selectedItem.media.length})</p>
                                     <div className="space-y-2">

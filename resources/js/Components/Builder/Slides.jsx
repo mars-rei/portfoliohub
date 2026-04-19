@@ -1,7 +1,7 @@
 import { Rnd } from "react-rnd";
 import { useRef, useState, useEffect } from "react";
 
-function Slides({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange }) {
+function Slides({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange, media = [] }) {
     const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
 
@@ -28,21 +28,15 @@ function Slides({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeCh
         isInternalUpdate.current = false;
     }, [itemStyle?.x, itemStyle?.y, itemStyle?.width, itemStyle?.height]);
 
-    const items = [
-        "/images/1.png",
-        "/images/2.png",
-        "/images/1.png",
-        "/images/2.png"
-    ];
 
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const next = () => {
-        setCurrentSlide((prev) => (prev + 1) % items.length);
+        setCurrentSlide((prev) => (prev + 1) % media.length);
     };
 
     const prev = () => {
-        setCurrentSlide((prev) => (prev - 1 + items.length) % items.length);
+        setCurrentSlide((prev) => (prev - 1 + media.length) % media.length);
     };
 
     const style = {
@@ -104,29 +98,43 @@ function Slides({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeCh
             className="component group"
         >
             <div className="relative h-full overflow-hidden flex flex-col">
-                <img
-                    src={items[currentSlide]}
-                    className="w-full object-contain rounded-md flex-1 min-h-0"
-                    draggable={false}
-                />
+                {media[currentSlide].type === 'image' ? (
+                    <img 
+                        src={media[currentSlide].url}
+                        className="w-full object-contain rounded-md flex-1 min-h-0"
+                    />
+                ) : media[currentSlide].type === 'video' ? (
+                    <video 
+                        src={media[currentSlide].url}
+                        className="w-full object-contain rounded-md flex-1 min-h-0"
+                        autoPlay 
+                        muted 
+                        loop 
+                        playsInline
+                    />
+                ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-red-50 rounded">
+                        <i className="fa fa-file text-2xl text-red-400 mb-2"></i>
+                    </div>
+                )}
 
-                {items.length > 1 && (
-                    <div className="flex flex-col items-center py-4 shrink-0">
+                {media.length > 1 && (
+                    <div className="flex flex-col items-center pt-4 shrink-0">
                         <p className="text-xs text-white text-center">
-                            Slide {currentSlide + 1}/{items.length}
+                            Slide {currentSlide + 1}/{media.length}
                         </p>
                         <div className="flex justify-center">
-                            {currentSlide === 0 && items.length > 1 && (
+                            {currentSlide === 0 && media.length > 1 && (
                                 <div onClick={next} className={`hover:text-white ${locked ? 'cursor-grab pointer-events-none' : 'cursor-pointer'}`}>
                                     <i className="fa-solid fa-arrow-right fa-sm"></i>
                                 </div>
                             )}
-                            {currentSlide === items.length - 1 && items.length > 1 && (
+                            {currentSlide === media.length - 1 && media.length > 1 && (
                                 <div onClick={prev} className={`hover:text-white ${locked ? 'cursor-grab pointer-events-none' : 'cursor-pointer'}`}>
                                     <i className="fa-solid fa-arrow-left fa-sm"></i>
                                 </div>
                             )}
-                            {currentSlide > 0 && currentSlide < items.length - 1 && items.length > 1 && (
+                            {currentSlide > 0 && currentSlide < media.length - 1 && media.length > 1 && (
                                 <div className="flex">
                                     <div onClick={prev} className={`mx-2 hover:text-white ${locked ? 'cursor-grab pointer-events-none' : 'cursor-pointer'}`}>
                                         <i className="fa-solid fa-arrow-left fa-sm"></i>

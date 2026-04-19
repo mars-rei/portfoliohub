@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-function CreateCarouselModal({ 
+function CreateSlidesModal({ 
     projects, 
     onClose, 
-    onCreateCarousel
+    onCreateSlides
 }) {
 
     const [selectedMedia, setSelectedMedia] = useState([]);
@@ -34,13 +34,13 @@ function CreateCarouselModal({
         });
     };
 
-    const handleCreateCarousel = () => {
+    const handleCreateSlides = () => {
         if (selectedMedia.length === 0) {
             alert('Please select at least one media item');
             return;
         }
 
-        onCreateCarousel(selectedMedia);
+        onCreateSlides(selectedMedia);
         onClose();
     };
 
@@ -50,7 +50,7 @@ function CreateCarouselModal({
 
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="font-fustat-medium text-2xl text-[#EBFFF2]">
-                        Create Carousel
+                        Create Slides
                     </h2>
                     <button onClick={onClose} className="text-[#EBFFF2] hover:text-[#B5446E]">
                         <i className="fa fa-times fa-xl"></i>
@@ -147,7 +147,7 @@ function CreateCarouselModal({
                         ) : (
                             <div className="flex flex-col items-center text-center text-[#EBFFF2] space-y-3">
                                 <i className="fa fa-images fa-3x"></i>
-                                <p>Select a project to choose carousel media</p>
+                                <p>Select a project to choose slides media</p>
                             </div>
                         )}
                     </div>
@@ -167,7 +167,7 @@ function CreateCarouselModal({
                                 Cancel
                             </button>
                             <button
-                                onClick={handleCreateCarousel}
+                                onClick={handleCreateSlides}
                                 disabled={selectedMedia.length === 0}
                                 className={`justify-center flex items-center rounded-full border border-transparent px-8 py-2 text-md text-[#EBFFF2] ${
                                     selectedMedia.length === 0
@@ -175,7 +175,7 @@ function CreateCarouselModal({
                                         : 'bg-[#B5446E]'
                                 }`}
                             >
-                                Create Carousel
+                                Create Slides
                             </button>
                         </div>
                     </div>
@@ -185,4 +185,4 @@ function CreateCarouselModal({
     );
 }
 
-export default CreateCarouselModal;
+export default CreateSlidesModal;

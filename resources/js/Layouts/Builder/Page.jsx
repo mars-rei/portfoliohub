@@ -72,7 +72,7 @@ function Page({
         if (item.type === 'image') return <Image {...props} src={item.src} onSizeChange={handleSizeChange} showCaption={style.showCaption || false} caption={item.caption || ''} />;
         if (item.type === 'video') return <Video {...props} src={item.src} onSizeChange={handleSizeChange} showCaption={style.showCaption || false} caption={item.caption || ''} />;
         // if (item.type === 'pdf') return <Pdf {...props} src={item.src} onSizeChange={handleSizeChange}/>;
-        if (item.type === 'slides') return <Slides {...props} onSizeChange={handleSizeChange} />;
+        if (item.type === 'slides') return <Slides {...props} media={item.media} onSizeChange={handleSizeChange} />;
         if (item.type === 'carousel') return <Carousel {...props} media={item.media} onSizeChange={handleSizeChange} />;
         if (item.type === 'text') return <Text {...props} onSizeChange={handleSizeChange} />;
         if (item.type === 'link') return <Link {...props} onSizeChange={handleSizeChange} />;
