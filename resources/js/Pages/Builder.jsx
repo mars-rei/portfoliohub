@@ -7,6 +7,8 @@ import LeftBar from "@/Layouts/Builder/LeftBar";
 import Canvas from "@/Layouts/Builder/Canvas";
 import Page from "@/Layouts/Builder/Page";
 
+import CreateCarouselModal from "@/Components/Builder/CreateModals/CreateCarouselModal";
+
 function Builder({ portfolio, projects }) {
 
     // to set the colour of the whole canvas (where the page canvases sit)
@@ -41,6 +43,7 @@ function Builder({ portfolio, projects }) {
                 dimensions: page.code?.dimensions || { width: 1920, height: 1080 }
             }));
         }
+        return []; // validation for undefined pages
     });
     
     const [currentPageId, setCurrentPageId] = useState(() => {
@@ -160,6 +163,11 @@ function Builder({ portfolio, projects }) {
 
 
     /* ---------- canvas ---------- */
+
+    // for adding carousel or slide media components
+    const [showCarouselModal, setShowCarouselModal] = useState(false);
+
+
     // add elements to current page on canvas
     const addToCanvas = async (type, src = null, caption = null) => {
         // save state before making changes
@@ -283,6 +291,49 @@ function Builder({ portfolio, projects }) {
 
     // for removing items from canvas
     const [selectedId, setSelectedId] = useState(null);
+
+    // repetitive due to time crunch - should refactor into main addToCanvas method later on
+    const handleCreateCarousel = async (selectedMedia) => {
+        // save state before making changes
+        saveToHistory();
+
+        const newId = Date.now();
+
+        const currentPageData = pages.find(p => p.id === currentPageId);
+
+        const updatedItems = [...currentPageData.items, { 
+            id: newId, 
+            type: 'carousel',
+            media: selectedMedia,
+        }];
+
+        const newItemStyles = {
+            width: 600,
+            height: 200,
+            x: 0,
+            y: 0
+        };
+
+        const updatedItemStyles = {
+            ...currentPageData.itemStyles,
+            [newId]: newItemStyles
+        };
+
+        setPages(prev => prev.map(page => 
+            page.id === currentPageId 
+                ? { ...page, items: updatedItems, itemStyles: updatedItemStyles }
+                : page
+        ));
+
+        await axios.put(`/pages/${currentPageId}`, {
+            code: {
+                items: updatedItems,
+                itemStyles: updatedItemStyles
+            }
+        });
+
+        setShowCarouselModal(false);
+    };
 
     
     /* ---------- redo & undo history ---------- */
@@ -436,6 +487,8 @@ function Builder({ portfolio, projects }) {
                         projects={projects}
                         setOpenFolder={setOpenFolder}
                         addToCanvas={addToCanvas}
+
+                        setShowCarouselModal={setShowCarouselModal}
                     />
 
                     {/* canvas */}
@@ -504,6 +557,14 @@ function Builder({ portfolio, projects }) {
                     canRedo={redoHistory.length > 0}
                 />
             </div>
+
+            {showCarouselModal && (
+                <CreateCarouselModal
+                    projects={projects}
+                    onClose={() => setShowCarouselModal(false)}
+                    onCreateCarousel={handleCreateCarousel}
+                />
+            )}
         </>
     );
 }

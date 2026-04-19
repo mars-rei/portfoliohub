@@ -848,6 +848,20 @@ function RightBar({
                                     </div>
                                 );
                             })()}
+
+                            {selectedItem?.type === 'carousel' && selectedItem?.media && (
+                                <>
+                                    <p className="text-sm font-fustat-semibold pt-2">Media Items: ({selectedItem.media.length})</p>
+                                    <div className="space-y-2">
+                                        {selectedItem.media.map((mediaItem, index) => (
+                                            <div key={index} className="text-sm font-fustat-semibold px-2">
+                                                <p> media type: {mediaItem.type}</p>
+                                                <p className="break-words">media link: {mediaItem.url}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
                         </>
                     )}
                 </div>
