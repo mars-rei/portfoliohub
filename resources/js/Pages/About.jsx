@@ -65,6 +65,11 @@ export default function About() {
                                     <td className="w-2/5 text-base">There is an issue regarding position rendering - you may have to wait a second after adding each component to ensure the correct position (if you reload or check the preview it may have jumped)</td>
                                 </tr>
                                 <tr className="w-full">
+                                    <th scope="row" className="w-1/5">Layers</th>
+                                    <td className="w-2/5 text-base">Each component added to a page is considered a layer and pages can have many layers</td>
+                                    <td className="w-2/5 text-base">Layers' z-index cannot be changed; the most recent component will be on top of the one made before</td>
+                                </tr>
+                                <tr className="w-full">
                                     <th scope="row" className="w-1/5">Preview</th>
                                     <td className="w-2/5 text-base">Accurately shows position of compatible rendered components</td>
                                     <td className="w-2/5 text-base">If the size of your page is larger than your browser's size in pixels, the page will overflow (it shows the preview accurate to the pixel)</td>
