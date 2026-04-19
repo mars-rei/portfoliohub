@@ -413,24 +413,51 @@ function RightBar({
                     </div>
                     <div className={`scrollbar-hide border-[#111317] ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
                         <div className="grid grid-cols-2 gap-2 px-4">
-                            <div onClick={() => { addToCanvas('square'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                <i className="fa fa-square fa-2x text-[#B5446E]"></i>
+                            <div onClick={() => { addToCanvas('square'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-between text-center p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                                <div className="w-12 h-12 flex items-center justify-center">
+                                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                                        <rect x="10" y="10" width="80" height="80" fill="#B5446E"/>
+                                    </svg>
+                                </div>
                                 <span className="text-sm">Square</span>
                             </div>
-                            <div onClick={() => { addToCanvas('rectangle'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                <i className="fa fa-square fa-2x text-[#B5446E]"></i>
+                            
+                            <div onClick={() => { addToCanvas('rectangle'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-between text-center p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                                <div className="w-12 h-12 flex items-center justify-center">
+                                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                                        <rect x="10" y="30" width="80" height="40" fill="#B5446E"/>
+                                    </svg>
+                                </div>
                                 <span className="text-sm">Rectangle</span>
                             </div>
-                            <div onClick={() => { addToCanvas('triangle');  toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                <i className="fa fa-play fa-2x text-[#B5446E]"></i>
+                            
+                            <div onClick={() => { addToCanvas('triangle'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-between text-center p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                                <div className="w-12 h-12 flex items-center justify-center">
+                                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                                        <polygon points="50,10 90,90 10,90" fill="#B5446E" />
+                                    </svg>
+                                </div>
                                 <span className="text-sm">Triangle</span>
                             </div>
-                            <div onClick={() => { addToCanvas('circle'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                <i className="fa fa-circle fa-2x text-[#B5446E]"></i>
+                            
+                            <div onClick={() => { addToCanvas('circle'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-between text-center p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                                <div className="w-12 h-12 flex items-center justify-center">
+                                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                                        <circle cx="50" cy="50" r="40" fill="#B5446E"/>
+                                    </svg>
+                                </div>
                                 <span className="text-sm">Circle</span>
                             </div>
-                            <div onClick={() => { addToCanvas('star'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                <i className="fa fa-star fa-2x text-[#B5446E]"></i>
+                            
+                            <div onClick={() => { addToCanvas('star'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-between text-center p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                                <div className="w-12 h-12 flex items-center justify-center">
+                                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                                        <polygon
+                                            points="50,10 61,38 91,38 68,57 79,85 50,68 21,85 32,57 9,38 39,38"
+                                            fill="#B5446E"
+                                        />
+                                    </svg>
+                                </div>
                                 <span className="text-sm">Star</span>
                             </div>
                         </div>
@@ -439,12 +466,20 @@ function RightBar({
                     {/* for shapes by mo */}
                     <div className={`mt-12 scrollbar-hide border-[#111317] ${darkMode ? "text-[#EBFFF2]" : "text-[#111317]"}`}>
                         <div className="grid grid-cols-2 gap-2 px-4">
-                            <div onClick={() => { addToCanvas('shape1'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                <i className="fa fa-shapes fa-2x text-[#B5446E]"></i>
+                            <div onClick={() => { addToCanvas('shape1'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-between text-center p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                                <div className="w-12 h-12 flex items-center justify-center">
+                                    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" className="w-3/4 h-3/4">
+                                        <path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z" fill="#B5446E"></path>
+                                    </svg>
+                                </div>
                                 <span className="text-sm">Shape 1</span>
                             </div>
-                            <div onClick={() => { addToCanvas('shape2'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
-                                <i className="fa fa-shapes fa-2x text-[#B5446E]"></i>
+                            <div onClick={() => { addToCanvas('shape2'); toggleEditPanel('shapes'); }} className="flex flex-col items-center justify-between text-center p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer">
+                                <div className="w-12 h-12 flex items-center justify-center">
+                                    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" className="w-3/4 h-3/4">
+                                        <path d="M 128 192 C 92.654 192 64 220.654 64 256 L 0 256 C 0 185.308 57.308 128 128 128 Z M 256 128 C 256 198.692 198.692 256 128 256 L 128 192 C 163.346 192 192 163.346 192 128 Z M 128 64 C 92.654 64 64 92.654 64 128 L 0 128 C 0 57.308 57.308 0 128 0 Z M 256 0 C 256 70.692 198.692 128 128 128 L 128 64 C 163.346 64 192 35.346 192 0 Z" fill="#B5446E"></path>            
+                                    </svg>
+                                </div>
                                 <span className="text-sm">Shape 2</span>
                             </div>
                         </div>
