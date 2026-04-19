@@ -17,10 +17,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     </Link>
 
                     <div className="flex items-center text-[#1f1f1f] space-x-4 font-fustat-bold text-xl">
-                        {/*
                         <Link className="hover:text-[#B5446E]" href="/about">About</Link>
-                        <Link className="hover:text-[#B5446E]" href="/documentation">Documentation</Link>
-                        */}
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
                             <div className="relative ms-3">

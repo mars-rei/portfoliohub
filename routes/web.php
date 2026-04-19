@@ -48,8 +48,7 @@ require __DIR__.'/auth.php';
 
 
 // normal routes to pages
-// Route::inertia('/about', 'About');
-// Route::inertia('/documentation', 'Documentation');
+Route::inertia('/about', 'About');
 
 
 // for email verification

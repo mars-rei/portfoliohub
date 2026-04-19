@@ -88,3 +88,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   outline-style: solid;
   outline-color: #003c66;
 }
+
+tbody tr:nth-child(even), thead tr {
+  background-color: #313131; 
+}
+
+tbody td, tbody th, thead th {
+  padding: 12px 16px;
+}
