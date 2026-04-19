@@ -825,7 +825,7 @@ function RightBar({
 
                             {/* font sizing for text and font changes */}
                             <div className="mt-4">
-                                {selectedItem?.type === 'text' || selectedItem?.type === 'link' && (
+                                {(selectedItem?.type === 'text' || selectedItem?.type === 'link') && (
                                     <>
                                         <div>
                                             {/* font size */}
@@ -872,7 +872,7 @@ function RightBar({
                             </div>
 
                             {/* add link to text of link component */}
-                            {selectedItem?.type === 'link' || selectedItem?.type === 'spotifyMusic' && (
+                            {(selectedItem?.type === 'link' || selectedItem?.type === 'spotifyMusic') && (
                                 <div className="mt-4">
                                     <label className="text-sm font-fustat-semibold block mb-1">URL</label>
                                     <input
