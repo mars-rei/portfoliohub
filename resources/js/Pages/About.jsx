@@ -105,7 +105,7 @@ export default function About() {
                 </div>
 
                 <div className="space-y-2">
-                    <p className="font-fustat-semibold text-xl text-[#B5446E]">The  rest of the 'PortfolioHub - Final Year Project Feedback' Questionnaire</p>
+                    <p className="font-fustat-semibold text-xl text-[#B5446E]">The rest of the 'PortfolioHub - Final Year Project Feedback' Questionnaire</p>
                     <p>Please complete the rest of the form to the best of your ability!</p>
 
                     <p className="pt-4">If you've gotten this far, thank you so much again for helping test my Final Year Project! I wish you all the best!</p>
