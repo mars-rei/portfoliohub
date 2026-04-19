@@ -1,0 +1,12 @@
+<div class="carousel-component absolute" 
+    data-component-id="{{id}}"
+    style="left: {{x}}px; top: {{y}}px; width: {{width}}px; height: {{height}}px;"
+>
+    <div class="w-full h-full overflow-hidden">
+        <div class="overflow-x-auto scrollbar-hide h-full">
+            <div class="flex items-center h-full p-4 gap-2 min-w-max">
+                {{carouselItems}}
+            </div>
+        </div>
+    </div>
+</div>

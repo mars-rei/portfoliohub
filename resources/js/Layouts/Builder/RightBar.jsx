@@ -19,6 +19,9 @@ import imageTemplate from '@/../templates/Image.txt?raw';
 import videoTemplate from '@/../templates/Video.txt?raw';
 // import spotifyMusicTemplate from '@/../templates/SpotifyMusic.txt';
 
+import carouselTemplate from '@/../templates/Carousel.txt?raw';
+import slidesTemplate from '@/../templates/Slides.txt?raw';
+
 import textTemplate from '@/../templates/Text.txt?raw';
 import linkTemplate from '@/../templates/Link.txt?raw';
 
@@ -260,6 +263,58 @@ function RightBar({
                     .replace(/{{height}}/g, height)
                     .replace(/{{url}}/g, url);
             */
+
+            case 'carousel':
+                // to add to 
+                let carouselItemsHtml = '';
+                
+                if (item.media && Array.isArray(item.media)) {
+                    // repeat like in actual component
+                    const media = [...item.media, ...item.media, ...item.media, ...item.media, ...item.media];
+                    
+                    media.forEach((mediaItem) => {
+                        if (mediaItem.type === 'image') {
+                            carouselItemsHtml += `
+                                <div class="h-full rounded-xl shadow-lg overflow-hidden transform hover:scale-110 transition-transform duration-300">
+                                    <img 
+                                        src="${mediaItem.url}" 
+                                        class="w-full h-full object-cover"
+                                        alt="Carousel image"
+                                    />
+                                </div>
+                            `;
+                        } else if (mediaItem.type === 'video') {
+                            carouselItemsHtml += `
+                                <div class="h-full rounded-xl shadow-lg overflow-hidden transform hover:scale-110 transition-transform duration-300">
+                                    <video 
+                                        src="${mediaItem.url}" 
+                                        class="w-full h-full object-cover" 
+                                        autoplay 
+                                        muted 
+                                        loop 
+                                        playsinline
+                                    ></video>
+                                </div>
+                            `;
+                        } else {
+                            carouselItemsHtml += `
+                                <div class="h-full rounded-xl shadow-lg overflow-hidden transform hover:scale-110 transition-transform duration-300">
+                                    <div class="w-full h-full flex flex-col items-center justify-center bg-red-50 rounded">
+                                        <i class="fa fa-file text-2xl text-red-400 mb-2"></i>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+
+                return carouselTemplate
+                    .replace(/{{id}}/g, componentId)
+                    .replace(/{{x}}/g, x)
+                    .replace(/{{y}}/g, y)
+                    .replace(/{{width}}/g, width)
+                    .replace(/{{height}}/g, height)
+                    .replace(/{{carouselItems}}/g, carouselItemsHtml);
             
             
             default:
@@ -327,7 +382,19 @@ function RightBar({
                 }
             }
 
-            const css = fontCss;
+            // for certain components such as carousel
+            const hideScrollbarCss = `
+                .scrollbar-hide::-webkit-scrollbar { 
+                    display: none;
+                }
+                
+                .scrollbar-hide { 
+                    -ms-overflow-style: none; 
+                    scrollbar-width: none; 
+                }
+            `;
+
+            const css = fontCss + hideScrollbarCss;
             zip.file('styles.css', css);
 
 
