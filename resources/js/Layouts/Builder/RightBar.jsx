@@ -17,10 +17,8 @@ import shape2Template from '@/../templates/shapes/svgShapesByMo/Shape2.txt?raw';
 
 import imageTemplate from '@/../templates/Image.txt?raw';
 import videoTemplate from '@/../templates/Video.txt?raw';
-// import spotifyMusicTemplate from '@/../templates/SpotifyMusic.txt';
 
 import carouselTemplate from '@/../templates/Carousel.txt?raw';
-import slidesTemplate from '@/../templates/Slides.txt?raw';
 
 import textTemplate from '@/../templates/Text.txt?raw';
 import linkTemplate from '@/../templates/Link.txt?raw';
@@ -252,17 +250,6 @@ function RightBar({
                     .replace(/{{fontSize}}/g, fontSize)
                     .replace(/{{fontFamily}}/g, fontFamily)
                     .replace(/{{url}}/g, url);
-
-            /*
-            case 'spotifyMusic':
-                return spotifyMusicTemplate
-                    .replace(/{{id}}/g, componentId)
-                    .replace(/{{x}}/g, x)
-                    .replace(/{{y}}/g, y)
-                    .replace(/{{width}}/g, width)
-                    .replace(/{{height}}/g, height)
-                    .replace(/{{url}}/g, url);
-            */
 
             case 'carousel':
                 // to add to 
