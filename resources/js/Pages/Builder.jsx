@@ -7,7 +7,7 @@ import LeftBar from "@/Layouts/Builder/LeftBar";
 import Canvas from "@/Layouts/Builder/Canvas";
 import Page from "@/Layouts/Builder/Page";
 
-import CreateCarouselModal from "@/Components/Builder/CreateModals/CreateSlidesModal";
+import CreateCarouselModal from "@/Components/Builder/CreateModals/CreateCarouselModal";
 import CreateSlidesModal from "@/Components/Builder/CreateModals/CreateSlidesModal";
 
 
