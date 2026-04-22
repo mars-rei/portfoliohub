@@ -786,41 +786,43 @@ function RightBar({
                                         </>
                                     ) : (
                                         <>
-                                            <div className="flex flex-row gap-x-2">
-                                                <div className="w-1/2">
-                                                    <label className="text-sm font-fustat-semibold block mb-1">Width</label>
-                                                    <input
-                                                        type="number"
-                                                        value={currentItemStyles[selectedItem?.id]?.width || ''}
-                                                        onChange={(e) => {
-                                                            const width = e.target.value === '' ? undefined : parseInt(e.target.value);
-                                                            onStyleChange(selectedItem?.id, 'width', width);
-                                                        }}
-                                                        onKeyDown={(e) => e.stopPropagation()} 
-                                                        className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
-                                                            darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
-                                                        }`}
-                                                        placeholder="Width"
-                                                    />
+                                            {selectedItem?.type != 'spotifyMusic' && (
+                                                <div className="flex flex-row gap-x-2">
+                                                    <div className="w-1/2">
+                                                        <label className="text-sm font-fustat-semibold block mb-1">Width</label>
+                                                        <input
+                                                            type="number"
+                                                            value={currentItemStyles[selectedItem?.id]?.width || ''}
+                                                            onChange={(e) => {
+                                                                const width = e.target.value === '' ? undefined : parseInt(e.target.value);
+                                                                onStyleChange(selectedItem?.id, 'width', width);
+                                                            }}
+                                                            onKeyDown={(e) => e.stopPropagation()} 
+                                                            className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
+                                                                darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
+                                                            }`}
+                                                            placeholder="Width"
+                                                        />
+                                                    </div>
+                                                    
+                                                    <div className="w-1/2">
+                                                        <label className="text-sm font-fustat-semibold block mb-1">Height</label>
+                                                        <input
+                                                            type="number"
+                                                            value={currentItemStyles[selectedItem?.id]?.height || ''}
+                                                            onChange={(e) => {
+                                                                const height = e.target.value === '' ? undefined : parseInt(e.target.value);
+                                                                onStyleChange(selectedItem?.id, 'height', height);
+                                                            }}
+                                                            onKeyDown={(e) => e.stopPropagation()} 
+                                                            className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
+                                                                darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
+                                                            }`}
+                                                            placeholder="Height"
+                                                        />
+                                                    </div>
                                                 </div>
-                                                
-                                                <div className="w-1/2">
-                                                    <label className="text-sm font-fustat-semibold block mb-1">Height</label>
-                                                    <input
-                                                        type="number"
-                                                        value={currentItemStyles[selectedItem?.id]?.height || ''}
-                                                        onChange={(e) => {
-                                                            const height = e.target.value === '' ? undefined : parseInt(e.target.value);
-                                                            onStyleChange(selectedItem?.id, 'height', height);
-                                                        }}
-                                                        onKeyDown={(e) => e.stopPropagation()} 
-                                                        className={`focus:outline-none focus:ring-0 bg-transparent w-full px-2 py-1 border-2 rounded-md text-base font-fustat-medium ${
-                                                            darkMode ? "border-[#EBFFF2] focus:border-[#EBFFF2]" : "border-[#111317] focus:border-[#111317]"
-                                                        }`}
-                                                        placeholder="Height"
-                                                    />
-                                                </div>
-                                            </div>
+                                                )}
                                         </>
                                     )}
                                 </div>
