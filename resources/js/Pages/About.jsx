@@ -11,7 +11,7 @@ export default function About() {
                 <div className="space-y-2">
                     <p className="font-fustat-semibold text-xl text-[#B5446E]">Usability Testing - 'PortfolioHub - Final Year Project Feedback' Questionnaire</p>
 
-                    <p className="pt-4">In the first section of this <span><a href='https://forms.office.com/e/uipeptwhfH' className="text-[#B5446E]">questionnaire</a></span>, you will be asked to based on your experience with completing the tasks below. You may want to duplicate this tab to come back to read each task.</p>
+                    <p className="pt-4">In the first section of this <span><a href='https://forms.office.com/e/uipeptwhfH' className="text-[#B5446E]">questionnaire</a></span>, you will be asked to based on your experience with completing the tasks below. Completing these unguided tasks help me understand how users would navigate the platform, and their understanding of how to use the platform. You may want to duplicate this tab to come back to read each task.</p>
 
                     <p className="pt-4 font-fustat-semibold">1. Registration</p>
                     <p>Register for an account and verify your email. Make sure you can login or access the PortfolioHub dashboard. <span className="text-[#B5446E]">If you have problems doing so, please email me as soon as possible!</span></p>
@@ -59,6 +59,11 @@ export default function About() {
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr className="w-full">
+                                    <th scope="row" className="w-1/5">Update 22/04: Builder - Dragging position of canvas and components</th>
+                                    <td className="w-2/5 text-base">Users can move around the canvas and can drag components around their page on the canvas</td>
+                                    <td className="w-2/5 text-base">It has come to my attention users experience the platform differently based on their operating system and mouse sensitivity which may make certain tasks in the builder more difficult</td>
+                                </tr>
                                 <tr className="w-full">
                                     <th scope="row" className="w-1/5">Builder - Position of components</th>
                                     <td className="w-2/5 text-base">Components can be added to pages</td>
