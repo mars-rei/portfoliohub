@@ -220,12 +220,18 @@ function LeftBar({
                         ) : (
                             // outer level - project folders
                             <div className="grid grid-cols-2">
-                                {Object.entries(projectMedia).map(([project, media]) => (
-                                    <div key={project} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer" onClick={() => toggleFolder('media', project)}>
-                                        <i className="fa fa-folder fa-3x text-[#B5446E]"></i>
-                                        <span className="truncate">{project}</span>
+                                {Object.entries(projectMedia).length === 0 ? (
+                                    <div className="col-span-2 text-center text-red-600 py-2">
+                                        Have you completed tasks 3 and 4?
                                     </div>
-                                ))}
+                                ) : (
+                                    Object.entries(projectMedia).map(([project, media]) => (
+                                        <div key={project} className="flex flex-col items-center justify-center text-center space-y-2 p-2 hover:bg-[#B5446E]/8 rounded cursor-pointer" onClick={() => toggleFolder('media', project)}>
+                                            <i className="fa fa-folder fa-3x text-[#B5446E]"></i>
+                                            <span className="truncate">{project}</span>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         )}
                     </div>

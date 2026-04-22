@@ -12,26 +12,28 @@ export default function About() {
                     <p className="font-fustat-semibold text-xl text-[#B5446E]">Usability Testing - 'PortfolioHub - Final Year Project Feedback' Questionnaire</p>
 
                     <p className="pt-4">In the first section of this <span><a href='https://forms.office.com/e/uipeptwhfH' className="text-[#B5446E]">questionnaire</a></span>, you will be asked to based on your experience with completing the tasks below. Completing these unguided tasks help me understand how users would navigate the platform, and their understanding of how to use the platform. You may want to duplicate this tab to come back to read each task.</p>
+                    
+                    <p className="pt-4">Complete the following tasks <span className="text-[#B5446E] font-fustat-bold">in order</span>:</p>
 
-                    <p className="pt-4 font-fustat-semibold">1. Registration</p>
+                    <p className="font-fustat-semibold">Task 1: Registration</p>
                     <p>Register for an account and verify your email. Make sure you can login or access the PortfolioHub dashboard. <span className="text-[#B5446E]">If you have problems doing so, please email me as soon as possible!</span></p>
 
-                    <p className="pt-4 font-fustat-semibold">2. Profile settings</p>
+                    <p className="pt-4 font-fustat-semibold">Task 2: Profile settings</p>
                     <p>Try to find where the Profile Settings page is! Is it intuitive? Is there a place better suited to put this link? Note this down for a later question.</p>
 
-                    <p className="pt-4 font-fustat-semibold">3. Creating a project</p>
+                    <p className="pt-4 font-fustat-semibold">Task 3: Creating a project</p>
                     <p>Create your first project!</p>
 
-                    <p className="pt-4 font-fustat-semibold">4. Adding media to a project</p>
+                    <p className="pt-4 font-fustat-semibold">Task 4: Adding media to a project</p>
                     <p>Add a piece of media to your project (either a video or an image).</p>
 
-                    <p className="pt-4 font-fustat-semibold">5. Creating a portfolio</p>
+                    <p className="pt-4 font-fustat-semibold">Task 5: Creating a portfolio</p>
                     <p>Create a portfolio and have a little play with the builder so you have something to preview in the next task.</p>
 
-                    <p className="pt-4 font-fustat-semibold">6. Previewing a portfolio</p>
+                    <p className="pt-4 font-fustat-semibold">Task 6: Previewing a portfolio</p>
                     <p>Preview the portfolio you have just made. Does the portfolio look exactly as it is portrayed in the builder? Note this down for a later question.</p>
 
-                    <p className="pt-4 font-fustat-semibold">7. Downloading a portfolio</p>
+                    <p className="pt-4 font-fustat-semibold">Task 7: Downloading a portfolio</p>
                     <p>Now go back to the builder and download the portfolio. Did you find the download button easily? Does the portfolio zip file save to your device? If you unzip the folder and click on a html file in a browser, does it resemble a page that you have created? Note this down for a later question.</p>
 
                     <p className="pt-4">Answer <span><a href='https://forms.office.com/e/uipeptwhfH' className="text-[#B5446E]">here</a></span> (available until the end of Sunday the 26th of April)</p>
