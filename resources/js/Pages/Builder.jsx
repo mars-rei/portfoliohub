@@ -211,7 +211,7 @@ function Builder({ portfolio, projects }) {
             newItemStyles.fontFamily = 'Arial, sans-serif'; 
         }
 
-        if (type === 'link') {
+        if (type === 'link' || type == 'spotifyMusic') {
             newItemStyles.url = ''; 
         }
 
@@ -500,7 +500,7 @@ function Builder({ portfolio, projects }) {
         shape1: '#545454',
         shape2: '#545454',
         text: '#ffffff',
-        link: '#B5446E',
+        link: '#ffffff',
     };
 
 

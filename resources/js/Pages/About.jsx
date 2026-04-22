@@ -11,7 +11,7 @@ export default function About() {
                 <div className="space-y-2">
                     <p className="font-fustat-semibold text-xl text-[#B5446E]">Usability Testing - 'PortfolioHub - Final Year Project Feedback' Questionnaire</p>
 
-                    <p className="pt-4">In the first section of this questionnaire, you will be asked to based on your experience with completing the tasks below. You may want to duplicate this tab to come back to read each task.</p>
+                    <p className="pt-4">In the first section of this <span><a href='https://forms.office.com/e/uipeptwhfH' className="text-[#B5446E]">questionnaire</a></span>, you will be asked to based on your experience with completing the tasks below. You may want to duplicate this tab to come back to read each task.</p>
 
                     <p className="pt-4 font-fustat-semibold">1. Registration</p>
                     <p>Register for an account and verify your email. Make sure you can login or access the PortfolioHub dashboard. <span className="text-[#B5446E]">If you have problems doing so, please email me as soon as possible!</span></p>

@@ -64,7 +64,7 @@ function SpotifyMusic({ onSelect, activeCursor, onStyleChange, id, itemStyle, on
 
     // get link from user input in right side bar
     const getLink = () => {
-        const url = itemStyle?.url || '';
+        const url = itemStyle?.url || 'https://open.spotify.com/track/4PTG3Z6ehGkBFwjybzWkR8?si=2e78071467524074';
         return url;
     };
 

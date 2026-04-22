@@ -87,7 +87,7 @@ function Link({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChan
 
     // get link from user input in right side bar
     const getLink = () => {
-        const url = itemStyle?.url || '';
+        const url = itemStyle?.url || 'http://portfoliohub.marsrei.com';
         return url;
     };
 
