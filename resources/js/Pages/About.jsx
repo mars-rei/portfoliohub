@@ -62,8 +62,8 @@ export default function About() {
                             </thead>
                             <tbody>
                                 <tr className="w-full">
-                                    <th scope="row" className="w-1/5">Update 22/04: Builder - Dragging position of canvas and components</th>
-                                    <td className="w-2/5 text-base">Users can move around the canvas and can drag components around their page on the canvas</td>
+                                    <th scope="row" className="w-1/5">Update 22/04: Builder - Moving position of canvas and components</th>
+                                    <td className="w-2/5 text-base">Users can move around the canvas and can move components around their page on the canvas</td>
                                     <td className="w-2/5 text-base">It has come to my attention users experience the platform differently based on their operating system and mouse sensitivity which may make certain tasks in the builder more difficult</td>
                                 </tr>
                                 <tr className="w-full">
