@@ -11,9 +11,9 @@ export default function About() {
                 <div className="space-y-2">
                     <p className="font-fustat-semibold text-xl text-[#B5446E]">Usability Testing - 'PortfolioHub - Final Year Project Feedback' Questionnaire</p>
 
-                    <p className="pt-4">In the first section of this <span><a href='https://forms.office.com/e/uipeptwhfH' className="text-[#B5446E]">questionnaire</a></span>, you will be asked to based on your experience with completing the tasks below. Completing these unguided tasks help me understand how users would navigate the platform, and their understanding of how to use the platform. You may want to duplicate this tab to come back to read each task.</p>
+                    <p className="pt-4">In the first section of this <span><a href='https://forms.office.com/e/uipeptwhfH' className="text-[#B5446E]">questionnaire</a></span>, you will be asked questions based on your experience with completing the tasks below. Completing these unguided tasks helps me understand how users would navigate the platform, and their understanding of how to use it - the platform is designed in such a way that the tasks must be followed in order. You may want to duplicate this tab to come back to read each task.</p>
                     
-                    <p className="pt-4">Complete the following tasks <span className="text-[#B5446E] font-fustat-bold">in order</span> (preferably in a Google Chrome browser):</p>
+                    <p className="pt-4">Please remember this is a Final Year Computer Science Project Artefact so it is a prototype and will not behave as cleanly as industry tools you may be familiar with. Complete the following tasks <span className="text-[#B5446E] font-fustat-bold">in order</span> (preferably in a Google Chrome browser):</p>
 
                     <p className="font-fustat-semibold">Task 1: Registration</p>
                     <p>Register for an account and verify your email. Make sure you can login or access the PortfolioHub dashboard. <span className="text-[#B5446E]">If you have problems doing so, please email me as soon as possible!</span></p>
@@ -49,7 +49,7 @@ export default function About() {
                     <p>As this platform is a prototype, there are still improvements to be made. Here is a table of things you should be aware of:</p>
 
                     <div className="flex justify-center bg-[#1f1f1f] rounded-lg p-8">
-                        <table className="w-2/3 font-fustat-medium text-lg text-center">
+                        <table className="w-4/5 font-fustat-medium text-lg text-center">
                             <caption className="pb-4 font-fustat-semibold">
                                 Functional Status of Core Components, Pages and Functions to be Improved
                             </caption>
@@ -62,14 +62,19 @@ export default function About() {
                             </thead>
                             <tbody>
                                 <tr className="w-full">
-                                    <th scope="row" className="w-1/5">Update 22/04: Builder - Moving position of canvas and components</th>
-                                    <td className="w-2/5 text-base">Users can move around the canvas and can move components around their page on the canvas</td>
-                                    <td className="w-2/5 text-base">It has come to my attention users experience the platform differently based on their operating system and mouse sensitivity which may make certain tasks in the builder more difficult</td>
+                                    <th scope="row" className="w-1/5">Updated 25/04: Builder - Moving position of canvas and components</th>
+                                    <td className="w-2/5 text-base">Users can move around the canvas and can move components around their page on the canvas (Hint: click and drop)</td>
+                                    <td className="w-2/5 text-base">Users experience the platform differently based on their operating system and mouse sensitivity which may make certain tasks in the builder more difficult  (e.g. 'glitching' components). This cross-compatibility issue is out of the project's scope.</td>
                                 </tr>
                                 <tr className="w-full">
-                                    <th scope="row" className="w-1/5">Builder - Position of components</th>
+                                    <th scope="row" className="w-1/5">Updated 25/04: Media Uploads</th>
+                                    <td className="w-2/5 text-base">Images and videos can be easily uploaded to project folders to be used as portfolio components</td>
+                                    <td className="w-2/5 text-base">Any other project media that are not images or videos cannot be placed onto the builder. Cloud file storage is limited to 10MB for images and raw files, and 100MB for videos for each upload.</td>
+                                </tr>
+                                <tr className="w-full">
+                                    <th scope="row" className="w-1/5">Updated 25/04: Builder - Position of components</th>
                                     <td className="w-2/5 text-base">Components can be added to pages</td>
-                                    <td className="w-2/5 text-base">There is an issue regarding position rendering - you may have to wait a second after adding each component to ensure the correct position (if you reload or check the preview it may have jumped)</td>
+                                    <td className="w-2/5 text-base">There is an issue regarding position rendering - you may have to wait a second after adding each component to ensure the correct position (if you refresh the page or check the preview it may have jumped)</td>
                                 </tr>
                                 <tr className="w-full">
                                     <th scope="row" className="w-1/5">Layers</th>
@@ -78,28 +83,18 @@ export default function About() {
                                 </tr>
                                 <tr className="w-full">
                                     <th scope="row" className="w-1/5">Preview</th>
-                                    <td className="w-2/5 text-base">Accurately shows position of compatible rendered components</td>
-                                    <td className="w-2/5 text-base">If the size of your page is larger than your browser's size in pixels, the page will overflow (it shows the preview accurate to the pixel)</td>
+                                    <td className="w-2/5 text-base">Shows all compatible components added to page</td>
+                                    <td className="w-2/5 text-base">If the size of your page is larger than your browser's size in pixels, the page will overflow</td>
                                 </tr>
                                 <tr className="w-full">
-                                    <th scope="row" className="w-1/5">Slides</th>
+                                    <th scope="row" className="w-1/5">Slides and Spotify Music Embed</th>
                                     <td className="w-2/5 text-base">Can be added to canvas and users can choose media for this component</td>
-                                    <td className="w-2/5 text-base">It was complex to put this into pure HTML, CSS, and JavaScript for download - if user downloads a portfolio containing the slides component, it will show as 'Error.'</td>
+                                    <td className="w-2/5 text-base">It was complex to put this into pure HTML, CSS, and JavaScript for download - if user downloads a portfolio containing the slides or Spotify music component, it will show as 'Error.'</td>
                                 </tr>
                                 <tr className="w-full">
                                     <th scope="row" className="w-1/5">Links</th>
                                     <td className="w-2/5 text-base">Users can add external links with ease</td>
                                     <td className="w-2/5 text-base">Users cannot add links to other pages of their portfolio unless they download it and edit the link manually</td>
-                                </tr>
-                                <tr className="w-full">
-                                    <th scope="row" className="w-1/5">Spotify Music Embed</th>
-                                    <td className="w-2/5 text-base">Can be added to canvas and users can choose media for this component</td>
-                                    <td className="w-2/5 text-base">If user downloads a portfolio containing the Spotify music component, it will show as 'Error.'</td>
-                                </tr>
-                                <tr className="w-full">
-                                    <th scope="row" className="w-1/5">Media Uploads</th>
-                                    <td className="w-2/5 text-base">Images and videos can be easily uploaded to project folders to be used as portfolio components</td>
-                                    <td className="w-2/5 text-base">Cloud file storage is limited to 10MB for images and raw files, and 100MB for videos for each upload</td>
                                 </tr>
                                 <tr className="w-full">
                                     <th scope="row" className="w-1/5">Components</th>
