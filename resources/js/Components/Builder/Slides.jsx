@@ -1,31 +1,26 @@
 import { Rnd } from "react-rnd";
 import { useRef, useState, useEffect } from "react";
 
-function Slides({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange, media = [] }) {
+function Slides({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange, media = [], scale = 1 }) {
     const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
+    const isDraggingResizing = useRef(false); // changed internal update to dragging and resizing
 
-    // trying to sort out placement glitching problem - prevents infinite update loops
-    const isInternalUpdate = useRef(false);
-    
-    // to sync undo and redo (item styles is updated but the visual of the component didn't use to change)
+    // only syncs position for external updates like undo/redo
     useEffect(() => {
-        if (rndRef.current && !isInternalUpdate.current) {
-            // update position
-            rndRef.current.updatePosition({
-                x: itemStyle?.x || 0,
-                y: itemStyle?.y || 0
+        if (rndRef.current && !isDraggingResizing.current) {
+            rndRef.current.updatePosition({ 
+                x: itemStyle?.x || 0, 
+                y: itemStyle?.y || 0 
             });
             
-            // update size
-            const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 'auto';
-            const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 'auto';
-            rndRef.current.updateSize({
-                width: width,
-                height: height
+            const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 400;
+            const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 150;
+            rndRef.current.updateSize({ 
+                width, 
+                height 
             });
         }
-        isInternalUpdate.current = false;
     }, [itemStyle?.x, itemStyle?.y, itemStyle?.width, itemStyle?.height]);
 
 
@@ -39,59 +34,73 @@ function Slides({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeCh
         setCurrentSlide((prev) => (prev - 1 + media.length) % media.length);
     };
 
-    const style = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    };
-
-
-    const handleResizeStop = (e, direction, ref, delta, position) => {
-        const newWidth = parseInt(ref.style.width);
-        const newHeight = parseInt(ref.style.height);
-
-        isInternalUpdate.current = true;
-        
-        if (onSizeChange) {
-            onSizeChange(id, { width: newWidth, height: newHeight });
-        }
-        
-        if (onStyleChange) {
-            onStyleChange(id, 'x', position.x);
-            onStyleChange(id, 'y', position.y);
-        }
+    const handleDragStart = (e) => {
+        isDraggingResizing.current = true;
     };
 
     const handleDragStop = (e, data) => {
-        isInternalUpdate.current = true;
         if (onStyleChange) {
             onStyleChange(id, 'x', data.x);
             onStyleChange(id, 'y', data.y);
         }
+
+        // let update save first
+        setTimeout(() => { 
+            isDraggingResizing.current = false;
+        }, 100);
     };
 
-    const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 'auto';
-    const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 'auto';
+    const handleResizeStart = (e) => {
+        isDraggingResizing.current = true;
+    };
+
+    const handleResizeStop = (e, direction, ref, delta, position) => {
+        const newWidth = parseInt(ref.style.width);
+        const newHeight = parseInt(ref.style.height);
+        
+        if (onSizeChange) {
+            onSizeChange(id, { width: newWidth, height: newHeight });
+        }
+
+        if (onStyleChange) {
+            onStyleChange(id, 'x', position.x);
+            onStyleChange(id, 'y', position.y);
+        }
+
+        setTimeout(() => { 
+            isDraggingResizing.current = false; 
+        }, 100); // lets the update save first
+    };
+
+    const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 400;
+    const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 150;
 
     return (
         <Rnd
             ref={rndRef}
-            style={style}
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
             
             default={{
                 x: itemStyle?.x || 0,
                 y: itemStyle?.y || 0,
-                width: width,
-                height: height
+                width,
+                height
             }}
             
+            scale={scale} // added scale so zoom in or out doesn't affect positioning
+
             bounds="parent" 
             disableDragging={locked}
             enableResizing={!locked}
-            onDragStart={(e) => e.stopPropagation()}
-            onResizeStart={(e) => e.stopPropagation()}
 
+            onDragStart={handleDragStart} // changed to flag if update is being made
             onDragStop={handleDragStop}
+
+            onResizeStart={handleResizeStart} // changed to flag if update is being made
             onResizeStop={handleResizeStop}
 
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}

@@ -1,59 +1,66 @@
 import { Rnd } from "react-rnd";
 import { useRef, useEffect } from "react";
 
-function Carousel({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange, media = [] }) {
+function Carousel({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSizeChange, media = [], scale = 1 }) {
     const rndRef = useRef(null);
     const locked = activeCursor === 'hand';
+    const isDraggingResizing = useRef(false); // changed internal update to dragging and resizing
 
-    // trying to sort out placement glitching problem - prevents infinite update loops
-    const isInternalUpdate = useRef(false);
-    
-    // to sync undo and redo (item styles is updated but the visual of the component didn't use to change)
+    // only syncs position for external updates like undo/redo
     useEffect(() => {
-        if (rndRef.current && !isInternalUpdate.current) {
-            // update position
-            rndRef.current.updatePosition({
-                x: itemStyle?.x || 0,
-                y: itemStyle?.y || 0
+        if (rndRef.current && !isDraggingResizing.current) {
+            rndRef.current.updatePosition({ 
+                x: itemStyle?.x || 0, 
+                y: itemStyle?.y || 0 
             });
             
-            // update size
             const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 400;
             const height = typeof itemStyle?.height === 'number' ? itemStyle.height : 150;
-            rndRef.current.updateSize({ width, height });
+            rndRef.current.updateSize({ 
+                width, 
+                height 
+            });
         }
-        isInternalUpdate.current = false;
     }, [itemStyle?.x, itemStyle?.y, itemStyle?.width, itemStyle?.height]);
 
     const carouselMedia = [...media, ...media, ...media, ...media, ...media];
 
-    const style = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+    const handleDragStart = (e) => {
+        isDraggingResizing.current = true;
+    };
+
+    const handleDragStop = (e, data) => {
+        if (onStyleChange) {
+            onStyleChange(id, 'x', data.x);
+            onStyleChange(id, 'y', data.y);
+        }
+
+        // let update save first
+        setTimeout(() => { 
+            isDraggingResizing.current = false;
+        }, 100);
+    };
+
+    const handleResizeStart = (e) => {
+        isDraggingResizing.current = true;
     };
 
     const handleResizeStop = (e, direction, ref, delta, position) => {
         const newWidth = parseInt(ref.style.width);
         const newHeight = parseInt(ref.style.height);
-        isInternalUpdate.current = true;
         
         if (onSizeChange) {
             onSizeChange(id, { width: newWidth, height: newHeight });
         }
-        
+
         if (onStyleChange) {
             onStyleChange(id, 'x', position.x);
             onStyleChange(id, 'y', position.y);
         }
-    };
 
-    const handleDragStop = (e, data) => {
-        isInternalUpdate.current = true;
-        if (onStyleChange) {
-            onStyleChange(id, 'x', data.x);
-            onStyleChange(id, 'y', data.y);
-        }
+        setTimeout(() => { 
+            isDraggingResizing.current = false; 
+        }, 100); // lets the update save first
     };
 
     const width = typeof itemStyle?.width === 'number' ? itemStyle.width : 400;
@@ -62,22 +69,29 @@ function Carousel({ onSelect, activeCursor, onStyleChange, id, itemStyle, onSize
     return (
         <Rnd
             ref={rndRef}
-            style={style}
-
-            default={{ 
-                x: itemStyle?.x || 0, 
-                y: itemStyle?.y || 0, 
-                width: width, 
-                height: height 
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+            
+            default={{
+                x: itemStyle?.x || 0,
+                y: itemStyle?.y || 0,
+                width,
+                height
             }}
 
-            bounds="parent"
+            scale={scale} // added scale so zoom in or out doesn't affect positioning
+
+            bounds="parent" 
             disableDragging={locked}
             enableResizing={!locked}
-            onDragStart={(e) => e.stopPropagation()}
-            onResizeStart={(e) => e.stopPropagation()}
 
+            onDragStart={handleDragStart} // changed to flag if update is being made
             onDragStop={handleDragStop}
+
+            onResizeStart={handleResizeStart} // changed to flag if update is being made
             onResizeStop={handleResizeStop}
             
             onMouseDown={(e) => { if (locked) return; e.stopPropagation(); onSelect(); }}

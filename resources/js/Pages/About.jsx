@@ -63,18 +63,13 @@ export default function About() {
                             <tbody>
                                 <tr className="w-full">
                                     <th scope="row" className="w-1/5">Updated 25/04: Builder - Moving position of canvas and components</th>
-                                    <td className="w-2/5 text-base">Users can move around the canvas and can move components around their page on the canvas (Hint: click and drop)</td>
-                                    <td className="w-2/5 text-base">Users experience the platform differently based on their operating system and mouse sensitivity which may make certain tasks in the builder more difficult  (e.g. 'glitching' components). This cross-compatibility issue is out of the project's scope.</td>
+                                    <td className="w-2/5 text-base">Users can move around the canvas and can move components around their page on the canvas <br></br> <span className="text-[#B5446E]">(Hint: click and drop)</span></td>
+                                    <td className="w-2/5 text-base">Users experience the platform differently based on their operating system and mouse sensitivity. This cross-compatibility issue is out of the project's scope.</td>
                                 </tr>
                                 <tr className="w-full">
                                     <th scope="row" className="w-1/5">Updated 25/04: Media Uploads</th>
                                     <td className="w-2/5 text-base">Images and videos can be easily uploaded to project folders to be used as portfolio components</td>
                                     <td className="w-2/5 text-base">Any other project media that are not images or videos cannot be placed onto the builder. Cloud file storage is limited to 10MB for images and raw files, and 100MB for videos for each upload.</td>
-                                </tr>
-                                <tr className="w-full">
-                                    <th scope="row" className="w-1/5">Updated 25/04: Builder - Position of components</th>
-                                    <td className="w-2/5 text-base">Components can be added to pages</td>
-                                    <td className="w-2/5 text-base">There is an issue regarding position rendering - you may have to wait a second after adding each component to ensure the correct position (if you refresh the page or check the preview it may have jumped)</td>
                                 </tr>
                                 <tr className="w-full">
                                     <th scope="row" className="w-1/5">Layers</th>

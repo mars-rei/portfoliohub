@@ -181,8 +181,8 @@ function Builder({ portfolio, projects }) {
 
         // default dimensions for all components
         const defaultDimensions = 
-        (type === 'image' || type === 'text' || type === 'link' || type === 'spotifyMusic')
-            ? { width: '500', height: 'auto' }
+        (type === 'image' || type === 'text' || type === 'link' || type === 'spotifyMusic' || type === 'video')
+            ? { width: 500, height: 'auto' }
             : type === 'rectangle'
                 ? { width: 200, height: 100 }
                 : type === 'carousel' || type === 'slides'
@@ -311,8 +311,8 @@ function Builder({ portfolio, projects }) {
         }];
 
         const newItemStyles = {
-            width: 600,
-            height: 200,
+            width: 400,
+            height: 150,
             x: 0,
             y: 0
         };
@@ -354,8 +354,8 @@ function Builder({ portfolio, projects }) {
         }];
 
         const newItemStyles = {
-            width: 600,
-            height: 200,
+            width: 400,
+            height: 150,
             x: 0,
             y: 0
         };
@@ -542,20 +542,24 @@ function Builder({ portfolio, projects }) {
                     <div className="flex-1 h-full" />
 
                     <Canvas canvasColour={canvasColour} activeCursor={activeCursor} onSelect={setSelectedId}>
-                        <Page
-                            pageId={currentPageId}
-                            pageName={currentPage.name}
-                            onPageNameChange={updatePageName}
-                            items={currentPageItems}
-                            itemStyles={currentItemStyles}          
-                            selectedId={selectedId}
-                            onSelect={setSelectedId}
-                            onRemove={removeFromCanvas}
-                            activeCursor={activeCursor}
-                            pageColour={currentPageColour}
-                            dimensions={currentPage.dimensions}
-                            onStyleChange={onStyleChange}
-                        />
+                        {(scale) => (
+                            // passing scale to apply to components
+                            <Page
+                                pageId={currentPageId}
+                                pageName={currentPage.name}
+                                onPageNameChange={updatePageName}
+                                items={currentPageItems}
+                                itemStyles={currentItemStyles}          
+                                selectedId={selectedId}
+                                onSelect={setSelectedId}
+                                onRemove={removeFromCanvas}
+                                activeCursor={activeCursor}
+                                pageColour={currentPageColour}
+                                dimensions={currentPage.dimensions}
+                                onStyleChange={onStyleChange}
+                                scale={scale}
+                            />
+                        )}
                     </Canvas>
 
                     <RightBar

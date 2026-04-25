@@ -34,9 +34,9 @@ function Page({
     activeCursor, 
     pageColour,
     dimensions = { width: 1920, height: 1080 }, // default page dimensions
-    onStyleChange // to help dynamic classes for components on page
+    onStyleChange, // to help dynamic classes for components on page
+    scale = 1
 }) {
-
     // for deleting components from canvas
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -59,7 +59,8 @@ function Page({
             onRemove: () => onRemove(item.id),
             activeCursor,
             itemStyle: style, 
-            onStyleChange: onStyleChange
+            onStyleChange: onStyleChange,
+            scale
         };
 
         // to track sizes of components

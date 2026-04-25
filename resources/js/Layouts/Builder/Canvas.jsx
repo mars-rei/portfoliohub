@@ -94,7 +94,7 @@ function Canvas({ canvasColour, activeCursor, onSelect, children }) {
                 }}
                 draggable
             >
-                {children}
+                {children(scale)} {/* to apply scale to components */}
             </div>
         </div>
     );
