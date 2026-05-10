@@ -24,7 +24,7 @@ export default function Dashboard() {
     const { portfolios: initialPortfolios, projects: initialProjects, media: initialMedia, industries } = usePage().props;
     
     // default state is portfolios
-    const [activeView, setActiveView] = useState('portfolios');
+    const [activeView, setActiveView] = useState('projects');
     
     // for single project views
     const [selectedProject, setSelectedProject] = useState(null);
@@ -187,16 +187,16 @@ export default function Dashboard() {
                         <div className="space-y-4 p-4">
                             <div className="space-y-2 text-lg font-fustat-bold">
                                 <p 
-                                    onClick={() => handleViewChange('portfolios')}
-                                    className={`cursor-pointer hover:text-[#B5446E] ${activeView === 'portfolios' ? 'text-[#003c66]' : ''}`}
-                                >
-                                    Portfolios
-                                </p>
-                                <p 
                                     onClick={() => handleViewChange('projects')}
                                     className={`cursor-pointer hover:text-[#B5446E] ${activeView === 'projects' ? 'text-[#003c66]' : ''}`}
                                 >
                                     Projects
+                                </p>
+                                <p 
+                                    onClick={() => handleViewChange('portfolios')}
+                                    className={`cursor-pointer hover:text-[#B5446E] ${activeView === 'portfolios' ? 'text-[#003c66]' : ''}`}
+                                >
+                                    Portfolios
                                 </p>
                             </div>
                         </div>
